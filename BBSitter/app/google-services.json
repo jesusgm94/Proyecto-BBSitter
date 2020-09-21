@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "221381582941",
+    "firebase_url": "https://bbsitter-61bd3.firebaseio.com",
+    "project_id": "bbsitter-61bd3",
+    "storage_bucket": "bbsitter-61bd3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:221381582941:android:58085c1ecb5788836dadb4",
+        "android_client_info": {
+          "package_name": "com.bbsitter.bbsitter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "221381582941-uhsrgakusa33f23ja7qta7no7vi82a4v.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYoP9Xct3fcbdkq0F_Odh-_rMSfXPM4wI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "221381582941-uhsrgakusa33f23ja7qta7no7vi82a4v.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
