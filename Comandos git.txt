@@ -1,0 +1,6 @@
+git add .  --> Guarda todos los archivos de la carpeta
+
+git commit -m "Mensaje que quieras" --> Hacer un commit con un mensaje (podemos hacerlo sin el mensaje)
+
+
+git push --> sube los archivos a GitHub
