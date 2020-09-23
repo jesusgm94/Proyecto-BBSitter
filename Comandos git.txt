@@ -4,3 +4,5 @@ git commit -m "Mensaje que quieras" --> Hacer un commit con un mensaje (podemos 
 
 
 git push --> sube los archivos a GitHub
+
+git pull --> Bajar los archivos de gitHub
