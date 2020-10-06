@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context=".Login"
+    android:background="@color/colorPrimary">
+
+
+    <ImageView
+        android:layout_width="69dp"
+        android:layout_height="92dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/logosplash"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:text="Login"
+        android:textSize="40dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimaryDark"
+        />
+
+    <EditText
+        android:id="@+id/teEmail"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="Email"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/marcoblancobutton"
+        />
+    <EditText
+        android:id="@+id/tePassword"
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:hint="Password"
+        android:textColorHint="@color/colorPrimaryDark"
+        android:outlineSpotShadowColor="@color/colorPrimaryDark"
+        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        android:shadowColor="@color/colorPrimaryDark"
+        android:paddingLeft="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/marcoblancobutton"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="10dp"
+        android:text="¿Olvidaste la contraseña? Pincha aqui"
+        android:textColor="@android:color/white"
+        android:textSize="12dp"
+        android:layout_marginRight="45dp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Button
+            android:id="@+id/btnCrearCuenta"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginRight="40dp"
+            android:text="Crear cuenta"
+            android:textColor="@color/colorPrimary"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:background="@drawable/botonredondeadoblue"
+            />
+        <Button
+            android:id="@+id/btnLoginSingIn"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:text="Iniciar"
+            android:textColor="@color/colorPrimaryDark"
+            android:textAllCaps="false"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:background="@drawable/botonredondeadopurpledark"
+            />
+
+    </LinearLayout>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="¿Todavia no tienes cuenta? Pincha aqui"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="10dp"
+        android:textColor="@android:color/white"
+        />
+
+    <Button
+        android:id="@+id/btnLoginFacebook"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Facebook"
+        android:textColor="@color/colorPrimary"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:background="@drawable/botonredondeadoblue"
+        />
+    <Button
+        android:id="@+id/btnLoginGoogle"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="Google"
+        android:textColor="@color/colorPrimaryDark"
+        android:textAllCaps="false"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:background="@drawable/botonredondeadopurple"
+        />
+</LinearLayout>
