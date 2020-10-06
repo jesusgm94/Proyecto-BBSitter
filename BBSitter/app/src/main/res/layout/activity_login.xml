@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
-    tools:context=".Login"
+    tools:context="com.bbsitter.bbsitter.Login"
     android:background="@color/colorPrimary">
 
 
@@ -15,7 +15,7 @@
         android:layout_height="92dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        android:src="@drawable/logoBBSitterVerticalBlanco"/>
+        android:src="@drawable/logobbsitterverticalblanco"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,35 +27,29 @@
         />
 
     <EditText
-        android:id="@+id/teEmail"
+        android:id="@+id/etEmail"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:hint="Email"
         android:textColorHint="@color/colorPrimaryDark"
-        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:shadowColor="@color/colorPrimaryDark"
         android:paddingLeft="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/marcoblancobutton"
         />
     <EditText
-        android:id="@+id/tePassword"
+        android:id="@+id/etPassword"
         android:layout_width="300dp"
         android:layout_height="40dp"
         android:hint="Password"
         android:textColorHint="@color/colorPrimaryDark"
-        android:outlineSpotShadowColor="@color/colorPrimaryDark"
-        android:outlineAmbientShadowColor="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:shadowColor="@color/colorPrimaryDark"
         android:paddingLeft="20dp"
         android:layout_marginBottom="10dp"
         android:background="@drawable/marcoblancobutton"
-
+        android:inputType="textPassword"
         />
 
     <TextView
