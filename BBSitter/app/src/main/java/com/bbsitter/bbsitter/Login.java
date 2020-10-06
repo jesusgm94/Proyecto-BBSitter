@@ -13,6 +13,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,6 +31,9 @@ public class Login extends AppCompatActivity {
 
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +74,12 @@ public class Login extends AppCompatActivity {
 
     private void registrarUsuario() {
 
-        //Toast.makeText(Login.this, "Estas registrado", Toast.LENGTH_SHORT).show();
 
-        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        //Toast.makeText(Login.this, email + " " + pass , Toast.LENGTH_SHORT).show();
+        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+
 
                 //si es verdad que la tarea ha sido satisfactoria...
                 if(task.isSuccessful())

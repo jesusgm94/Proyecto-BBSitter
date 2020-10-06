@@ -7,47 +7,48 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context="com.bbsitter.bbsitter.Login"
-    android:background="@color/colorPrimary">
+    android:background="@drawable/fondologin">
 
 
     <ImageView
-        android:layout_width="69dp"
-        android:layout_height="92dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:src="@drawable/logobbsitterverticalblanco"/>
+        android:layout_width="106sp"
+        android:layout_height="118sp"
+        android:layout_marginTop="90sp"
+        android:layout_marginBottom="20sp"
+        android:src="@drawable/logobbsitterverticalblanco" />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="60sp"
         android:text="Login"
-        android:textSize="40dp"
+        android:textSize="40sp"
         android:textStyle="bold"
-        android:textColor="@color/colorPrimaryDark"
+        android:textColor="@color/colorAccent2"
         />
 
     <EditText
         android:id="@+id/etEmail"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
         android:hint="Email"
         android:textColorHint="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:paddingLeft="20dp"
-        android:layout_marginBottom="10dp"
+        android:paddingLeft="20sp"
+        android:layout_marginBottom="10sp"
         android:background="@drawable/marcoblancobutton"
         />
     <EditText
         android:id="@+id/etPassword"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
+        android:layout_width="300sp"
+        android:layout_height="40sp"
         android:hint="Password"
         android:textColorHint="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        android:paddingLeft="20dp"
-        android:layout_marginBottom="10dp"
+        android:paddingLeft="20sp"
+        android:layout_marginBottom="10sp"
         android:background="@drawable/marcoblancobutton"
         android:inputType="textPassword"
         />
@@ -55,42 +56,42 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="5sp"
+        android:layout_marginBottom="10sp"
         android:text="¿Olvidaste la contraseña? Pincha aqui"
         android:textColor="@android:color/white"
-        android:textSize="12dp"
-        android:layout_marginRight="45dp"/>
+        android:textSize="12sp"
+        android:layout_marginRight="45sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="80sp"
         android:orientation="horizontal"
         android:gravity="center">
         <Button
             android:id="@+id/btnCrearCuenta"
-            android:layout_width="130dp"
+            android:layout_width="130sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_marginRight="40dp"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
+            android:layout_marginRight="40sp"
             android:text="Crear cuenta"
             android:textColor="@color/colorPrimary"
             android:textAllCaps="false"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/botonredondeadoblue"
             />
         <Button
             android:id="@+id/btnLoginSingIn"
-            android:layout_width="130dp"
+            android:layout_width="130sp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10sp"
+            android:layout_marginBottom="10sp"
             android:text="Iniciar"
             android:textColor="@color/colorPrimaryDark"
             android:textAllCaps="false"
-            android:textSize="18dp"
+            android:textSize="18sp"
             android:textStyle="bold"
             android:background="@drawable/botonredondeadopurpledark"
             />
@@ -102,37 +103,57 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="¿Todavia no tienes cuenta? Pincha aqui"
-        android:textSize="12dp"
+        android:textSize="12sp"
         android:textStyle="bold"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="30sp"
+        android:layout_marginBottom="10sp"
         android:textColor="@android:color/white"
         />
 
-    <Button
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="80sp"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:background="#3B5998"
+            android:layout_width="150sp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15sp"
+            android:id="@+id/fb"
+            android:textAllCaps="false"
+            android:text="Facebook"
+            android:textSize="22sp"
+            android:textColor="#ffffff" />
+    <!--<Button
         android:id="@+id/btnLoginFacebook"
-        android:layout_width="210dp"
+        android:layout_width="150sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
-        android:text="Facebook"
-        android:textColor="@color/colorPrimary"
-        android:textAllCaps="false"
-        android:textSize="18dp"
-        android:textStyle="bold"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
+        android:layout_marginRight="20sp"
         android:background="@drawable/botonredondeadoblue"
-        />
+        android:text="Facebook"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textSize="18sp"
+        android:textStyle="bold" /> -->
+
     <Button
         android:id="@+id/btnLoginGoogle"
-        android:layout_width="210dp"
+        android:layout_width="150sp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10sp"
+        android:layout_marginBottom="10sp"
         android:text="Google"
         android:textColor="@color/colorPrimaryDark"
         android:textAllCaps="false"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold"
         android:background="@drawable/botonredondeadopurple"
         />
+
+    </LinearLayout>
 </LinearLayout>
