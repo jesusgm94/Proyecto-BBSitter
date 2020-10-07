@@ -63,7 +63,7 @@ public class Login extends AppCompatActivity {
                 }
                 else {
 
-                    Toast.makeText(Login.this, "Debe rellenar todos los dato", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Debe rellenar todos los datos", Toast.LENGTH_SHORT).show();
                 }
 
             }
