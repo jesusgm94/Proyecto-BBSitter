@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -50,6 +51,26 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
+        btnIniciar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                email = etEmail.getText().toString();
+                pass = etPass.getText().toString();
+
+                if(!email.isEmpty() && !pass.isEmpty())
+                {
+                    logearUsuario();
+
+                }
+                else {
+
+                    Toast.makeText(Login.this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +80,16 @@ public class Login extends AppCompatActivity {
 
                 if(!email.isEmpty() && !pass.isEmpty())
                 {
-                    registrarUsuario();
+
+                    if(pass.length()<=6)
+                    {
+                        registrarUsuario();
+                    }
+                    else
+                    {
+                        Toast.makeText(Login.this, "La contraseña debe tener más de 6 caracteres", Toast.LENGTH_LONG).show();
+                    }
+
                 }
                 else {
 
@@ -72,19 +102,43 @@ public class Login extends AppCompatActivity {
 
     }
 
-    private void registrarUsuario() {
+    private void logearUsuario() {
+        //comprobamos que el email y la contraseña estan en la base de datos
+        mAuth.signInWithEmailAndPassword(email, pass)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) { //Si la tarea es satisfactoria
 
+                            //Metemos en la app al usuario
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            //Aqui abrimos la actividad principal
+                            Intent main = new Intent (getApplicationContext(), MainActivity.class);
+                            startActivity(main);
+
+                        } else {
+
+                            //Si no existe ese usuario en la base de datos no inicia sesion
+                            Toast.makeText(Login.this, "Inicio de sesión fallida.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+
+                        // ...
+                    }
+                });
+
+    }
+
+    private void registrarUsuario() {
 
         //Toast.makeText(Login.this, email + " " + pass , Toast.LENGTH_SHORT).show();
         mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
-
                 //si es verdad que la tarea ha sido satisfactoria...
                 if(task.isSuccessful())
                 {
-
                     //Crear un mapa de Usuarios
                     Map<String, Object> map = new HashMap<>();
                     map.put("email", email);
@@ -97,8 +151,7 @@ public class Login extends AppCompatActivity {
                     mDatabase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            //Aqui abrimos otra actividad, la que nos salga del ..
-                            Toast.makeText(Login.this, "Aqui abrimos otra actividad", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Login.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
