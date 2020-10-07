@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "221381582941-r3krvvkn75dukp86bgg6hp7r8bk6q5sf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bbsitter.bbsitter",
+            "certificate_hash": "6a0a0cba803e50e4215f54a7810ea713e4b9df3c"
+          }
+        },
+        {
           "client_id": "221381582941-uhsrgakusa33f23ja7qta7no7vi82a4v.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -7,11 +7,12 @@
     tools:context=".SplashScreen"
     android:orientation="vertical"
     android:gravity="center"
+    android:background="@color/colorAccent2"
     >
 
     <ImageView
         android:layout_width="350dp"
         android:layout_height="match_parent"
-        android:src="@drawable/logout"/>
+        android:src="@drawable/logobbsitterverticalblanco"/>
 
 </LinearLayout>

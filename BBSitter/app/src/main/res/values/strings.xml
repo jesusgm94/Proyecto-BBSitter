@@ -9,7 +9,7 @@
 
     <string name="menu_home">Inicio</string>
     <string name="menu_mensajes">Mensajes</string>
-    <string name="menu_cuenta">Cuenta</string>
+    <string name="menu_fav">Favoritos</string>
     <string name="menu_logout">Cerrar sesión</string>
 
 </resources>
