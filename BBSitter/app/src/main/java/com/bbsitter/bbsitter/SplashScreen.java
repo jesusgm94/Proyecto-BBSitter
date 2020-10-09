@@ -3,7 +3,10 @@ package com.bbsitter.bbsitter;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.widget.MediaController;
+import android.widget.VideoView;
 
 import com.bbsitter.bbsitter.MainActivity;
 import com.bbsitter.bbsitter.R;
@@ -13,6 +16,9 @@ import java.util.TimerTask;
 
 public class SplashScreen extends AppCompatActivity {
 
+    VideoView video;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +26,16 @@ public class SplashScreen extends AppCompatActivity {
 
         /*Ocultamos Actionbar*/
         //getSupportActionBar().hide();
+
+        video = (VideoView) findViewById(R.id.video);
+
+        // Meter VIDEO, cargado en el proyecto
+        MediaController controller = new MediaController(this);
+        //controller.setAnchorView(this.video);// Enganchamos los controles al video
+        Uri uriVideo = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.videobbsittersplahscreen);
+        this.video.setVideoURI(uriVideo);
+        //this.video.setMediaController(controller);
+        this.video.start();
 
         TimerTask task=new TimerTask() {
             @Override
@@ -31,6 +47,6 @@ public class SplashScreen extends AppCompatActivity {
         };
 
         Timer timer=new Timer();
-        timer.schedule(task, 2000);
+        timer.schedule(task, 4000);
     }
 }
