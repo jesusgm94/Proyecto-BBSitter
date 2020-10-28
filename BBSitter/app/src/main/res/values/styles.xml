@@ -1,8 +1,17 @@
 <resources>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    --Theme.AppCompat.Light.NoActionBar
+
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
         <item name="colorPrimary">#951b81</item>
         <item name="colorPrimaryDark">#6E145F</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorAccent">#9AF4EB</item>
     </style>
+
     <style name="MyAppTheme" parent="@style/AppTheme" />
+
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+    </style>
 </resources>

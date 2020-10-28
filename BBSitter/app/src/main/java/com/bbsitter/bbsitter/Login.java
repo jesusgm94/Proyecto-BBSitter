@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -20,21 +22,20 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class Login extends AppCompatActivity {
 
 
     private String email  = "";
-    private String pass = "";
+    private String password = "";
 
-    EditText etEmail, etPass;
-    Button btnIniciar, btnCrearCuenta;
+    private TextInputLayout editTextEmail, editTextPassword;
+
+    Button btnIniciar, btnCrearCuenta, btnGoogle;
 
     FirebaseAuth mAuth;
     DatabaseReference mDatabase;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,51 +43,69 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
 
-        etEmail = (EditText) findViewById(R.id.etEmail);
-        etPass = (EditText) findViewById(R.id.etPassword);
+        editTextPassword = findViewById(R.id.password_text_input);
+        editTextEmail = findViewById(R.id.email_edit_text);
 
-        btnIniciar = (Button) findViewById(R.id.btnLoginSingIn);
-        btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
+        btnIniciar = (Button) findViewById(R.id.btnLogin);
+        btnGoogle = (Button) findViewById(R.id.btnLoginGoogle);
+
+        //btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
 
         btnIniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                email = etEmail.getText().toString();
-                pass = etPass.getText().toString();
+                email = editTextEmail.getEditText().getText().toString().trim();
+                password = editTextPassword.getEditText().getText().toString().trim();
 
-                if(!email.isEmpty() && !pass.isEmpty())
+                if(!email.isEmpty() && !password.isEmpty())
                 {
                     logearUsuario();
 
                 }
                 else {
-
-                    Toast.makeText(Login.this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
+                    validarEmail();
+                    validarPassword();
+                    //Toast.makeText(Login.this, "Error al iniciar sesion", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
+        btnGoogle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Aqui abrimos la actividad principal
+                Intent main = new Intent (getApplicationContext(), ElegirquePerfilCrear.class);
+                startActivity(main);
+                finish();
+
+            }
+        });
+
+
+        /*
         btnCrearCuenta.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                email = etEmail.getText().toString();
-                pass = etPass.getText().toString();
+                email = editTextEmail.getEditText().getText().toString().trim();
+                password = editTextPassword.getEditText().getText().toString().trim();
 
-                if(!email.isEmpty() && !pass.isEmpty())
+                if(!email.isEmpty() && !password.isEmpty())
                 {
 
-                    if(pass.length()<=6)
+                    if(password.length()<=6)
                     {
                         registrarUsuario();
                     }
                     else
                     {
+
                         Toast.makeText(Login.this, "La contraseña debe tener más de 6 caracteres", Toast.LENGTH_LONG).show();
                     }
 
@@ -99,12 +118,50 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        */
+    }
+
+    private boolean validarEmail(){
+
+        email = editTextEmail.getEditText().getText().toString().trim();
+
+        if(email.isEmpty()){
+            editTextEmail.setError("Debes rellenar el campo");
+            return false;
+        }
+        // rellenar para validar un correo correcto
+        /*
+        else if(!Pattern.EMAIL){
+
+        }
+        */
+
+        else{
+            editTextEmail.setError(null);
+            return true;
+        }
+
+    }
+
+    private boolean validarPassword(){
+
+        password = editTextPassword.getEditText().getText().toString().trim();
+
+        if(password.isEmpty()){
+            editTextPassword.setError("Debes rellenar el campo");
+            return false;
+        }
+
+        else{
+            editTextEmail.setError(null);
+            return true;
+        }
 
     }
 
     private void logearUsuario() {
         //comprobamos que el email y la contraseña estan en la base de datos
-        mAuth.signInWithEmailAndPassword(email, pass)
+        mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -112,9 +169,11 @@ public class Login extends AppCompatActivity {
 
                             //Metemos en la app al usuario
                             FirebaseUser user = mAuth.getCurrentUser();
+
                             //Aqui abrimos la actividad principal
                             Intent main = new Intent (getApplicationContext(), MainActivity.class);
                             startActivity(main);
+                            finish();
 
                         } else {
 
@@ -132,7 +191,7 @@ public class Login extends AppCompatActivity {
     private void registrarUsuario() {
 
         //Toast.makeText(Login.this, email + " " + pass , Toast.LENGTH_SHORT).show();
-        mAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
 
@@ -142,7 +201,7 @@ public class Login extends AppCompatActivity {
                     //Crear un mapa de Usuarios
                     Map<String, Object> map = new HashMap<>();
                     map.put("email", email);
-                    map.put("password", pass);
+                    map.put("password", password);
 
                     //Cogemos el id del usuario y lo guardamos en la variable ID
                     String id = mAuth.getCurrentUser().getUid();
