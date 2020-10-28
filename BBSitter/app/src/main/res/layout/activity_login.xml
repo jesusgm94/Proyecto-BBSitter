@@ -53,6 +53,8 @@
             android:textColorHint="@android:color/white"
             android:paddingBottom="20dp"
             android:maxLines="1" />
+
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -113,17 +115,14 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btnLoginGoogle"
-        android:layout_width="100sp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:background="@drawable/botonredondeadopurple"
-        android:text="Google"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="303dp"
+        android:layout_height="wrap_content"
+        />
+
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -151,15 +150,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_marginTop="30dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Todavia no tienes cuenta? Crea una  aqui"
+            android:text="¿Todavia no tienes cuenta? Crea una aqui"
             android:textSize="12sp"
             android:textStyle="bold"
-
             android:textColor="@android:color/white"
             />
 
