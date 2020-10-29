@@ -104,7 +104,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         password = registroPass.getEditText().getText().toString().trim();
 
         if (password.isEmpty()) {
-            registroPass.setError("Debes rellenar el campoo");
+            registroPass.setError("Debes rellenar el campo");
             Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar el campo contraseña", Toast.LENGTH_LONG).show();
             return false;
         }
