@@ -16,9 +16,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.HashMap;
-import java.util.Map;
-
 public class RegistroUsuarioActivity extends AppCompatActivity {
 
 
@@ -76,6 +73,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 } else {
                     validarEmail();
                     validarPassword();
+                    validarPassword2();
                 }
             }
         });
@@ -105,11 +103,31 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         if (password.isEmpty()) {
             registroPass.setError("Debes rellenar el campo");
+            Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar todos los ", Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        else{
+            registroPass.setError(null);
+            return true;
+        }
+
+
+    }
+
+
+    private boolean validarPassword2() {
+
+        password2 = registroPass2.getEditText().getText().toString().trim();
+
+        if (password2.isEmpty()) {
+            registroPass2.setError("Debes rellenar el campo");
             Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar el campo contraseña", Toast.LENGTH_LONG).show();
             return false;
         }
+
         else{
-            registroPass.setError(null);
+            registroPass2.setError(null);
             return true;
         }
 
@@ -127,18 +145,21 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 //si es verdad que la tarea ha sido satisfactoria...
                 if(task.isSuccessful())
                 {
-                    //Crear un mapa de Usuarios
-                    Map<String, Object> map = new HashMap<>();
-                    map.put("email", email);
-                    map.put("password", password);
+                    //Crear un Usuario
+                    Usuario usuario = new Usuario();
+                    usuario.setEmail(email);
+                    usuario.setPass(password);
+                    usuario.setPerfil(false);
+                    usuario.setUid(mAuth.getCurrentUser().getUid());
 
                     //Cogemos el id del usuario y lo guardamos en la variable ID
                     String id = mAuth.getCurrentUser().getUid();
 
                     //Metemos los valores y la ID al usuario
-                    mDatabase.child("Usuarios").child(id).setValue(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    mDatabase.child("Usuarios").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+
                             Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
