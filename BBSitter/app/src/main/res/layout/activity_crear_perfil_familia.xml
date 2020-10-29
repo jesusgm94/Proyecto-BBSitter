@@ -9,11 +9,10 @@
     android:orientation="vertical"
     tools:context=".CrearPerfilCanguro">
 
-    // Cabecerea
-
+    <!-- Cabecerea -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/cabeceracrearperfilcanguro"
         android:gravity="center_horizontal"
         android:orientation="vertical"
@@ -28,7 +27,19 @@
             android:text="Creando tu perfil de familia"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:textSize="20dp"/>
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="15dp"
+            app:srcCompat="@drawable/camara">
+            <!-- imagen por defecto srcCompat-->
+
+        </ImageView>
+
+
     </LinearLayout>
 
     <ScrollView
@@ -41,8 +52,8 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
 
+            <!-- Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -50,11 +61,12 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
                 android:text="Datos personales"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@android:color/black"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
-            // Layout Datos personales
+            <!-- Layout Datos personales -->
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -67,10 +79,10 @@
                 android:orientation="vertical"
                 android:paddingVertical="10dp">
 
-                // Nombre EditText de Material Design
+                <!-- Nombre familia -->
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nombre_edit_text"
+                    android:id="@+id/nombreFamilia_edit_text"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -93,14 +105,13 @@
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Descripcion -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/descripcion_edit_text"
+                    android:id="@+id/descripcionFamilia_edit_text"
                     android:layout_width="300dp"
                     android:layout_height="150dp"
                     android:background="@android:color/transparent"
                     android:hint="Descripción"
-                    app:counterEnabled="true"
-                    app:counterMaxLength="140"
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@android:color/darker_gray"
@@ -118,8 +129,9 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
 
+                <!-- Direccion -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/direccion_edit_text"
+                    android:id="@+id/direccionFamilia_edit_text"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
@@ -146,10 +158,10 @@
             </LinearLayout>
 
 
-            // Boton crear canguro
+            <!-- Crear Perfil -->
 
             <Button
-                android:id="@+id/btnCrearPerfilCanguro"
+                android:id="@+id/btnCrearPerfilFamilia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="30dp"
@@ -160,7 +172,7 @@
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"/>
 
         </LinearLayout>
 

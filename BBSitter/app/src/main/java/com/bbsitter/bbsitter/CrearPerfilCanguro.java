@@ -1,13 +1,11 @@
 package com.bbsitter.bbsitter;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
@@ -51,8 +49,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         });
 
  */
-
-
 
         fechaNacimiento.addOnEditTextAttachedListener(new TextInputLayout.OnEditTextAttachedListener() {
             @Override
