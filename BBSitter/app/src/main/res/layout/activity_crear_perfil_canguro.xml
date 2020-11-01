@@ -12,7 +12,7 @@
     // Cabecerea
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
         android:paddingVertical="10dp"
@@ -21,13 +21,38 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Creando tu perfil de canguro"
+            android:text="Estas creando tu perfil de canguro"
+            android:textSize="14dp"
             android:layout_marginHorizontal="50dp"
             android:layout_marginTop="15dp"
             android:textStyle="bold"
             android:layout_gravity="center_horizontal"
             android:textAlignment="center"
             android:textColor="@android:color/white"/>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imageCircle"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
+            android:padding="10dp"
+            android:src="@android:drawable/ic_menu_camera"
+            android:elevation="2dp"
+            app:civ_border_width="2dp"
+            app:civ_border_color="@android:color/white"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Añade tu foto de perfil"
+            android:layout_marginHorizontal="50dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="10dp"
+            android:textStyle="bold"
+            android:layout_gravity="center_horizontal"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"/>
+
     </LinearLayout>
 
     <ScrollView
@@ -38,7 +63,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:layout_gravity="center_horizontal">
 
             // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
 
@@ -49,11 +75,12 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
                 android:text="Datos personales"
-                android:textColor="@android:color/darker_gray"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
 
             // Layout Datos personales
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,7 +92,7 @@
                 android:orientation="vertical"
                 android:paddingVertical="10dp">
 
-                // Nombre EditText de Material Design
+                // NOMBRE EditText de Material Design
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nombre_edit_text"
@@ -76,7 +103,7 @@
                     android:hint="Nombre"
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
                     app:placeholderTextColor="@color/colorPrimaryDark"
@@ -89,6 +116,7 @@
                         android:maxLines="1"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
+
                 </com.google.android.material.textfield.TextInputLayout>
 
                 // apellidos EditText de Material Design
@@ -108,6 +136,7 @@
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDireccion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
@@ -130,7 +159,7 @@
                     app:boxStrokeColor="@android:color/darker_gray"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
-                    app:startIconDrawable="@android:drawable/ic_menu_agenda"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -144,6 +173,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 // Radio buttons SEXO
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -157,6 +187,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:paddingTop="12dp"
                         android:text="Sexo"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="16dp"
@@ -172,11 +203,11 @@
 
                         <RadioButton
                             android:id="@+id/radio_button_Masculino"
-                            android:layout_width="wrap_content"
+                            android:layout_width="119dp"
                             android:layout_height="match_parent"
                             android:text="Femenino"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="16dp" />
+                            android:textSize="14dp" />
 
                         <RadioButton
                             android:id="@+id/radio_button_2"
@@ -184,27 +215,22 @@
                             android:layout_height="match_parent"
                             android:text="Masculino"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="16dp" />
+                            android:textSize="14dp" />
                     </RadioGroup>
-
                 </LinearLayout>
-
-
             </LinearLayout>
 
             // Layout Direccion
-
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
-                android:text="Dirección"
-                android:textColor="@android:color/darker_gray"
+                android:text="¿Cuál es tu dirección?"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -224,17 +250,18 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@android:color/transparent"
-
-                    android:hint="Direccion"
+                    android:hint="Introduce tu dirección"
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_location_on_36"
                     app:startIconTint="@color/colorPrimaryDark"
-                    app:boxStrokeColor="@android:color/darker_gray">
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLines="1"
@@ -246,6 +273,16 @@
             </LinearLayout>
 
             // Layout Precio/hora
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuánto cobrarias por hora?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -262,8 +299,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="10dp"
                     android:gravity="center"
-                    android:orientation="horizontal"
-                    >
+                    android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -285,8 +321,7 @@
                         android:text="0€"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="32dp"
-                        android:textStyle="bold"
-                        />
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 
@@ -303,15 +338,93 @@
 
             </LinearLayout>
 
-            // Checkbox Pluses
+            // Radio Buttons EXPERIENCIA
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
-                android:text="Pluses"
-                android:textColor="@android:color/darker_gray"
+                android:text="¿Cuál es tu experiencia con niños?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/marcoblancobutton"
+                    android:elevation="2dp"
+                    android:gravity="left"
+                    android:orientation="vertical">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginVertical="10dp"
+                        android:background="@drawable/marcoblancobutton"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <RadioGroup
+                            android:id="@+id/radioGroupExperiencia"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checkedButton="@+id/radio_button_1"
+                            android:orientation="vertical">
+
+                            <RadioButton
+                                android:id="@+id/radio_button_Menos6meses"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Menos de 6 meses"
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="14dp" />
+
+                            <RadioButton
+                                android:id="@+id/radio_button_6a12meses"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="De 6 a 12 meses"
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="14dp" />
+                            <RadioButton
+                                android:id="@+id/radio_button_1a2años"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="De 1 a 2 años"
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="14dp" />
+
+                            <RadioButton
+                            android:id="@+id/radio_button_2a5años"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 2 a 5 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                            <RadioButton
+                                android:id="@+id/radio_button_Mas6años"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:text="Más de 6 años"
+                                android:textColor="@android:color/darker_gray"
+                                android:textSize="14dp" />
+                        </RadioGroup>
+                    </LinearLayout>
+                </LinearLayout>
+
+            // Checkbox Preferencia edades
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Qué edades prefieres cuidar?"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
             <LinearLayout
@@ -320,9 +433,72 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
                 android:gravity="left"
-                android:orientation="vertical"
-                android:elevation="2dp">
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/marcoblancobutton"
+                    android:gravity="left"
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_6a12meses"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="De 6 a 12 meses"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_1a3años"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="De 1 a 3 años"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_3a6años"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="De 3 a 6 años"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_mas6años"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Más de 6 años"
+                        android:textColor="@android:color/darker_gray" />
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            // Checkbox Pluses
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Todo canguro tiene sus pluses, ¿Cuales tienes?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
 
 
                 <LinearLayout
@@ -332,39 +508,42 @@
                     android:layout_marginVertical="10dp"
                     android:background="@drawable/marcoblancobutton"
                     android:gravity="left"
-                    android:orientation="vertical"
-                    >
-                        <CheckBox
-                            android:id="@+id/checkbox_fumar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:checked="true"
-                            android:textColor="@android:color/darker_gray"
-                            android:text="No fumo"/>
-                        <CheckBox
-                            android:id="@+id/checkbox_carnet"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@android:color/darker_gray"
-                            android:text="Tengo carnet de conducir"/>
-                        <CheckBox
-                            android:id="@+id/checkbox_pAuxilios"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@android:color/darker_gray"
-                            android:text="Sé primeros auxilios"/>
-                        <CheckBox
-                            android:id="@+id/checkbox_cocinar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@android:color/darker_gray"
-                            android:text="Puedo cocinar"/>
-                        <CheckBox
-                            android:id="@+id/checkbox_deberes"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:textColor="@android:color/darker_gray"
-                            android:text="Ayudo en los deberes"/>
+                    android:orientation="vertical">
+
+                    <CheckBox
+                        android:id="@+id/checkbox_fumar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="No fumo"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_carnet"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Tengo carnet de conducir"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_pAuxilios"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Sé primeros auxilios"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_cocinar"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Puedo cocinar"
+                        android:textColor="@android:color/darker_gray" />
+
+                    <CheckBox
+                        android:id="@+id/checkbox_deberes"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Ayudo en los deberes"
+                        android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
 
 
@@ -377,8 +556,8 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
-                android:text="Idiomas"
-                android:textColor="@android:color/darker_gray"
+                android:text="¿Qué idiomas hablas?"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
             <LinearLayout
@@ -387,9 +566,9 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginVertical="10dp"
                 android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
                 android:gravity="left"
-                android:orientation="vertical"
-                android:elevation="2dp">
+                android:orientation="vertical">
 
 
                 <LinearLayout
@@ -399,39 +578,42 @@
                     android:layout_marginVertical="10dp"
                     android:background="@drawable/marcoblancobutton"
                     android:gravity="left"
-                    android:orientation="vertical"
-                    >
+                    android:orientation="vertical">
+
                     <CheckBox
                         android:id="@+id/checkbox_Espanol"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:checked="true"
-                        android:textColor="@android:color/darker_gray"
-                        android:text="Español"/>
+                        android:text="Español"
+                        android:textColor="@android:color/darker_gray" />
+
                     <CheckBox
                         android:id="@+id/checkbox_Ingles"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/darker_gray"
-                        android:text="Inglés"/>
+                        android:text="Inglés"
+                        android:textColor="@android:color/darker_gray" />
+
                     <CheckBox
                         android:id="@+id/checkbox_Frances"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/darker_gray"
-                        android:text="Francés"/>
+                        android:text="Francés"
+                        android:textColor="@android:color/darker_gray" />
+
                     <CheckBox
                         android:id="@+id/checkbox_Aleman"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/darker_gray"
-                        android:text="Alemán"/>
+                        android:text="Alemán"
+                        android:textColor="@android:color/darker_gray" />
+
                     <CheckBox
                         android:id="@+id/checkbox_Otros"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:textColor="@android:color/darker_gray"
-                        android:text="Otros"/>
+                        android:text="Otros"
+                        android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
 
 

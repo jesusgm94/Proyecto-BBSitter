@@ -1,0 +1,22 @@
+<resources>
+    <!--
+    TODO: Para correr la aplicacion necesitamos tener una Key paa usar Google Maps
+
+    Para esto necesitamos tener una cuenta en Google Platform, podemos tener una cuenta gratuita durante 90 dias.
+
+    Deberemos crear un proyecto y en CREDENCIALES, podremos crear nuestra KEY_GOOGLE.
+
+    Posteriormente en nuestra Cuenta de Google Platform, deberemos habilitar las APIs de Google Maps que queremos usar, en nustro caso habilitaremos:
+
+        - GOOGLE PLACES: Para autocomplementar las direcciones al introducir nuestra direccion en un campo de texto.
+        - GEOCOGIND: Para convertir una localizacion (longitud y latitud) en un String.
+        - ...
+
+    Alternatively, follow the directions here:
+    https://developers.google.com/maps/documentation/android/start#get-key
+
+    Once you have your key (it starts with "AIza"), replace the "google_maps_key"
+    string in this file.
+    -->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0</string>
+</resources>

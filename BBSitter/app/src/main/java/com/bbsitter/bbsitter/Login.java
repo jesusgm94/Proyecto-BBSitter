@@ -151,12 +151,10 @@ public class Login extends AppCompatActivity {
             editTextPassword.setError("Debes rellenar el campo");
             return false;
         }
-
         else{
             editTextEmail.setError(null);
             return true;
         }
-
     }
 
     private void logearUsuario() {
