@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/colorPrimaryDark"
+    tools:context=".ElegirquePerfilCrear">
+
+    <ImageView
+        android:layout_width="106sp"
+        android:layout_height="118sp"
+        android:layout_marginBottom="40dp"
+        android:src="@drawable/logobbsitterverticalblanco" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:text="Crea tu cuenta"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        />
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="40sp"
+        android:layout_marginHorizontal="30dp"
+        android:layout_gravity="center_horizontal"
+        android:textAlignment="center"
+        android:text="Ingresa una dirección de email y una contraseña para poder enviarte videos de niños graciosos!"
+        android:textSize="18dp"
+        android:textColor="@android:color/white"
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        // EditText de Material Design
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registroEmail_text_imput"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="10dp"
+            android:hint="Email"
+            android:background="@android:color/transparent"
+            android:textColorHint="@color/colorPrimary"
+            app:placeholderTextColor="@color/colorPrimary"
+            app:errorIconTint="@android:color/holo_red_dark"
+            app:boxStrokeErrorColor="@android:color/holo_red_dark"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@android:drawable/stat_notify_error"
+            app:startIconDrawable="@android:drawable/sym_action_email"
+            app:startIconTint="@color/colorPrimary"
+            app:boxBackgroundMode="outline"
+            app:boxBackgroundColor="@android:color/transparent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="20dp"
+                android:maxLines="1" />
+
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registroPassword_text_input"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="4dp"
+            android:hint="Contraseña"
+            android:textColorHint="@color/colorPrimary"
+            app:placeholderTextColor="@color/colorPrimary"
+            app:errorIconTint="@android:color/holo_red_dark"
+            app:boxStrokeErrorColor="@android:color/holo_red_dark"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@android:drawable/stat_notify_error"
+            app:startIconDrawable="@android:drawable/ic_partial_secure"
+            app:startIconTint="@color/colorPrimary"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="20dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/registroPassword2_text_input"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="20dp"
+            android:hint="Repite contraseña"
+            android:textColorHint="@color/colorPrimary"
+            app:placeholderTextColor="@color/colorPrimary"
+            app:errorIconTint="@android:color/holo_red_dark"
+            app:boxStrokeErrorColor="@android:color/holo_red_dark"
+            app:errorEnabled="true"
+            app:errorIconDrawable="@android:drawable/stat_notify_error"
+            app:startIconDrawable="@android:drawable/ic_partial_secure"
+            app:startIconTint="@color/colorPrimary"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary"
+            app:boxBackgroundColor="@android:color/transparent"
+            app:boxBackgroundMode="outline">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:textColor="@color/colorPrimary"
+                android:paddingBottom="20dp"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <Button
+            android:id="@+id/btnRegistrar"
+            android:layout_width="303dp"
+            android:layout_height="45dp"
+            android:background="@color/colorAccent"
+            android:text="Registrase"
+            android:textAllCaps="true"
+            android:textColor="@color/colorPrimary"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+</LinearLayout>

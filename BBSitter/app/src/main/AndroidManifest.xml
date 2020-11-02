@@ -10,12 +10,15 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+
         // KEY GOOGLE necesaria para trabajar con las APIs de Google Maps
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity android:name=".CrearPerfilCanguro"></activity>
+        <activity android:name=".CrearPerfilFamilia"></activity>
+        <activity android:name=".RegistroUsuarioActivity" />
         <activity android:name=".ElegirquePerfilCrear" />
         <activity android:name=".Login" />
         <activity android:name=".MainActivity" />

@@ -1,11 +1,11 @@
 package com.bbsitter.bbsitter;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class ElegirquePerfilCrear extends AppCompatActivity {
 
@@ -26,9 +26,8 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Aqui abrimos la actividad para rellenar los datos y crear el perfil Canguro
-                Intent main = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
-                startActivity(main);
-                //finish();
+                Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
+                startActivity(crearCanguro);
 
             }
         });
@@ -39,9 +38,8 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Aqui abrimos la actividad principal
-                Intent main = new Intent (getApplicationContext(), MainActivity.class);
-                startActivity(main);
-                finish();
+                Intent crearFamilia = new Intent (getApplicationContext(), CrearPerfilFamilia.class);
+                startActivity(crearFamilia);
 
             }
         });

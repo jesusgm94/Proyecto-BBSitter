@@ -1,15 +1,18 @@
 package com.bbsitter.bbsitter;
 
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
+
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -17,6 +20,10 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.slider.Slider;
@@ -67,6 +74,13 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         builderDatePicker.setTitleText("Selecciona una fecha");
         final MaterialDatePicker materialDatePicker = builderDatePicker.build();
 
+        // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                fechaNacimiento.setHint(materialDatePicker.getHeaderText());
+            }
+        });
 
 
 /*
@@ -79,7 +93,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         });
 
  */
-/*
+
         fechaNacimiento.addOnEditTextAttachedListener(new TextInputLayout.OnEditTextAttachedListener() {
             @Override
             public void onEditTextAttached(@NonNull TextInputLayout textInputLayout) {
@@ -88,7 +102,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             }
         });
 
- */
+
 /*
         fechaNacimiento.setFocusable(false);
         fechaNacimiento.setOnClickListener(new View.OnClickListener() {
@@ -102,15 +116,9 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
  */
 
-/*
-        // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente
-        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                //fechaNacimiento.(materialDatePicker.getHeaderText());
-            }
-        });
-*/
+
+
+
 
         // Iniciamos Google.PLACES para autocomplete del la direccion
         Places.initialize(getApplicationContext(),KEY_API_GOOGLE);
