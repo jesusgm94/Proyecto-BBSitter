@@ -152,7 +152,6 @@ public class Login extends AppCompatActivity {
                             //Metemos en la app al usuario
                             FirebaseUser user = mAuth.getCurrentUser();
 
-
                             mDatabase.child("Usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -179,10 +178,6 @@ public class Login extends AppCompatActivity {
                                                 }
                                             });
                                             builder.show();
-
-
-
-
                                         }
                                     }
                                 }
@@ -204,6 +199,5 @@ public class Login extends AppCompatActivity {
                 });
 
     }
-
 
 }

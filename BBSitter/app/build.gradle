@@ -49,7 +49,4 @@ dependencies {
 
     // Implementacion Google Places 
     implementation 'com.google.android.libraries.places:places:2.4.0'
-
-    implementation 'com.google.android.material:material:1.2.1.'
-
 }

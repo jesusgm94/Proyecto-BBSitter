@@ -9,65 +9,74 @@
     android:background="@android:color/white"
     tools:context=".CrearPerfilCanguro">
 
-    // Cabecerea
+    // Titulo:Estas creando....
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:paddingVertical="10dp"
-        android:background="@drawable/cabeceracrearperfilcanguro">
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/cabeceracrearperfilcanguro"
+        >
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:text="Estas creando tu perfil de canguro"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
             android:textSize="14dp"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="15dp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="@android:color/white"/>
-
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imageCircle"
-            android:layout_width="110dp"
-            android:layout_height="110dp"
-            android:padding="10dp"
-            android:src="@android:drawable/ic_menu_camera"
-            android:elevation="2dp"
-            app:civ_border_width="2dp"
-            app:civ_border_color="@android:color/white"
-            android:layout_marginTop="20dp"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Añade tu foto de perfil"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"/>
+            android:textStyle="bold" />
 
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
+        // Dentro del ScrollView debe haber un LinearLayout que englobe a todo
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal">
 
-            // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
+            //  Añadir foto
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal"
+                android:paddingVertical="10dp"
+                android:background="@drawable/cabeceracrearperfilcanguro">
 
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageCanguro"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:padding="10dp"
+                    android:src="@android:drawable/ic_menu_camera"
+                    android:elevation="2dp"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@android:color/white"
+                    android:layout_marginTop="10dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Añade tu foto de perfil"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:textStyle="bold"
+                    android:layout_gravity="center_horizontal"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"/>
+
+            </LinearLayout>
+
+            // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -78,9 +87,6 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
-
-            // Layout Datos personales
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -136,16 +142,15 @@
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etDireccion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
 
-                // Nombre EditText de Material Design
+                // Fecha EditText de Material Design
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/FechaNacimiento_edit_text"
@@ -155,20 +160,21 @@
                     android:background="@android:color/transparent"
                     android:hint="Fecha de Nacimiento"
                     android:textColorHint="@android:color/darker_gray"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@android:color/darker_gray"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
-                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaNacimiento"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
                         android:paddingBottom="20dp"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -242,7 +248,7 @@
                 android:orientation="vertical"
                 android:paddingVertical="10dp">
 
-                // Nombre EditText de Material Design
+                // Direccion EditText de Material Design
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/direccion_edit_text"
@@ -261,6 +267,7 @@
                     >
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDireccion"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -349,7 +356,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
-                <LinearLayout
+            <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="30dp"
@@ -615,6 +622,62 @@
                         android:text="Otros"
                         android:textColor="@android:color/darker_gray" />
                 </LinearLayout>
+
+
+            </LinearLayout>
+
+            // Layout Direccion
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Escribe una pequeña presentación tuya"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                // Direccion EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descripcion_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Escribe tu descripción"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="200"
+                    app:counterTextColor="@android:color/darker_gray"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcion"
+                        android:layout_width="300dp"
+                        android:layout_height="130dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:scrollbars="vertical"
+                        android:maxLines="10"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
 
 
             </LinearLayout>

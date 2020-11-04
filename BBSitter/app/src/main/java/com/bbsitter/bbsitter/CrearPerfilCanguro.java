@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,7 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.slider.Slider;
@@ -37,9 +39,10 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
     // Atributos
     private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
-    private TextInputEditText etDireccion;
+    private TextInputEditText etDireccion, etFechaNacimiento;
     private TextView precioHora;
     private Slider sliderPrecio;
+    private Button btnCrearCanguro;
 
     private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
 
@@ -55,12 +58,15 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
         etDireccion = findViewById(R.id.etDireccion);
-
+        etFechaNacimiento = findViewById(R.id.etFechaNacimiento);
         precioHora = findViewById(R.id.textViewPrecioHora);
+
         sliderPrecio = findViewById(R.id.slider_precio_hora);
 
+        btnCrearCanguro = findViewById(R.id.btnCrearPerfilCanguro);
 
-        // SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
+
+        // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
         sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
@@ -69,62 +75,31 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             }
         });
 
-        // DatePicker para la fecha de Nacimiento
-        MaterialDatePicker.Builder builderDatePicker = MaterialDatePicker.Builder.datePicker();
-        builderDatePicker.setTitleText("Selecciona una fecha");
-        final MaterialDatePicker materialDatePicker = builderDatePicker.build();
+        // Campo Fecha Nacimiento
+        establecerFechaNacimiento();
 
-        // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente
-        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
-            @Override
-            public void onPositiveButtonClick(Object selection) {
-                fechaNacimiento.setHint(materialDatePicker.getHeaderText());
-            }
-        });
+        // Campo Direccion
+        establecerAutocompletadoDireccion();
 
-
-/*
-        fechaNacimiento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                Toast.makeText(getApplicationContext(), "Al pulsar en fecha ", Toast.LENGTH_LONG).show();
-                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
-            }
-        });
-
- */
-
-        fechaNacimiento.addOnEditTextAttachedListener(new TextInputLayout.OnEditTextAttachedListener() {
-            @Override
-            public void onEditTextAttached(@NonNull TextInputLayout textInputLayout) {
-                Toast.makeText(getApplicationContext(), "Al pulsar en fecha ", Toast.LENGTH_LONG).show();
-                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
-            }
-        });
-
-
-/*
-        fechaNacimiento.setFocusable(false);
-        fechaNacimiento.setOnClickListener(new View.OnClickListener() {
+        // Accion BOTON CREAR CANGURO
+        btnCrearCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(), "Al pulsar en fecha ", Toast.LENGTH_LONG).show();
-                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+                
+
             }
         });
 
- */
+    }
 
-
-
-
-
+    // Direccion
+    private void establecerAutocompletadoDireccion() {
         // Iniciamos Google.PLACES para autocomplete del la direccion
         Places.initialize(getApplicationContext(),KEY_API_GOOGLE);
 
-        direccion.setFocusable(false);
-        direccion.setOnClickListener(new View.OnClickListener() {
+        etDireccion.setFocusable(false);
+        etDireccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Inicializamos la lista de lugares
@@ -137,29 +112,12 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                 startActivityForResult(intent, 100);
             }
         });
-
-/*
-        direccion.addOnEditTextAttachedListener(new TextInputLayout.OnEditTextAttachedListener() {
-            @Override
-            public void onEditTextAttached(@NonNull TextInputLayout textInputLayout) {
-                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
-
-                // Creamos un intent que nos mostrará el autocompletado de direcciones
-                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(getApplicationContext());
-
-                // Start actvity
-                startActivityForResult(intent, 100);
-            }
-        });
-
- */
     }
-
-
-    // Direccion
+    // Resultado de autocompletado Direccion
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (resultCode == 100 && resultCode == RESULT_OK) {
             // Si sucede, inicializamos el lugar
             Place place = Autocomplete.getPlaceFromIntent(data);
@@ -167,7 +125,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), place.getAddress(), Toast.LENGTH_LONG).show();
 
             // Escribimos la direccion en el campo direccion
-
+            etDireccion.setHint(place.getAddress());
 
         } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
             // Cuando falle
@@ -176,9 +134,32 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
             // Ponemos un Toast
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
-
-            direccion.setHint(status.getStatusMessage());
-
         }
+    }
+
+
+    // Fecha Nacimiento
+    private void establecerFechaNacimiento() {
+
+        // Creamos un DatePicker para la fecha de Nacimiento
+        MaterialDatePicker.Builder builderDatePicker = MaterialDatePicker.Builder.datePicker();
+        builderDatePicker.setTitleText("Selecciona una fecha");
+        final MaterialDatePicker materialDatePicker = builderDatePicker.build();
+
+        etFechaNacimiento.setFocusable(false);
+        etFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+            }
+        });
+
+        // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente
+        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
+            @Override
+            public void onPositiveButtonClick(Object selection) {
+                etFechaNacimiento.setText(materialDatePicker.getHeaderText());
+            }
+        });
     }
 }

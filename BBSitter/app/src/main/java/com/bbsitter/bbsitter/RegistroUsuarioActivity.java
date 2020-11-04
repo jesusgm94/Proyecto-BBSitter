@@ -155,7 +155,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     //Cogemos el id del usuario y lo guardamos en la variable ID
                     String id = mAuth.getCurrentUser().getUid();
 
-                    //Metemos los valores y la ID al usuario
+                    //Guardamos el usuario creado en Firebase
                     mDatabase.child("Usuarios").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
