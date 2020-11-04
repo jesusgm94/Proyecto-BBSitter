@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.Perfiles;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.libraries.places.api.Places;
@@ -16,10 +18,12 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -64,30 +68,54 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             public void onClick(View v) {
 
 
-                /*Creamos una familia y le metemos los datos que ha metido el usuario*/
+                /*Cargamos los datos*/
 
                 String nombre = nombreFamilia.getEditText().getText().toString().trim();
                 String descripcion = descripcionFamilia.getEditText().getText().toString().trim();
                 String uid = mAuth.getCurrentUser().getUid();
 
+                /*Creamos un mapa para meter los datos de las familias*/
                 Map<String, Object> mapUser = new HashMap<>();
                 mapUser.put("nombre", nombre);
                 mapUser.put("descripcion", descripcion);
 
 
+                /*Creamos un mapa para meter los datos de la direccion*/
                 Map<String, Double> mapLoc = new HashMap<>();
                 mapLoc.put("latitud", 50.43242);
                 mapLoc.put("longitud", 40.30193);
 
-
+                /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
                 mapUser.put("localizacion", mapLoc);
 
+                /*Creamos la coleccion Familias en la bbdd*/
                 bbdd.collection("familias")
                         .document(uid)
                         .set(mapUser);
 
-                Toast.makeText(CrearPerfilFamilia.this, "Perfil Creado!", Toast.LENGTH_SHORT).show();
-                finish();
+                /*Creamos un mapa para actualizar el perifl del usuario*/
+                Map<String, Object> userUpdate = new HashMap<>();
+                userUpdate.put("perfil", true);
+
+                /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                bbdd.collection("usuarios").document(uid)
+                        .set(userUpdate, SetOptions.merge());
+
+
+                MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(CrearPerfilFamilia.this);
+                builder.setTitle("Perfil Creado");
+                builder.setMessage("Ya puedes disfrutar de nuestra app!");
+                builder.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        /*Le damos click y cerramos la activity*/
+                        finish();
+                        /*Aqui abrimos la actividad main*/
+                        Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(main);
+                    }
+                });
+                builder.show();
 
             }
         });
