@@ -17,6 +17,7 @@
             android:value="AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0" />
             -->
 
+        <activity android:name=".Login.CambiarPassActivity"></activity>
         <activity android:name=".Perfiles.CrearPerfilCanguro"></activity>
         <activity android:name=".Perfiles.CrearPerfilFamilia"></activity>
         <activity android:name=".Login.RegistroUsuarioActivity" />

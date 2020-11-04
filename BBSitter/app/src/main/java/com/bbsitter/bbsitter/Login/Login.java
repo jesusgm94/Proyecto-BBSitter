@@ -70,7 +70,6 @@ public class Login extends AppCompatActivity {
         bbdd = FirebaseFirestore.getInstance();
 
 
-
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,6 +195,7 @@ public class Login extends AppCompatActivity {
                                                         //Aqui abrimos la actividad principal
                                                         Intent main = new Intent(getApplicationContext(), MainActivity.class);
                                                         startActivity(main);
+                                                        finish();
 
                                                     } else {
 
@@ -209,6 +209,7 @@ public class Login extends AppCompatActivity {
                                                                 //Aqui abrimos la actividad perfil
                                                                 Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
                                                                 startActivity(crearPerfil);
+                                                                finish();
                                                             }
                                                         });
                                                         builder.show();
