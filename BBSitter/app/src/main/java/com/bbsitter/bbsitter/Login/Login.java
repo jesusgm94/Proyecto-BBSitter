@@ -1,5 +1,6 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.Login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bbsitter.bbsitter.Main.MainActivity;
+import com.bbsitter.bbsitter.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -18,20 +21,18 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-/*import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;*/
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class Login extends AppCompatActivity {
 
 
+    private static final String TAG = "datos";
     private String email = "";
     private String password = "";
     private static final int RC_SIGN_IN = 9001;
@@ -45,7 +46,6 @@ public class Login extends AppCompatActivity {
     private TextView etCrearCuenta, etCambiarPass;
 
     private FirebaseAuth mAuth;
-    //private DatabaseReference mDatabase;
     private FirebaseFirestore bbdd;
 
     private GoogleSignInClient mGoogleSingInClient;
@@ -67,7 +67,6 @@ public class Login extends AppCompatActivity {
 
 
         mAuth = FirebaseAuth.getInstance();
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
         bbdd = FirebaseFirestore.getInstance();
 
 
@@ -80,7 +79,6 @@ public class Login extends AppCompatActivity {
                 password = editTextPassword.getEditText().getText().toString().trim();
 
                 if (!email.isEmpty() && !password.isEmpty()) {
-
 
                     logearUsuario();
 
@@ -177,53 +175,52 @@ public class Login extends AppCompatActivity {
         //comprobamos que el email y la contraseña estan en la base de datos
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) { //Si la tarea es satisfactoria
 
-                            //Metemos en la app al usuario
-                            FirebaseUser user = mAuth.getCurrentUser();
+                            String uid = mAuth.getCurrentUser().getUid();
 
+                            bbdd.collection("usuarios")
+                                    .whereEqualTo("uid", uid)
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Boolean perfil = ((Boolean) document.get("perfil"));
 
-                            /********** REALTIME DATABASE ********/
+                                                    if (perfil == true) {
+                                                        //Aqui abrimos la actividad principal
+                                                        Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                                        startActivity(main);
 
-                            /*mDatabase.child("Usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    if (snapshot.exists()) {
-                                        Boolean perfil = (Boolean) snapshot.child("perfil").getValue();
+                                                    } else {
 
-                                        if (perfil == true) {
-                                            //Aqui abrimos la actividad principal
-                                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(main);
-                                        } else {
+                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this);
 
-                                            MaterialAlertDialogBuilder builder =
-                                                    new MaterialAlertDialogBuilder(Login.this);
+                                                        builder.setTitle("Crear Perfil");
+                                                        builder.setMessage("Antes de entrar necesitas crear tu perfil!");
+                                                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                //Aqui abrimos la actividad perfil
+                                                                Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
+                                                                startActivity(crearPerfil);
+                                                            }
+                                                        });
+                                                        builder.show();
 
-                                            builder.setTitle("Crear Perfil");
-                                            builder.setMessage("Antes de entrar necesitas crear tu perfil!");
-                                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    //Aqui abrimos la actividad perfil
-                                                    Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
-                                                    startActivity(crearPerfil);
+                                                    }
+
                                                 }
-                                            });
-                                            builder.show();
-
+                                            } else {
+                                                Toast.makeText(Login.this, "Movida", Toast.LENGTH_SHORT).show();
+                                            }
                                         }
-                                    }
-                                }
-
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
-
-                                }
-                            });*/
-
+                                    });
 
                         } else {
                             //Si no existe ese usuario en la base de datos no inicia sesion

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@android:color/white"
-    tools:context=".CrearPerfilCanguro">
+    tools:context=".Perfiles.CrearPerfilCanguro">
 
     // Titulo:Estas creando....
     <LinearLayout
@@ -36,47 +36,50 @@
         android:background="@android:color/transparent">
 
         // Dentro del ScrollView debe haber un LinearLayout que englobe a todo
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
 
-            //  Añadir foto
+            // Añadir foto
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:background="@drawable/cabeceracrearperfilcanguro"
                 android:gravity="center_horizontal"
-                android:paddingVertical="10dp"
-                android:background="@drawable/cabeceracrearperfilcanguro">
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imageCanguro"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="2dp"
                     android:padding="10dp"
                     android:src="@android:drawable/ic_menu_camera"
-                    android:elevation="2dp"
-                    app:civ_border_width="2dp"
                     app:civ_border_color="@android:color/white"
-                    android:layout_marginTop="10dp"/>
+                    app:civ_border_width="2dp" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Añade tu foto de perfil"
+                    android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="50dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginBottom="10dp"
-                    android:textStyle="bold"
-                    android:layout_gravity="center_horizontal"
+                    android:text="Añade tu foto de perfil"
                     android:textAlignment="center"
-                    android:textColor="@color/colorPrimary"/>
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
             // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -87,6 +90,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -160,11 +164,11 @@
                     android:background="@android:color/transparent"
                     android:hint="Fecha de Nacimiento"
                     android:textColorHint="@android:color/darker_gray"
-                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@android:color/darker_gray"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -227,6 +231,7 @@
             </LinearLayout>
 
             // Layout Direccion
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -237,6 +242,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -263,8 +269,7 @@
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
                     app:startIconDrawable="@drawable/ic_baseline_location_on_36"
-                    app:startIconTint="@color/colorPrimaryDark"
-                    >
+                    app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDireccion"
@@ -280,6 +285,7 @@
             </LinearLayout>
 
             // Layout Precio/hora
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -290,6 +296,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -346,6 +353,7 @@
             </LinearLayout>
 
             // Radio Buttons EXPERIENCIA
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -356,55 +364,58 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginVertical="10dp"
                     android:background="@drawable/marcoblancobutton"
-                    android:elevation="2dp"
-                    android:gravity="left"
-                    android:orientation="vertical">
-                    <LinearLayout
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupExperiencia"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginHorizontal="30dp"
-                        android:layout_marginVertical="10dp"
-                        android:background="@drawable/marcoblancobutton"
-                        android:gravity="center"
-                        android:orientation="horizontal">
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@+id/radio_button_1"
+                        android:orientation="vertical">
 
-                        <RadioGroup
-                            android:id="@+id/radioGroupExperiencia"
+                        <RadioButton
+                            android:id="@+id/radio_button_Menos6meses"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:checkedButton="@+id/radio_button_1"
-                            android:orientation="vertical">
+                            android:layout_height="match_parent"
+                            android:text="Menos de 6 meses"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
 
-                            <RadioButton
-                                android:id="@+id/radio_button_Menos6meses"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="Menos de 6 meses"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="14dp" />
+                        <RadioButton
+                            android:id="@+id/radio_button_6a12meses"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 6 a 12 meses"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
 
-                            <RadioButton
-                                android:id="@+id/radio_button_6a12meses"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="De 6 a 12 meses"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="14dp" />
-                            <RadioButton
-                                android:id="@+id/radio_button_1a2años"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="De 1 a 2 años"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="14dp" />
+                        <RadioButton
+                            android:id="@+id/radio_button_1a2años"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 1 a 2 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
 
-                            <RadioButton
+                        <RadioButton
                             android:id="@+id/radio_button_2a5años"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -412,18 +423,19 @@
                             android:textColor="@android:color/darker_gray"
                             android:textSize="14dp" />
 
-                            <RadioButton
-                                android:id="@+id/radio_button_Mas6años"
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:text="Más de 6 años"
-                                android:textColor="@android:color/darker_gray"
-                                android:textSize="14dp" />
-                        </RadioGroup>
-                    </LinearLayout>
+                        <RadioButton
+                            android:id="@+id/radio_button_Mas6años"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Más de 6 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+                    </RadioGroup>
                 </LinearLayout>
+            </LinearLayout>
 
             // Checkbox Preferencia edades
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -434,6 +446,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -487,6 +500,7 @@
             </LinearLayout>
 
             // Checkbox Pluses
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -497,6 +511,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -557,6 +572,7 @@
             </LinearLayout>
 
             // Checkbox Idiomas
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -567,6 +583,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -627,6 +644,7 @@
             </LinearLayout>
 
             // Layout Direccion
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -637,6 +655,7 @@
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -660,12 +679,11 @@
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@android:color/darker_gray"
-                    app:errorIconDrawable="@android:drawable/stat_notify_error"
-                    app:errorIconTint="@android:color/holo_red_dark"
                     app:counterEnabled="true"
                     app:counterMaxLength="200"
                     app:counterTextColor="@android:color/darker_gray"
-                    >
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDescripcion"
@@ -673,8 +691,8 @@
                         android:layout_height="130dp"
                         android:gravity="top"
                         android:inputType="textMultiLine"
-                        android:scrollbars="vertical"
                         android:maxLines="10"
+                        android:scrollbars="vertical"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -683,6 +701,7 @@
             </LinearLayout>
 
             // Boton crear canguro
+
             <Button
                 android:id="@+id/btnCrearPerfilCanguro"
                 android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.Login;
 
 import android.os.Bundle;
 import android.view.View;
@@ -8,20 +8,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
-/*import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;*/
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
 
@@ -39,8 +35,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
 
     /*Firebase*/
-    FirebaseAuth mAuth;
-    //DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
 
     @Override
@@ -56,7 +51,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         /*FIREBASE*/
         mAuth = FirebaseAuth.getInstance();
-        //mDatabase = FirebaseDatabase.getInstance().getReference();
         bbdd = FirebaseFirestore.getInstance();
 
         /*Cuando le damos al botón Registrar queremos que la app comprueba que los campos estan llenos y que las 2 contraseñas sean las mismas. Una vez comprobadas efectuamos el registro del usuario*/
@@ -155,34 +149,23 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 //si es verdad que la tarea ha sido satisfactoria...
                 if(task.isSuccessful())
                 {
-                    Usuario usuario = new Usuario();
-                    usuario.setEmail(email);
-                    usuario.setPass(password);
-                    usuario.setPerfil(false);
-
-                    String id = mAuth.getCurrentUser().getUid();
+                    String email = registroEmail.getEditText().getText().toString().trim();
+                    String password = registroPass.getEditText().getText().toString().trim();
+                    Boolean perfil = false;
+                    String uid = mAuth.getCurrentUser().getUid();
 
                     Map<String, Object> mapUser = new HashMap<>();
-                    mapUser.put(id, usuario);
+                    mapUser.put("email", email);
+                    mapUser.put("password", password);
+                    mapUser.put("perfil", perfil);
+                    mapUser.put("uid", uid);
 
                     bbdd.collection("usuarios")
-                            .add(mapUser)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference)
-                                {
-                                    Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
-                                    finish();
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
+                            .document(uid)
+                            .set(mapUser);
 
-                                    Toast.makeText(RegistroUsuarioActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
+                    Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
+                    finish();
 
                     /********** REALTIME DATABASE ********/
 

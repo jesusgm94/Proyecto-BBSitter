@@ -1,6 +1,4 @@
-package com.bbsitter.bbsitter;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.bbsitter.bbsitter.Login;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -8,7 +6,8 @@ import android.os.Bundle;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
-import com.bbsitter.bbsitter.MainActivity;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.bbsitter.bbsitter.R;
 
 import java.util.Timer;

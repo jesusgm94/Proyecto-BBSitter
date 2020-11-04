@@ -17,13 +17,13 @@
             android:value="AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0" />
             -->
 
-        <activity android:name=".CrearPerfilCanguro"></activity>
-        <activity android:name=".CrearPerfilFamilia"></activity>
-        <activity android:name=".RegistroUsuarioActivity" />
-        <activity android:name=".ElegirquePerfilCrear" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashScreen">
+        <activity android:name=".Perfiles.CrearPerfilCanguro"></activity>
+        <activity android:name=".Perfiles.CrearPerfilFamilia"></activity>
+        <activity android:name=".Login.RegistroUsuarioActivity" />
+        <activity android:name=".Login.ElegirquePerfilCrear" />
+        <activity android:name=".Login.Login" />
+        <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Login.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

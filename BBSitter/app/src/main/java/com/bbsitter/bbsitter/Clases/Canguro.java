@@ -1,13 +1,6 @@
-package com.bbsitter.bbsitter;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+package com.bbsitter.bbsitter.Clases;
 
 import java.io.Serializable;
-import java.util.Collection;
-import java.util.Map;
-import java.util.Set;
-import java.util.function.BiConsumer;
 
 public class Canguro implements Serializable {
 

@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.Main;
 
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,6 +12,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bbsitter.bbsitter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;

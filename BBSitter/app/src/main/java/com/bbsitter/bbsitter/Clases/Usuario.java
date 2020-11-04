@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.Clases;
 
 public class Usuario  {
 

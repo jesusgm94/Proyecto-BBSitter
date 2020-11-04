@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.bbsitter.bbsitter.ui.home.HomeFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home">
 
@@ -16,13 +16,13 @@
 
     <fragment
         android:id="@+id/nav_mensajes"
-        android:name="com.bbsitter.bbsitter.ui.gallery.GalleryFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.gallery.GalleryFragment"
         android:label="@string/menu_mensajes"
         tools:layout="@layout/fragment_mensajes" />
 
     <fragment
         android:id="@+id/nav_fav"
-        android:name="com.bbsitter.bbsitter.ui.slideshow.SlideshowFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.slideshow.SlideshowFragment"
         android:label="@string/menu_fav"
         tools:layout="@layout/fragment_fav" />
 </navigation>

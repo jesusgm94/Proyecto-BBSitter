@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.bbsitter.bbsitter.Perfiles.CrearPerfilCanguro;
+import com.bbsitter.bbsitter.Perfiles.CrearPerfilFamilia;
+import com.bbsitter.bbsitter.R;
 
 public class ElegirquePerfilCrear extends AppCompatActivity {
 
@@ -26,8 +30,8 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Aqui abrimos la actividad para rellenar los datos y crear el perfil Canguro
-                //Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
-                //startActivity(crearCanguro);
+                Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
+                startActivity(crearCanguro);
 
             }
         });

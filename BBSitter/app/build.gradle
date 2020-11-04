@@ -51,6 +51,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics:17.5.0'
     implementation 'com.google.firebase:firebase-auth:19.4.0'
     implementation 'com.google.firebase:firebase-database:19.5.0'
+    implementation 'com.google.firebase:firebase-firestore:21.2.1'
 
     /*Material Desing*/
     implementation 'com.google.android.material:material:1.2.1.'
@@ -60,4 +61,5 @@ dependencies {
 
     // Implementacion Google Places
     implementation 'com.google.android.libraries.places:places:2.4.0'
+
 }

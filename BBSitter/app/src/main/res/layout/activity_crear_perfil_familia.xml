@@ -4,69 +4,92 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context=".CrearPerfilCanguro">
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
+    tools:context=".Perfiles.CrearPerfilCanguro">
 
-    <!-- Cabecerea -->
+    <!-- Titulo:Estas creando... -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
         android:background="@drawable/cabeceracrearperfilcanguro"
-        android:gravity="center_horizontal"
-        android:orientation="vertical"
-        android:paddingVertical="10dp">
+        >
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_gravity="center_horizontal"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="15dp"
-            android:text="Creando tu perfil de familia"
+            android:text="Estas creando tu perfil de familia"
             android:textAlignment="center"
             android:textColor="@android:color/white"
-            android:textStyle="bold"
-            android:textSize="20dp"/>
-
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="15dp"
-            app:srcCompat="@drawable/camara">
-            <!-- imagen por defecto srcCompat-->
-
-        </ImageView>
-
+            android:textSize="14dp"
+            android:textStyle="bold" />
 
     </LinearLayout>
+
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/transparent">
 
+        <!-- Dentro del ScrollView debe haber un LinearLayout que englobe a todo-->
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
+            <!-- Añadir foto -->
 
-            <!-- Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/cabeceracrearperfilcanguro"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageCanguro"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="2dp"
+                    android:padding="10dp"
+                    android:src="@android:drawable/ic_menu_camera"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Añade tu foto de perfil"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Layout Datos: Nombre, descripcion y direccion -->
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="15dp"
-                android:text="Datos personales"
-                android:textColor="@android:color/black"
+                android:text="Dinos el nombre de tu familia"
+                android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
                 android:textStyle="bold" />
-
-            <!-- Layout Datos personales -->
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -79,7 +102,7 @@
                 android:orientation="vertical"
                 android:paddingVertical="10dp">
 
-                <!-- Nombre familia -->
+                <!-- NOMBRE EditText de Material Design -->
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/nombreFamilia_edit_text"
@@ -90,7 +113,7 @@
                     android:hint="Nombre de la familia"
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
                     app:placeholderTextColor="@color/colorPrimaryDark"
@@ -103,50 +126,55 @@
                         android:maxLines="1"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <!-- Descripcion -->
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/descripcionFamilia_edit_text"
-                    android:layout_width="300dp"
-                    android:layout_height="150dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Descripción"
-                    android:textColorHint="@android:color/darker_gray"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@android:color/darker_gray"
-                    app:errorIconDrawable="@android:drawable/stat_notify_error"
-                    app:errorIconTint="@android:color/holo_red_dark"
-                    app:startIconTint="@color/colorPrimaryDark">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
-                        android:layout_height="150dp"
-                        android:inputType="text"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textColorHint="@android:color/darker_gray" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+            </LinearLayout>
 
-                <!-- Direccion -->
+
+            <!-- EditText Direccion -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuál es tu dirección?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- Direccion EditText de Material Design -->
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/direccionFamilia_edit_text"
+                    android:id="@+id/direccion_edit_text"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_margin="4dp"
                     android:background="@android:color/transparent"
-
-                    android:hint="Direccion"
+                    android:hint="Introduce tu dirección"
                     android:textColorHint="@android:color/darker_gray"
                     app:boxBackgroundMode="outline"
                     app:boxStrokeColor="@android:color/darker_gray"
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_location_on_36"
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:layout_width="match_parent"
+                        android:id="@+id/etDireccionFamilia"
+                        android:layout_width="300dp"
                         android:layout_height="wrap_content"
                         android:inputType="text"
                         android:maxLines="1"
@@ -158,7 +186,66 @@
             </LinearLayout>
 
 
-            <!-- Crear Perfil -->
+
+
+
+            <!-- Layout Descripccion -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Escribe una pequeña presentación tuya"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- Direccion EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descripcion_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Escribe tu descripción"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="140"
+                    app:counterTextColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="300dp"
+                        android:layout_height="130dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <!-- Boton crear familia -->
 
             <Button
                 android:id="@+id/btnCrearPerfilFamilia"
@@ -167,12 +254,12 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20sp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/botonpurple"
+                android:background="@drawable/botonredondeadoblue"
                 android:text="Crear perfil"
                 android:textAllCaps="true"
-                android:textColor="@drawable/text_purple_click"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
