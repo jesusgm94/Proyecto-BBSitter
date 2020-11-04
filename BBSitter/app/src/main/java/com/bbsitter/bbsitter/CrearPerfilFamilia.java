@@ -1,21 +1,15 @@
 package com.bbsitter.bbsitter;
 
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+/*import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;*/
 
 public class CrearPerfilFamilia extends AppCompatActivity {
 
@@ -28,7 +22,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
     private String descripcion = "";
 
     private FirebaseAuth mAuth;
-    private DatabaseReference mDatabase;
+    //private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +35,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         btnCrearPerfilFamilia = (Button) findViewById(R.id.btnCrearPerfilFamilia);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
 
         btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,26 +51,10 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
 
                 //Metemos los valores y la ID al usuario
-                mDatabase.child("Familia").child(mAuth.getCurrentUser().getUid()).setValue(familia).addOnCompleteListener(new OnCompleteListener<Void>() {
+                /*mDatabase.child("Familia").child(mAuth.getCurrentUser().getUid()).setValue(familia).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
 
-                        /*Usuario usuario = new Usuario();
-                        usuario.setPerfil(true);
-
-                        String id = mAuth.getCurrentUser().getUid();
-                        String email = mAuth.getCurrentUser().getEmail();
-
-
-                        //Metemos los valores y la ID al usuario
-                        mDatabase.child("Usuarios").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-
-                                Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
-                        });*/
 
                         MaterialAlertDialogBuilder builder =
                                 new MaterialAlertDialogBuilder(CrearPerfilFamilia.this);
@@ -97,7 +75,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
 
                     }
-                });
+                });*/
             }
         });
     }

@@ -1,6 +1,5 @@
 package com.bbsitter.bbsitter;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,25 +10,31 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+/*import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.ValueEventListener;*/
 
 public class Login extends AppCompatActivity {
 
 
     private String email = "";
     private String password = "";
+    private static final int RC_SIGN_IN = 9001;
 
     private TextInputLayout editTextEmail, editTextPassword;
 
@@ -37,10 +42,13 @@ public class Login extends AppCompatActivity {
 
     private SignInButton btnGoogle;
 
-    private TextView etCrearCuenta;
+    private TextView etCrearCuenta, etCambiarPass;
 
-    FirebaseAuth mAuth;
-    DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    //private DatabaseReference mDatabase;
+    private FirebaseFirestore bbdd;
+
+    private GoogleSignInClient mGoogleSingInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +63,13 @@ public class Login extends AppCompatActivity {
         btnGoogle = (SignInButton) findViewById(R.id.sign_in_button);
         btnGoogle.setSize(SignInButton.SIZE_STANDARD);
         etCrearCuenta = (TextView) findViewById(R.id.etCrearCuenta);
+        etCambiarPass = (TextView) findViewById(R.id.etCambiarPass);
 
-        //btnCrearCuenta = (Button) findViewById(R.id.btnCrearCuenta);
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        bbdd = FirebaseFirestore.getInstance();
+
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +80,7 @@ public class Login extends AppCompatActivity {
                 password = editTextPassword.getEditText().getText().toString().trim();
 
                 if (!email.isEmpty() && !password.isEmpty()) {
+
 
                     logearUsuario();
 
@@ -82,11 +93,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
+        loginGoogle();
+
         btnGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-
+                signIn();
             }
         });
 
@@ -102,8 +115,25 @@ public class Login extends AppCompatActivity {
 
         });
 
+        etCambiarPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent cambiarPass = new Intent(getApplicationContext(), CambiarPassActivity.class);
+                startActivity(cambiarPass);
+            }
+        });
+
 
     }
+
+    /*Comprobar que el usuario esta conectado al iniciar app*/
+    /*@Override
+    protected void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+    }*/
 
     @Override
     protected void onRestart() {
@@ -134,14 +164,16 @@ public class Login extends AppCompatActivity {
         if (password.isEmpty()) {
             editTextPassword.setError("Debes rellenar el campo");
             return false;
-
         } else {
             editTextEmail.setError(null);
             return true;
         }
+
     }
 
-    private void logearUsuario() {
+    private void logearUsuario(/*String idToken*/) {
+
+
         //comprobamos que el email y la contraseña estan en la base de datos
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -152,7 +184,10 @@ public class Login extends AppCompatActivity {
                             //Metemos en la app al usuario
                             FirebaseUser user = mAuth.getCurrentUser();
 
-                            mDatabase.child("Usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+
+                            /********** REALTIME DATABASE ********/
+
+                            /*mDatabase.child("Usuarios").child(user.getUid()).addValueEventListener(new ValueEventListener() {
                                 @Override
                                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                                     if (snapshot.exists()) {
@@ -178,6 +213,7 @@ public class Login extends AppCompatActivity {
                                                 }
                                             });
                                             builder.show();
+
                                         }
                                     }
                                 }
@@ -186,12 +222,12 @@ public class Login extends AppCompatActivity {
                                 public void onCancelled(@NonNull DatabaseError error) {
 
                                 }
-                            });
+                            });*/
 
 
                         } else {
                             //Si no existe ese usuario en la base de datos no inicia sesion
-                            Toast.makeText(Login.this, "Inicio de sesión fallida.",
+                            Toast.makeText(Login.this, "El usuario no existe.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -199,5 +235,46 @@ public class Login extends AppCompatActivity {
                 });
 
     }
+
+    /*Inicia los elementos necesarios para poder iniciar sesión con Google.*/
+    private void loginGoogle()
+    {
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSingInClient = GoogleSignIn.getClient(this,gso);
+    }
+
+    /*Inicio de sesión con Google.*/
+    private void signIn()
+    {
+        Intent googleIntent = mGoogleSingInClient.getSignInIntent();
+        startActivityForResult(googleIntent, RC_SIGN_IN);
+    }
+
+    /*Se ejecuta cuando termina la actividad iniciada (Ventana de Google Sing In)*/
+    /*FALTA IMPLEMENTAR*/
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                //logearUsuario(account.getIdToken());
+
+            } catch (ApiException e) {
+
+            }
+        }
+    }
+
+
 
 }

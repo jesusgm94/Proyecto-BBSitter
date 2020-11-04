@@ -88,13 +88,14 @@
 
 
     <TextView
+        android:id="@+id/etCambiarPass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
         android:layout_gravity="right"
         android:paddingRight="10dp"
-        android:text="¿Olvidaste la contraseña? Pincha aqui"
-        android:textColor="@android:color/white"
+        android:text="¿Olvidaste la contraseña? Pincha aquí"
+        android:textColor="@drawable/letrasblancas"
         android:textSize="12sp"
         android:layout_marginRight="45sp" />
 
@@ -109,28 +110,19 @@
             android:id="@+id/btnLogin"
             android:layout_width="295dp"
             android:layout_height="40dp"
-            android:background="@color/colorAccent"
+            android:background="@drawable/botonpurple"
             android:text="Acceder"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@drawable/text_purple_click"
             android:textSize="15sp"
             android:textStyle="bold" />
+
 
         <com.google.android.gms.common.SignInButton
             android:id="@+id/sign_in_button"
             android:layout_width="303dp"
             android:layout_height="45dp"
             android:layout_marginTop="10dp"/>
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
 
     </LinearLayout>
 
@@ -145,10 +137,10 @@
             android:id="@+id/etCrearCuenta"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="¿Todavia no tienes cuenta? Crea una aqui"
+            android:text="¿Todavía no tienes cuenta? ¡Regístrate!"
             android:textSize="12sp"
             android:textStyle="bold"
-            android:textColor="@android:color/white"
+            android:textColor="@drawable/letrasblancas"
             />
 
     </LinearLayout>

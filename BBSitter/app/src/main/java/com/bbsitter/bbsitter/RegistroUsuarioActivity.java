@@ -9,12 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
+/*import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;*/
 
 public class RegistroUsuarioActivity extends AppCompatActivity {
 
@@ -29,9 +36,12 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     private String password2 = "";
 
 
+
+
     /*Firebase*/
     FirebaseAuth mAuth;
-    DatabaseReference mDatabase;
+    //DatabaseReference mDatabase;
+    private FirebaseFirestore bbdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +56,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         /*FIREBASE*/
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        //mDatabase = FirebaseDatabase.getInstance().getReference();
+        bbdd = FirebaseFirestore.getInstance();
 
         /*Cuando le damos al botón Registrar queremos que la app comprueba que los campos estan llenos y que las 2 contraseñas sean las mismas. Una vez comprobadas efectuamos el registro del usuario*/
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +82,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     }
 
                 } else {
+                    Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar todos los datos", Toast.LENGTH_LONG).show();
                     validarEmail();
                     validarPassword();
                     validarPassword2();
@@ -103,7 +115,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
         if (password.isEmpty()) {
             registroPass.setError("Debes rellenar el campo");
-            Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar todos los ", Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -137,7 +148,6 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
     private void registrarUsuario() {
 
-
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -145,7 +155,38 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 //si es verdad que la tarea ha sido satisfactoria...
                 if(task.isSuccessful())
                 {
-                    //Crear un Usuario
+                    Usuario usuario = new Usuario();
+                    usuario.setEmail(email);
+                    usuario.setPass(password);
+                    usuario.setPerfil(false);
+
+                    String id = mAuth.getCurrentUser().getUid();
+
+                    Map<String, Object> mapUser = new HashMap<>();
+                    mapUser.put(id, usuario);
+
+                    bbdd.collection("usuarios")
+                            .add(mapUser)
+                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                @Override
+                                public void onSuccess(DocumentReference documentReference)
+                                {
+                                    Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+
+                                    Toast.makeText(RegistroUsuarioActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+
+                    /********** REALTIME DATABASE ********/
+
+                   /* //Crear un Usuario
                     Usuario usuario = new Usuario();
                     usuario.setEmail(email);
                     usuario.setPass(password);
@@ -163,7 +204,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                             Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
                             finish();
                         }
-                    });
+                    });*/
                 }
                 else{
                     Toast.makeText(RegistroUsuarioActivity.this, "Este usuario no se pudo registrar", Toast.LENGTH_SHORT).show();

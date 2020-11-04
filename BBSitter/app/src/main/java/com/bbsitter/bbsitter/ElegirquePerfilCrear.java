@@ -26,8 +26,8 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Aqui abrimos la actividad para rellenar los datos y crear el perfil Canguro
-                Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
-                startActivity(crearCanguro);
+                //Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
+                //startActivity(crearCanguro);
 
             }
         });

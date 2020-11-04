@@ -167,10 +167,10 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20sp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/botonredondeadoblue"
+                android:background="@drawable/botonpurple"
                 android:text="Crear perfil"
                 android:textAllCaps="true"
-                android:textColor="@android:color/white"
+                android:textColor="@drawable/text_purple_click"
                 android:textSize="18sp"
                 android:textStyle="bold"/>
 
