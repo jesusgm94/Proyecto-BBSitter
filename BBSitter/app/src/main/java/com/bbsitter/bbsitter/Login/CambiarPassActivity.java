@@ -82,7 +82,7 @@ public class CambiarPassActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    Toast.makeText(CambiarPassActivity.this, "Las contraseñas no coincide", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CambiarPassActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                 }
 
 
