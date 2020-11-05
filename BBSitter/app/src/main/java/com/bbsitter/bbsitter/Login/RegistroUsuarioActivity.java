@@ -72,7 +72,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     {
                         registroPass.setError("");
                         registroPass2.setError("");
-                        Toast.makeText(RegistroUsuarioActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegistroUsuarioActivity.this, "Las contraseñas no coincide", Toast.LENGTH_SHORT).show();
                     }
 
                 } else {
