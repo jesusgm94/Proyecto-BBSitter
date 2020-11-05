@@ -7,20 +7,20 @@
     android:orientation="vertical"
     android:gravity="center"
     tools:context="com.bbsitter.bbsitter.Login.Login"
-    android:background="@drawable/fondologin">
+    android:background="@drawable/fondologinbbs">
 
-
+<!--
     <ImageView
         android:layout_width="106sp"
         android:layout_height="118sp"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="20sp"
         android:src="@drawable/logobbsitterverticalblanco" />
-
+-->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60sp"
+        android:layout_marginBottom="225dp"
         android:text="¡Bienvenido!"
         android:textSize="40sp"
         android:textStyle="bold"
