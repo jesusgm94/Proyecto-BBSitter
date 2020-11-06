@@ -199,7 +199,14 @@ public class Login extends AppCompatActivity {
 
                                                     } else {
 
-                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this);
+                                                        // Meter progress bar para que inicie
+
+                                                        Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
+                                                        startActivity(crearPerfil);
+                                                        finish();
+
+                                                        /*
+                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this, R.style.MyMaterialAlertDialog);
 
                                                         builder.setTitle("Crear Perfil");
                                                         builder.setMessage("Antes de entrar necesitas crear tu perfil!");
@@ -213,6 +220,8 @@ public class Login extends AppCompatActivity {
                                                             }
                                                         });
                                                         builder.show();
+                                                        */
+
 
                                                     }
 

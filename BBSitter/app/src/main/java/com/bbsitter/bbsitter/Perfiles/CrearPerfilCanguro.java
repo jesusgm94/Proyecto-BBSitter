@@ -6,7 +6,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -30,9 +33,13 @@ import com.google.android.material.textfield.TextInputLayout;
 import java.util.Arrays;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class CrearPerfilCanguro extends AppCompatActivity {
 
     // Atributos
+    private CircleImageView foto;
+
     private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
     private TextInputEditText etDireccion, etFechaNacimiento;
     private TextView precioHora;
@@ -42,12 +49,15 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_canguro);
 
         // Asignacion de variables
+        foto = findViewById(R.id.imageCanguro);
+
         nombre = findViewById(R.id.nombre_edit_text);
         apellidos = findViewById(R.id.apellidos_edit_text);
         fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);
@@ -76,6 +86,13 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         // Campo Direccion
         establecerAutocompletadoDireccion();
 
+        foto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cargarImagen();
+            }
+        });
+
         // Accion BOTON CREAR CANGURO
         btnCrearCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,15 +105,31 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
     }
 
+    // Cargar imagen del movil
+    private void cargarImagen() {
+
+        Intent intentCargarFoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intentCargarFoto.setType("image/");
+
+        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
+
+
+    }
+
     // Direccion
     private void establecerAutocompletadoDireccion() {
-        // Iniciamos Google.PLACES para autocomplete del la direccion
-        Places.initialize(getApplicationContext(),KEY_API_GOOGLE);
+
+        // Inicializamos Google.PLACES para autocomplete la direccion
+        if (!Places.isInitialized()) {
+            Places.initialize(getApplicationContext(), KEY_API_GOOGLE);
+        }
 
         etDireccion.setFocusable(false);
+
         etDireccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //Inicializamos la lista de lugares
                 List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
 
@@ -108,11 +141,48 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             }
         });
     }
-    // Resultado de autocompletado Direccion
+
+    // Resultado de:  Autocompletado Direccion o Cargar Foto
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+
         super.onActivityResult(requestCode, resultCode, data);
 
+        // Resultado de Activity paara direccion
+        if (requestCode == 100) {
+            if (resultCode == RESULT_OK) {
+
+                Place place = Autocomplete.getPlaceFromIntent(data);
+                //Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
+                Toast.makeText(CrearPerfilCanguro.this, "ID: " + place.getId() +
+                                                                "address:" + place.getAddress() +
+                                                                "Name:" + place.getName() +
+                                                                "latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
+                String address = place.getAddress();
+
+                etDireccion. setText(address);
+
+
+            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+                // TODO: Handle the error.
+                Status status = Autocomplete.getStatusFromIntent(data);
+                Toast.makeText(CrearPerfilCanguro.this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
+                //Log.i(TAG, status.getStatusMessage());
+            } else if (resultCode == RESULT_CANCELED) {
+                // The user canceled the operation.
+            }
+        }
+
+        else if (requestCode == 200){
+
+            if (resultCode == RESULT_OK) {
+
+                Uri pathFoto = data.getData();
+                foto.setImageURI(pathFoto);
+            }
+        }
+
+        /*
         if (resultCode == 100 && resultCode == RESULT_OK) {
             // Si sucede, inicializamos el lugar
             Place place = Autocomplete.getPlaceFromIntent(data);
@@ -130,6 +200,8 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             // Ponemos un Toast
             Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
         }
+
+         */
     }
 
 
