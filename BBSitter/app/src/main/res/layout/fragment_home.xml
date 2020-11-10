@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@color/colorPrimaryDark"
+    android:background="@android:color/white"
     tools:context=".OpcionesMenu.Inicio.InicioFragment">
 
     <LinearLayout
@@ -17,16 +17,17 @@
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="238dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp">
 
             <TextView
                 android:id="@+id/tvHola"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
                 android:gravity="start"
                 android:text="Hola"
                 android:textAlignment="viewStart"
@@ -34,9 +35,9 @@
 
             <TextView
                 android:id="@+id/tvNombre"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="15dp"
                 android:text="David"
                 android:textSize="40dp"
                 android:textStyle="bold" />
