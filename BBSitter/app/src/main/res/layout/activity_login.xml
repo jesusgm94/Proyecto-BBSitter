@@ -18,13 +18,22 @@
         android:src="@drawable/logobbsitterverticalblanco" />
 -->
     <TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:text="!Bienvenido!"
+    android:textSize="40sp"
+    android:textStyle="bold"
+    android:textColor="@color/colorAccent2"
+    />
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="225dp"
-        android:text="¡Bienvenido!"
-        android:textSize="40sp"
+        android:layout_marginBottom="200dp"
+        android:text="a BBSitter"
+        android:textSize="25dp"
         android:textStyle="bold"
-        android:textColor="@color/colorAccent2"
+        android:textColor="@android:color/white"
         />
 
 
@@ -53,7 +62,8 @@
             android:inputType="textEmailAddress"
             android:textColor="@color/colorPrimary"
             android:textColorHint="@android:color/white"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:text="juanito@gmail.com"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -83,6 +93,7 @@
             android:inputType="textPassword"
             android:textColor="@color/colorPrimary"
             android:paddingBottom="20dp"
+            android:text="123456"
             />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -92,12 +103,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="5dp"
-        android:layout_gravity="right"
-        android:paddingRight="10dp"
+        android:layout_gravity="center"
         android:text="¿Olvidaste la contraseña? Pincha aquí"
         android:textColor="@drawable/letrasblancas"
         android:textSize="12sp"
-        android:layout_marginRight="45sp" />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -131,7 +141,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="30dp">
+        android:layout_marginTop="10dp">
 
         <TextView
             android:id="@+id/etCrearCuenta"

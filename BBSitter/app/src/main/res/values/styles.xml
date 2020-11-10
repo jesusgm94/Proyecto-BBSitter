@@ -6,6 +6,7 @@
         <item name="colorPrimary">#951b81</item>
         <item name="colorPrimaryDark">#6E145F</item>
         <item name="colorAccent">#9AF4EB</item>
+
     </style>
 
     <style name="MyAppTheme" parent="@style/AppTheme" />
@@ -13,6 +14,13 @@
     <style name="ThemeOverlay.App.BottomNavigationView" parent="">
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/colorPrimary</item>
+    </style>
+
+    <style name="MyMaterialAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+        <item name="colorPrimary">@color/colorPrimaryDark</item>
+        <item name="colorOnPrimary">@color/colorPrimary</item>
+        <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>
