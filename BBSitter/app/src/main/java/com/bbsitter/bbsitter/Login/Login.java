@@ -51,6 +51,8 @@ public class Login extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSingInClient;
 
+    private final ProgressBarInicioSesion progressBarInicioSesion = new ProgressBarInicioSesion(Login.this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,7 +72,7 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
-        final ProgressBarInicioSesion progressBarInicioSesion = new ProgressBarInicioSesion(Login.this);
+
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,20 +84,8 @@ public class Login extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
 
                     logearUsuario();
-                    // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
-                    progressBarInicioSesion.StarProgressBar();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBarInicioSesion.finishProgressBar();
 
-                            //Aqui abrimos la actividad main
-                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(main);
-                            finish();
-                        }
-                    }, 5000);
+
 
                 } else {
                     validarEmail();
@@ -208,10 +198,23 @@ public class Login extends AppCompatActivity {
                                                     Boolean perfil = ((Boolean) document.get("perfil"));
 
                                                     if (perfil == true) {
-                                                        //Aqui abrimos la actividad principal
-                                                        Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                                                        startActivity(main);
-                                                        finish();
+
+                                                        // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
+                                                        progressBarInicioSesion.StarProgressBar();
+                                                        Handler handler = new Handler();
+                                                        handler.postDelayed(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                progressBarInicioSesion.finishProgressBar();
+
+                                                                //Aqui abrimos la actividad main
+                                                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                                                startActivity(main);
+                                                                finish();
+                                                            }
+                                                        }, 2000);
+
+
 
                                                     } else {
 

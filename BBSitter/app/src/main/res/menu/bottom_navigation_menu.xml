@@ -4,11 +4,7 @@
         android:enabled="true"
         android:icon="@drawable/cuenta"
         android:title="Inicio"/>
-    <item
-        android:id="@+id/page_2"
-        android:enabled="true"
-        android:icon="@android:drawable/sym_action_email"
-        android:title="Notificaciones"/>
+
     <item
         android:id="@+id/page_3"
         android:enabled="true"

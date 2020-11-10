@@ -27,8 +27,8 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
         // Mensaje de que el usuario necesita crearse un perfil antes de poder usar la app
 
         MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(ElegirquePerfilCrear.this, R.style.MyMaterialAlertDialog);
-        builder.setTitle("¿Todavia no tienes un perfil creado?");
-        builder.setMessage("Antes de usar nuestra App necesitas crear tu perfil para que lo demás sepan  si eres una familia molona o un canguro responsable!");
+        builder.setTitle("¿Todavía no tienes un perfil creado?");
+        builder.setMessage("Antes de usar nuestra App necesitas crear tu perfil para que los demás sepan si eres una familia molona o un canguro responsable!");
         builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {

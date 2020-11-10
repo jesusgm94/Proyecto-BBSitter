@@ -1,6 +1,9 @@
 package com.bbsitter.bbsitter.Login;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -8,9 +11,11 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,6 +37,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     private String password2 = "";
 
 
+    private final ProgressBarRegistro progressBarRegistro = new ProgressBarRegistro(RegistroUsuarioActivity.this);
 
 
     /*Firebase*/
@@ -164,30 +170,31 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                             .document(uid)
                             .set(mapUser);
 
-                    Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
-                    finish();
-
-                    /********** REALTIME DATABASE ********/
-
-                   /* //Crear un Usuario
-                    Usuario usuario = new Usuario();
-                    usuario.setEmail(email);
-                    usuario.setPass(password);
-                    usuario.setPerfil(false);
-                    usuario.setUid(mAuth.getCurrentUser().getUid());
-
-                    //Cogemos el id del usuario y lo guardamos en la variable ID
-                    String id = mAuth.getCurrentUser().getUid();
-
-                    //Guardamos el usuario creado en Firebase
-                    mDatabase.child("Usuarios").child(id).setValue(usuario).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
+                    progressBarRegistro.StarProgressBar();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                        public void run() {
+                            progressBarRegistro.finishProgressBar();
 
-                            Toast.makeText(RegistroUsuarioActivity.this, "Usuario registrado!", Toast.LENGTH_SHORT).show();
-                            finish();
+                            MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(RegistroUsuarioActivity.this, R.style.MyMaterialAlertDialog);
+                            builder.setTitle("Usuario registrado");
+                            builder.setMessage("Ya estás registrado! Loguéate para seguir con la configuración de tu usuario");
+                            builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+
+                                    finish();
+                                }
+                            });
+                            builder.show();
+
+
                         }
-                    });*/
+                    }, 2000);
+
+
                 }
                 else{
                     Toast.makeText(RegistroUsuarioActivity.this, "Este usuario no se pudo registrar", Toast.LENGTH_SHORT).show();
