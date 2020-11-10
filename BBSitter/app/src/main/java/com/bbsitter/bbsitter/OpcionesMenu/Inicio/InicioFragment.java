@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenu.home;
+package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,14 +11,14 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bbsitter.bbsitter.R;
 
-public class HomeFragment extends Fragment {
+public class InicioFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private InicioViewModel inicioViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
+        inicioViewModel =
+                ViewModelProviders.of(this).get(InicioViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         /*
         final TextView textView = root.findViewById(R.id.text_home);

@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenu.slideshow;
+package com.bbsitter.bbsitter.OpcionesMenu.Mensajes;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bbsitter.bbsitter.R;
 
-public class SlideshowFragment extends Fragment {
+public class MensajesFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private MensajesViewModel mensajesViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_fav, container, false);
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        mensajesViewModel =
+                ViewModelProviders.of(this).get(MensajesViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_mensajes, container, false);
+        final TextView textView = root.findViewById(R.id.text_gallery);
+        mensajesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

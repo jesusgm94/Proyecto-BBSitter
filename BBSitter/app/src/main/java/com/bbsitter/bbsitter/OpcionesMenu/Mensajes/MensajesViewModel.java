@@ -1,16 +1,16 @@
-package com.bbsitter.bbsitter.OpcionesMenu.home;
+package com.bbsitter.bbsitter.OpcionesMenu.Mensajes;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HomeViewModel extends ViewModel {
+public class MensajesViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HomeViewModel() {
+    public MensajesViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

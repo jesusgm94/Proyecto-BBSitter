@@ -1,14 +1,14 @@
-package com.bbsitter.bbsitter.OpcionesMenu.slideshow;
+package com.bbsitter.bbsitter.OpcionesMenu.Favoritos;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SlideshowViewModel extends ViewModel {
+public class FavoritosViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SlideshowViewModel() {
+    public FavoritosViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is slideshow fragment");
     }

@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenu.gallery;
+package com.bbsitter.bbsitter.OpcionesMenu.Favoritos;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.bbsitter.bbsitter.R;
 
-public class GalleryFragment extends Fragment {
+public class FavoritosFragment extends Fragment {
 
-    private GalleryViewModel galleryViewModel;
+    private FavoritosViewModel favoritosViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        galleryViewModel =
-                ViewModelProviders.of(this).get(GalleryViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_mensajes, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        galleryViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        favoritosViewModel =
+                ViewModelProviders.of(this).get(FavoritosViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_fav, container, false);
+        final TextView textView = root.findViewById(R.id.text_slideshow);
+        favoritosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
