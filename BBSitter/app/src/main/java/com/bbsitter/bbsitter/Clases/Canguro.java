@@ -6,6 +6,7 @@ import java.util.Map;
 public class Canguro implements Serializable {
 
     //Atributos
+    private String urlFoto;
 
     // Datos personales
     private String nombre;
@@ -20,11 +21,12 @@ public class Canguro implements Serializable {
     private double latitudLoc;
 
     // Demás atributos
-    private float precioHora;    //Obtenida de slider precio/Hora
+    private double precioHora;    //Obtenida de slider precio/Hora
     private String experiencia;
     private String descripcion;
     Map<String, Boolean> mapPluses;     // Pluses
     Map<String, Boolean> mapPrefenciaEdades;    // PreferenciaEdades
+    Map<String, Boolean> mapIdiomas;    // PreferenciaEdades
 
     // Fecha creacion
     String fechaCreacionPerfil;
@@ -34,7 +36,8 @@ public class Canguro implements Serializable {
 
     public Canguro(){}
 
-    public Canguro(String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, float precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, String fechaCreacionPerfil) {
+    public Canguro(String urlFoto, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil) {
+        this.urlFoto = urlFoto;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
@@ -48,7 +51,18 @@ public class Canguro implements Serializable {
         this.descripcion = descripcion;
         this.mapPluses = mapPluses;
         this.mapPrefenciaEdades = mapPrefenciaEdades;
+        this.mapIdiomas = mapIdiomas;
         this.fechaCreacionPerfil = fechaCreacionPerfil;
+    }
+
+    // Getters and setters
+
+    public String getUrlFoto() {
+        return urlFoto;
+    }
+
+    public void setUrlFoto(String urlFoto) {
+        this.urlFoto = urlFoto;
     }
 
     public String getNombre() {
@@ -115,11 +129,11 @@ public class Canguro implements Serializable {
         this.latitudLoc = latitudLoc;
     }
 
-    public float getPrecioHora() {
+    public double getPrecioHora() {
         return precioHora;
     }
 
-    public void setPrecioHora(float precioHora) {
+    public void setPrecioHora(double precioHora) {
         this.precioHora = precioHora;
     }
 
@@ -153,6 +167,14 @@ public class Canguro implements Serializable {
 
     public void setMapPrefenciaEdades(Map<String, Boolean> mapPrefenciaEdades) {
         this.mapPrefenciaEdades = mapPrefenciaEdades;
+    }
+
+    public Map<String, Boolean> getMapIdiomas() {
+        return mapIdiomas;
+    }
+
+    public void setMapIdiomas(Map<String, Boolean> mapIdiomas) {
+        this.mapIdiomas = mapIdiomas;
     }
 
     public String getFechaCreacionPerfil() {

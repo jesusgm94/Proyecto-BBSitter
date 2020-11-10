@@ -4,20 +4,32 @@ package com.bbsitter.bbsitter.Perfiles;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.DialogInterface;
 import android.content.Intent;
 
+import android.content.res.Resources;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -26,28 +38,57 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class CrearPerfilCanguro extends AppCompatActivity {
 
-    // Atributos
-    private CircleImageView foto;
+    private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore bbdd;
+
+    private CircleImageView foto;
     private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
-    private TextInputEditText etDireccion, etFechaNacimiento;
+    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion;
     private TextView precioHora;
     private Slider sliderPrecio;
     private Button btnCrearCanguro;
 
-    private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
+    //private Uri urlFotoPerfil;
+    private String urlFotoPerfil ="";
 
+    private LatLng latLng;
+    private String latlongDirecion ="";
+
+    private double precioHoraCanguro;
+    private RadioGroup radioGroupSexo;
+    private RadioButton rbMasculino, rbFemenino, rbMenos6Meses, rb6a12meses, rb1a2años, rb2a6años, rbMas6años ;
+
+    private CheckBox checkbox_6a12meses, checkbox_1a3años,checkbox_3a6años, checkbox_mas6años;
+    private CheckBox checkBoxEspañol, checkBoxIngles,checkBoxFrances, checkBoxAleman, checkBoxOtros;
+    private CheckBox checkBoxNoFumador, checkBoxCarnetConducir,checkBoxPrimerosAuxilios, checkBoxCocinar, checkBoxDeberes;
+
+    ListView listViewPluses, listViewPreferencias, listViewIdiomas;
+    ArrayAdapter<String> adapterPrefrencias, adapterPulses, adapterIdiomas;
+    String [] arrayPreferencias = {"De 6 a 12 meses", "De 1 a 3 años", "De 3 a 6 años","Más de 6 años"};
+    String [] arrayPluses = {"No soy fumador", "Carnet de conducir", "Sé primeros auxilios","Puedo cocinar", "Ayudo con los deberes"};
+    String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
+
+    Map<String, Boolean> mapIdiomas = new HashMap<>();
 
 
     @Override
@@ -55,28 +96,69 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_canguro);
 
+        // FIREBASE
+        mAuth = FirebaseAuth.getInstance();
+        bbdd = FirebaseFirestore.getInstance();
+
         // Asignacion de variables
         foto = findViewById(R.id.imageCanguro);
-
         nombre = findViewById(R.id.nombre_edit_text);
         apellidos = findViewById(R.id.apellidos_edit_text);
         fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
+        etNombre = findViewById(R.id.etNombre);
+        etApellidos = findViewById(R.id.etApellidos);
         etDireccion = findViewById(R.id.etDireccion);
         etFechaNacimiento = findViewById(R.id.etFechaNacimiento);
+        etDescripcion = findViewById(R.id.etDescripcion);
         precioHora = findViewById(R.id.textViewPrecioHora);
 
+        // RADIO BUTTONS SEXO
+        radioGroupSexo = findViewById(R.id.radioGroupSexo);
+        rbMasculino = findViewById(R.id.radio_button_Masculino);
+        rbFemenino = findViewById(R.id.radio_button_Femenino);
+
+        // RADIO BUTTONS EXPERIENCIA
+        rbMenos6Meses = findViewById(R.id.radio_button_Menos6meses);
+        rb1a2años = findViewById(R.id.radio_button_1a2años);
+        rb6a12meses = findViewById(R.id.radio_button_6a12meses);
+        rb2a6años = findViewById(R.id.radio_button_2a5años);
+        rbMas6años = findViewById(R.id.radio_button_Mas6años);
+
+        // ListView Checkboxs PREFERENCIAS
+        listViewPreferencias = findViewById(R.id.listViewPrefrenciaEdad);
+        adapterPrefrencias = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPreferencias);
+        listViewPreferencias.setAdapter(adapterPrefrencias);
+        listViewPreferencias.setBackgroundColor(Color.GRAY);
+
+        // ListView Checkboxs PLUSES
+        listViewPluses = findViewById(R.id.listViewPluses);
+        adapterPulses = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPluses);
+        listViewPluses.setAdapter(adapterPulses);
+        listViewPluses.setBackgroundColor(Color.GRAY);
+
+        // ListView Checkboxs IDIOMAS
+        listViewIdiomas = findViewById(R.id.listViewIdiomas);
+        adapterIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayIdiomas);
+        listViewIdiomas.setAdapter(adapterIdiomas);
+        listViewIdiomas.setBackgroundColor(Color.GRAY);
+
+        // SLIDER
         sliderPrecio = findViewById(R.id.slider_precio_hora);
 
+        // BOTON CREAR CANGURO
         btnCrearCanguro = findViewById(R.id.btnCrearPerfilCanguro);
 
+        // PROGRESS BAR con animacion Lottie
+        final ProgressBarCrearCanguro progressBarCrearCanguro = new ProgressBarCrearCanguro(CrearPerfilCanguro.this);
 
         // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
         sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {
             @Override
             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
-                String precio = String.valueOf(value);
-                precioHora.setText(precio + " €");
+                //String precio = String.valueOf(value);
+                precioHora.setText(value + " €");
+                precioHoraCanguro = value;
             }
         });
 
@@ -86,6 +168,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         // Campo Direccion
         establecerAutocompletadoDireccion();
 
+        // Cargaremos la foto de perfil, obtenida de la memoria del movil
         foto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -94,29 +177,195 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         });
 
         // Accion BOTON CREAR CANGURO
+        // Donde guardaremos en Firestore un objeto Canguro. Todos los datos recogidos de los campos del formulario
         btnCrearCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                
+            // Si todos los campos estan rellenados correctamente, validación a true
+             if(validacionCampos()) {
+
+                 String uid = mAuth.getCurrentUser().getUid();
+                 //String fechaCreacionPerfil = ;
+                 String urlFoto = urlFotoPerfil.toString();
+                 String nombreCanguro = etNombre.getText().toString().trim();
+                 String apellidosCanguro = etApellidos.getText().toString().trim();
+                 String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
+                 String direccion = etDireccion.getText().toString().trim();
+                 String descripcion = etDescripcion.getText().toString().trim();
+                 String sexo = obtenerSexo();
+                 String experiencia = obtenerExperiencia();
+                 double precio = precioHoraCanguro;
+
+                 // LOCALIZACION
+                 // Obtener coordenadas de direccion
+                 double longitudLoc = latLng.longitude;
+                 double latitudLoc = latLng.latitude;
+                 // Crear MAPA COORDENADAS para meterlo en la localizacion del Canguro
+                 Map<String, Double> mapLoc = new HashMap<>();
+                 mapLoc.put("Latitud", latitudLoc);
+                 mapLoc.put("Longitud", longitudLoc);
+
+
+                 // ListView CHECKBOX PREFERENCIAS
+                 Map<String, Boolean> mapPrefEdades = new HashMap<>();
+                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
+                 for (int cont = 0; cont < listViewPreferencias.getCount(); cont++) {
+                     if (listViewPreferencias.isItemChecked(cont)) {
+                         String textoItemSeleccionado = listViewPreferencias.getItemAtPosition(cont).toString();
+                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
+                         mapPrefEdades.put(textoItemSeleccionado, true);
+                     }
+                 }
+                 //Toast.makeText(CrearPerfilCanguro.this,preferenciasSeleccionadas, Toast.LENGTH_LONG).show();
+
+
+                 // ListView CHECKBOX PLUSES
+                 Map<String, Boolean> mapPluses = new HashMap<>();
+                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
+                 for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
+                     if (listViewPluses.isItemChecked(cont)) {
+                         String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
+                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
+                         mapPluses.put(textoItemSeleccionado, true);
+                     }
+                 }
+
+                 // ListView CHECKBOX IDIOMAS
+                 Map<String, Boolean> mapIdiomas = new HashMap<>();
+                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
+                 for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
+                     if (listViewIdiomas.isItemChecked(cont)) {
+                         String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
+                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
+                         mapIdiomas.put(textoItemSeleccionado, true);
+                     }
+                 }
+
+                 // Escribir datos en FIRESTORE
+                 /*Creamos un mapa para meter los datos de las familias*/
+                 Map<String, Object> mapCanguro = new HashMap<>();
+
+                 //mapCanguro.put("Id Canguro", idCanguro);
+                 mapCanguro.put("Nombre", nombreCanguro);
+                 mapCanguro.put("Apellidos", apellidosCanguro);
+                 mapCanguro.put("Fecha Nacimiento", fechaNacimiento);
+                 mapCanguro.put("Sexo", sexo);
+                 mapCanguro.put("Direccion", direccion);
+                 mapCanguro.put("Localizacion", mapLoc);  // Mapa localizacion Canguro
+                 mapCanguro.put("Experiencia", experiencia);
+                 mapCanguro.put("Precio hora", precio);
+                 mapCanguro.put("descripcion", descripcion);
+                 mapCanguro.put("Preferencia edades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
+                 mapCanguro.put("Pluses", mapPluses);  // Mapa Pluses Canguro
+                 mapCanguro.put("Idiomas", mapIdiomas);  // Mapa Idiomas Canguro
+
+                 /*Introducimos el canguro nuevo dentro de la BBDD*/
+                 bbdd.collection("canguros")
+                         .document(uid)
+                         .set(mapCanguro);
+
+                 /*Mapa para de datos para actualizar el usuario*/
+                 Map<String, Object> userUpdate = new HashMap<>();
+                 userUpdate.put("perfil", true);
+
+                 /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                 bbdd.collection("usuarios")
+                         .document(uid)
+                         .set(userUpdate, SetOptions.merge());
+
+
+                 // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando)
+                 progressBarCrearCanguro.StarProgressBar();
+                 Handler handler = new Handler();
+                 handler.postDelayed(new Runnable() {
+                     @Override
+                     public void run() {
+                         progressBarCrearCanguro.finishProgressBar();
+
+                         //Aqui abrimos la actividad main
+                         Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                         startActivity(main);
+                         finish();
+                     }
+                 }, 5000);
+
+             }else{
+                 Toasty.error(CrearPerfilCanguro.this,"Revisa los campos  rellenar", Toast.LENGTH_LONG).show();
+             }
 
             }
         });
 
     }
 
-    // Cargar imagen del movil
+    private boolean validacionCampos() {
+
+        Boolean validar = true;
+
+        String urlFoto = urlFotoPerfil.toString();
+        String nombreCanguro = etNombre.getText().toString().trim();
+        String apellidosCanguro = etApellidos.getText().toString().trim();
+        String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
+        String direccion = etDireccion.getText().toString().trim();
+        String descripcion = etDescripcion.getText().toString().trim();
+        String sexo = obtenerSexo();
+        String experiencia = obtenerExperiencia();
+        double precio = precioHoraCanguro;
+
+        if(nombreCanguro.isEmpty()){
+            nombre.setError("Debes de rellenar el campo");
+            validar = false;
+        }
+
+        // faltaria controlar los demas campos
+        // ...
+
+        return validar;
+    }
+
+    private String obtenerExperiencia() {
+
+        String experiencia ="";    // EXPERIENCIA: Elección de experiencia
+
+        if(rbMenos6Meses.isChecked()){
+            experiencia = rbMenos6Meses.getText().toString();
+        } else if(rb6a12meses.isChecked()){
+            experiencia = rbMenos6Meses.getText().toString();
+        } else if(rb1a2años.isChecked()){
+            experiencia = rb1a2años.getText().toString();
+        } else if(rb2a6años.isChecked()){
+            experiencia = rb2a6años.getText().toString();
+        } else if(rbMas6años.isChecked()){
+            experiencia = rbMas6años.getText().toString();
+        }
+
+        return experiencia;
+
+    }
+
+    private String obtenerSexo() {
+
+        String sexo;    // SEXO: Elección de femenino o masculino
+        if(rbMasculino.isChecked()){
+            sexo = rbMasculino.getText().toString();
+        }
+        else{
+            sexo = rbFemenino.getText().toString();
+        }
+        return sexo;
+    }
+
+    // Cargar imagen de la memoria de movil
     private void cargarImagen() {
 
         Intent intentCargarFoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intentCargarFoto.setType("image/");
-
         startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
-
 
     }
 
-    // Direccion
+    // Autocompletado de Google para el campo DIRECCION
     private void establecerAutocompletadoDireccion() {
 
         // Inicializamos Google.PLACES para autocomplete la direccion
@@ -125,7 +374,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         }
 
         etDireccion.setFocusable(false);
-
         etDireccion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -142,68 +390,43 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         });
     }
 
-    // Resultado de:  Autocompletado Direccion o Cargar Foto
+    // Resultado de:  Autocompletado Direccion o Cargar Foto. Depedniendo del resultado de la consulta
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Resultado de Activity paara direccion
+        // Resultado de Activity para direccion
         if (requestCode == 100) {
             if (resultCode == RESULT_OK) {
 
+                // Instanciamos un PLACE, el cual lo obtendremos del autocomplete
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                //Log.i(TAG, "Place: " + place.getName() + ", " + place.getId() + ", " + place.getAddress());
-                Toast.makeText(CrearPerfilCanguro.this, "ID: " + place.getId() +
-                                                                "address:" + place.getAddress() +
-                                                                "Name:" + place.getName() +
-                                                                "latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
+                Toast.makeText(CrearPerfilCanguro.this,"latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
+
                 String address = place.getAddress();
-
                 etDireccion. setText(address);
-
+                latLng = place.getLatLng();
 
             } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-                // TODO: Handle the error.
+
                 Status status = Autocomplete.getStatusFromIntent(data);
                 Toast.makeText(CrearPerfilCanguro.this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
-                //Log.i(TAG, status.getStatusMessage());
+
             } else if (resultCode == RESULT_CANCELED) {
-                // The user canceled the operation.
+
             }
         }
 
+        // Resultado de obtener foto del movil
         else if (requestCode == 200){
-
-            if (resultCode == RESULT_OK) {
-
-                Uri pathFoto = data.getData();
-                foto.setImageURI(pathFoto);
+                if (resultCode == RESULT_OK) {
+                    Uri pathFoto = data.getData();
+                    foto.setImageURI(pathFoto);
+                } else if(resultCode == RESULT_CANCELED){
             }
         }
-
-        /*
-        if (resultCode == 100 && resultCode == RESULT_OK) {
-            // Si sucede, inicializamos el lugar
-            Place place = Autocomplete.getPlaceFromIntent(data);
-
-            Toast.makeText(getApplicationContext(), place.getAddress(), Toast.LENGTH_LONG).show();
-
-            // Escribimos la direccion en el campo direccion
-            etDireccion.setHint(place.getAddress());
-
-        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
-            // Cuando falle
-            // Inicializamos estado
-            Status status = Autocomplete.getStatusFromIntent(data);
-
-            // Ponemos un Toast
-            Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
-        }
-
-         */
     }
-
 
     // Fecha Nacimiento
     private void establecerFechaNacimiento() {
@@ -229,4 +452,5 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             }
         });
     }
+
 }

@@ -39,7 +39,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:orientation="vertical">
 
@@ -48,9 +48,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cabeceracrearperfilcanguro"
+                android:background="@drawable/fotoperfilcanguro"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
                 android:paddingVertical="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -59,17 +61,16 @@
                     android:layout_height="110dp"
                     android:layout_marginTop="10dp"
                     android:elevation="2dp"
-                    android:padding="10dp"
-                    android:src="@android:drawable/ic_menu_camera"
+                    android:src="@drawable/fotoperfil"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="50dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:text="Añade tu foto de perfil"
                     android:textAlignment="center"
@@ -120,6 +121,7 @@
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -146,6 +148,7 @@
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etApellidos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
@@ -220,7 +223,7 @@
                             android:textSize="14dp" />
 
                         <RadioButton
-                            android:id="@+id/radio_button_2"
+                            android:id="@+id/radio_button_Femenino"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="Masculino"
@@ -457,44 +460,13 @@
                 android:gravity="left"
                 android:orientation="vertical">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/marcoblancobutton"
-                    android:gravity="left"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_6a12meses"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="De 6 a 12 meses"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_1a3años"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="De 1 a 3 años"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_3a6años"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="De 3 a 6 años"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_mas6años"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Más de 6 años"
-                        android:textColor="@android:color/darker_gray" />
-
-                </LinearLayout>
+                <ListView
+                    android:id="@+id/listViewPrefrenciaEdad"
+                    android:layout_width="281dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice" />
 
 
             </LinearLayout>
@@ -523,50 +495,13 @@
                 android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/marcoblancobutton"
-                    android:gravity="left"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_fumar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="No fumo"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_carnet"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Tengo carnet de conducir"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_pAuxilios"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Sé primeros auxilios"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_cocinar"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Puedo cocinar"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_deberes"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Ayudo en los deberes"
-                        android:textColor="@android:color/darker_gray" />
-                </LinearLayout>
+                <ListView
+                    android:id="@+id/listViewPluses"
+                    android:layout_width="281dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice" />
 
 
             </LinearLayout>
@@ -595,50 +530,13 @@
                 android:orientation="vertical">
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginVertical="10dp"
-                    android:background="@drawable/marcoblancobutton"
-                    android:gravity="left"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkbox_Espanol"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Español"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_Ingles"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Inglés"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_Frances"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Francés"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_Aleman"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Alemán"
-                        android:textColor="@android:color/darker_gray" />
-
-                    <CheckBox
-                        android:id="@+id/checkbox_Otros"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:text="Otros"
-                        android:textColor="@android:color/darker_gray" />
-                </LinearLayout>
+                <ListView
+                    android:id="@+id/listViewIdiomas"
+                    android:layout_width="281dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice" />
 
 
             </LinearLayout>
@@ -709,7 +607,7 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20sp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/botonredondeadoblue"
+                android:background="@drawable/botonredondeadowhite"
                 android:text="Crear perfil"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"

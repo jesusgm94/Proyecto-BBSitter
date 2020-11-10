@@ -20,6 +20,7 @@
         <item name="colorPrimary">@color/colorPrimaryDark</item>
         <item name="colorOnPrimary">@color/colorPrimary</item>
         <item name="android:colorBackground">@color/colorPrimary</item>
+        <item name="titleTextColor">@color/colorPrimaryDark</item>
     </style>
 
 </resources>

@@ -62,4 +62,10 @@ dependencies {
     // Implementacion Google Places
     implementation 'com.google.android.libraries.places:places:2.4.0'
 
+    // Implementacion de Lottie
+    implementation 'com.airbnb.android:lottie:3.4.4'
+
+    // Implementacion de Toasty, para hacerToast personalizados
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
+
 }
