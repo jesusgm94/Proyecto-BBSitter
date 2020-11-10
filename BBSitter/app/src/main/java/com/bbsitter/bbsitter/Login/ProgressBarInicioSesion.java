@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.Perfiles;
+package com.bbsitter.bbsitter.Login;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 
 import com.bbsitter.bbsitter.R;
 
-public class ProgressBarCrearCanguro {
+public class ProgressBarInicioSesion {
 
     Activity activity;
     AlertDialog alertDialog;
 
-    public ProgressBarCrearCanguro(Activity miActivity){
+    public ProgressBarInicioSesion(Activity miActivity){
         activity = miActivity;
     }
 
@@ -19,7 +19,7 @@ public class ProgressBarCrearCanguro {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
         LayoutInflater inflater = activity.getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.progressbar_creacioncanguro, null));
+        builder.setView(inflater.inflate(R.layout.activity_progress_bar_inicio_sesion, null));
         builder.setCancelable(false);
 
         alertDialog = builder.create();

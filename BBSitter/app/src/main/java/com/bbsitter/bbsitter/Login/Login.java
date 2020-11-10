@@ -1,6 +1,5 @@
 package com.bbsitter.bbsitter.Login;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,8 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
-import com.bbsitter.bbsitter.Perfiles.CrearPerfilCanguro;
-import com.bbsitter.bbsitter.Perfiles.ProgressBarCrearCanguro;
+import com.bbsitter.bbsitter.Perfiles.CrearPerfilFamilia;
+import com.bbsitter.bbsitter.Perfiles.ProgressBarCrearPerfil;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,7 +23,6 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,6 +70,7 @@ public class Login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
+        final ProgressBarInicioSesion progressBarInicioSesion = new ProgressBarInicioSesion(Login.this);
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,6 +82,20 @@ public class Login extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
 
                     logearUsuario();
+                    // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
+                    progressBarInicioSesion.StarProgressBar();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBarInicioSesion.finishProgressBar();
+
+                            //Aqui abrimos la actividad main
+                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(main);
+                            finish();
+                        }
+                    }, 5000);
 
                 } else {
                     validarEmail();

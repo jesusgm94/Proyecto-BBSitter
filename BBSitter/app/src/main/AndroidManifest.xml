@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.bbsitter.bbsitter">
 
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,17 +11,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <!--
         // KEY GOOGLE necesaria para trabajar con las APIs de Google Maps
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0" />
-            -->
-
-        <activity android:name=".Login.CambiarPassActivity"></activity>
-        <activity android:name=".Perfiles.CrearPerfilCanguro"></activity>
-        <activity android:name=".Perfiles.CrearPerfilFamilia"></activity>
+        -->
+        <activity android:name=".Login.CambiarPassActivity" />
+        <activity android:name=".Perfiles.CrearPerfilCanguro" />
+        <activity android:name=".Perfiles.CrearPerfilFamilia" />
         <activity android:name=".Login.RegistroUsuarioActivity" />
         <activity android:name=".Login.ElegirquePerfilCrear" />
         <activity android:name=".Login.Login" />
@@ -29,6 +27,7 @@
         <activity android:name=".Login.SplashScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

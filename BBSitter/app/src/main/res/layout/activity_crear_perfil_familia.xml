@@ -48,28 +48,29 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/cabeceracrearperfilcanguro"
+                android:background="@drawable/fotoperfilcanguro"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="30dp"
                 android:paddingVertical="10dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/imageCanguro"
+                    android:id="@+id/imageFamilia"
                     android:layout_width="110dp"
                     android:layout_height="110dp"
                     android:layout_marginTop="10dp"
                     android:elevation="2dp"
-                    android:padding="10dp"
-                    android:src="@android:drawable/ic_menu_camera"
+                    android:src="@drawable/fotoperfil"
                     app:civ_border_color="@android:color/white"
-                    app:civ_border_width="2dp" />
+                    app:civ_border_width="2dp"/>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:layout_marginHorizontal="50dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="10dp"
                     android:text="Añade tu foto de perfil"
                     android:textAlignment="center"
@@ -120,6 +121,7 @@
                     app:startIconTint="@color/colorPrimaryDark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombreFamilia"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:inputType="text"
@@ -216,7 +218,7 @@
                 <!-- Direccion EditText de Material Design -->
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/descripcion_edit_text"
+                    android:id="@+id/descripcionFamilia_edit_text"
                     android:layout_width="300dp"
                     android:layout_height="160dp"
                     android:layout_margin="4dp"
@@ -232,6 +234,7 @@
                     app:errorIconTint="@android:color/holo_red_dark">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcionFamilia"
                         android:layout_width="300dp"
                         android:layout_height="130dp"
                         android:gravity="top"

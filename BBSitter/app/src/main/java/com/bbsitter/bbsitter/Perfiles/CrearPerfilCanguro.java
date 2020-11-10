@@ -5,16 +5,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -38,7 +35,6 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.slider.Slider;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -150,7 +146,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         btnCrearCanguro = findViewById(R.id.btnCrearPerfilCanguro);
 
         // PROGRESS BAR con animacion Lottie
-        final ProgressBarCrearCanguro progressBarCrearCanguro = new ProgressBarCrearCanguro(CrearPerfilCanguro.this);
+        final ProgressBarCrearPerfil progressBarCrearPerfil = new ProgressBarCrearPerfil(CrearPerfilCanguro.this);
 
         // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
         sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {
@@ -276,12 +272,12 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
 
                  // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando)
-                 progressBarCrearCanguro.StarProgressBar();
+                 progressBarCrearPerfil.StarProgressBar();
                  Handler handler = new Handler();
                  handler.postDelayed(new Runnable() {
                      @Override
                      public void run() {
-                         progressBarCrearCanguro.finishProgressBar();
+                         progressBarCrearPerfil.finishProgressBar();
 
                          //Aqui abrimos la actividad main
                          Intent main = new Intent(getApplicationContext(), MainActivity.class);
