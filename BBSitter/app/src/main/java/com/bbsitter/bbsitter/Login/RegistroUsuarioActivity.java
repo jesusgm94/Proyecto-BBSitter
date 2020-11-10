@@ -53,7 +53,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
-        /*Cuando le damos al botón Registrar queremos que la app comprueba que los campos estan llenos y que las 2 contraseñas sean las mismas. Una vez comprobadas efectuamos el registro del usuario*/
+        /*Cuando damos al botón Registrar queremos que la app comprueba que los campos estan llenos y que las 2 contraseñas sean las mismas. Una vez comprobadas efectuamos el registro del usuario*/
         btnRegistrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
