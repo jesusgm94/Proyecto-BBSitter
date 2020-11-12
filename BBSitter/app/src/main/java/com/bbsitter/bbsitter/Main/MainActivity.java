@@ -1,8 +1,11 @@
 package com.bbsitter.bbsitter.Main;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,10 +19,19 @@ import com.bbsitter.bbsitter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    ImageView imagenUsuarioMenu;
+    TextView tvNombreUsuarioMenu, tvCorreoUsuarioMenu;
+
+    /*Movidas de Firebase*/
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore bbdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +61,20 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+        /*Firebase Auth y BBDD*/
+        mAuth = FirebaseAuth.getInstance();
+        bbdd = FirebaseFirestore.getInstance();
+
+        imagenUsuarioMenu = (ImageView) findViewById(R.id.imagenUsuarioMenu);
+        tvNombreUsuarioMenu = (TextView) findViewById(R.id.tvNombreUsuarioMenu);
+        tvCorreoUsuarioMenu = (TextView) findViewById(R.id.tvCorreoUsuarioMenu);
+
+
+
+
     }
 
     /*@Override

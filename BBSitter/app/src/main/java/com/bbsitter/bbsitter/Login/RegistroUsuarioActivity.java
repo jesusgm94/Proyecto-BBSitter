@@ -156,13 +156,13 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                 if(task.isSuccessful())
                 {
                     String email = registroEmail.getEditText().getText().toString().trim();
-                    String password = registroPass.getEditText().getText().toString().trim();
+                    //String password = registroPass.getEditText().getText().toString().trim();
                     Boolean perfil = false;
                     String uid = mAuth.getCurrentUser().getUid();
 
                     Map<String, Object> mapUser = new HashMap<>();
                     mapUser.put("email", email);
-                    mapUser.put("password", password);
+                    //mapUser.put("password", password);
                     mapUser.put("perfil", perfil);
                     mapUser.put("uid", uid);
 
