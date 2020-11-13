@@ -1,9 +1,6 @@
 package com.bbsitter.bbsitter.Main;
 
-import android.media.Image;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +15,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.bbsitter.bbsitter.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -26,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    ImageView imagenUsuarioMenu;
-    TextView tvNombreUsuarioMenu, tvCorreoUsuarioMenu;
+    private ImageView imagenUsuarioMenu;
+    private TextView tvNombreUsuarioMenu, tvCorreoUsuarioMenu;
 
     /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
@@ -63,14 +59,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-
-        /*Firebase Auth y BBDD*/
-        mAuth = FirebaseAuth.getInstance();
-        bbdd = FirebaseFirestore.getInstance();
-
-        imagenUsuarioMenu = (ImageView) findViewById(R.id.imagenUsuarioMenu);
-        tvNombreUsuarioMenu = (TextView) findViewById(R.id.tvNombreUsuarioMenu);
-        tvCorreoUsuarioMenu = (TextView) findViewById(R.id.tvCorreoUsuarioMenu);
 
 
 
