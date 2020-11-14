@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
-import com.bbsitter.bbsitter.Perfiles.CrearPerfilFamilia;
-import com.bbsitter.bbsitter.Perfiles.ProgressBarCrearPerfil;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -219,35 +217,18 @@ public class Login extends AppCompatActivity {
 
                                                     } else {
 
-                                                        // Meter progress bar para que inicie
+
 
                                                         Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
                                                         startActivity(crearPerfil);
                                                         finish();
-
-                                                        /*
-                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this, R.style.MyMaterialAlertDialog);
-
-                                                        builder.setTitle("Crear Perfil");
-                                                        builder.setMessage("Antes de entrar necesitas crear tu perfil!");
-                                                        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which) {
-                                                                //Aqui abrimos la actividad perfil
-                                                                Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
-                                                                startActivity(crearPerfil);
-                                                                finish();
-                                                            }
-                                                        });
-                                                        builder.show();
-                                                        */
 
 
                                                     }
 
                                                 }
                                             } else {
-                                                Toast.makeText(Login.this, "Movida", Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(Login.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });
