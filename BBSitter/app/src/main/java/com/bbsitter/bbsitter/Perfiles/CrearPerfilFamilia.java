@@ -121,7 +121,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                     mapUser.put("nombre", nombre);
                     mapUser.put("descripcion", descripcion);
                     mapUser.put("direccion", direccion);
-                    mapUser.put("uid", uid);
 
 
                     /* LOCALIZACION*/
@@ -194,7 +193,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             startActivity(main);
                             finish();
                         }
-                    }, 5000);
+                    }, 2000);
 
 
 

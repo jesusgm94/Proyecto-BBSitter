@@ -56,10 +56,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore:21.2.1'
     implementation 'com.google.firebase:firebase-storage:19.2.0'
 
-    /*Material Desing*/
+    //Material Desing
     implementation 'com.google.android.material:material:1.2.1'
 
-    /*Varios dex*/
+    //Varios dex
     implementation 'com.android.support:multidex:1.0.1'
 
     // Implementacion Google Places
@@ -70,5 +70,10 @@ dependencies {
 
     // Implementacion de Toasty, para hacerToast personalizados
     implementation 'com.github.GrenderG:Toasty:1.4.2'
+
+
+    //Implementacion RecyclerView
+    implementation "androidx.recyclerview:recyclerview:1.1.0"
+    implementation "androidx.recyclerview:recyclerview-selection:1.1.0-rc01"
 
 }
