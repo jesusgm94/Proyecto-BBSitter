@@ -2,11 +2,27 @@ package com.bbsitter.bbsitter;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +39,17 @@ public class MiPerfilFamiliaFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private CircleImageView fotoPerfilFamilia;
+    private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
+    private MaterialButton btnDireccionPerfilFamilia;
+
+
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore bbdd;
+
+    private String uid;
 
     public MiPerfilFamiliaFragment() {
         // Required empty public constructor
@@ -58,7 +85,59 @@ public class MiPerfilFamiliaFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        /*Firebase Auth y BBDD*/
+        mAuth = FirebaseAuth.getInstance();
+        bbdd = FirebaseFirestore.getInstance();
+
+        View view = inflater.inflate(R.layout.fragment_mi_perfil_familia, container, false);
+
+        fotoPerfilFamilia = view.findViewById(R.id.imagenPerfilFamilia);
+        tvNombrePerfilFamilia = view.findViewById(R.id.tvNombrePerfilFamilia);
+        btnDireccionPerfilFamilia = view.findViewById(R.id.btnDireccionPerfilFamilia);
+        tvDescripcionPerfilFamilia = view.findViewById(R.id.tvDescripcionPerfilFamilia);
+
+        cargarDatosPerfilFamilia();
+
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mi_perfil_familia, container, false);
+        return view;
+    }
+
+    private void cargarDatosPerfilFamilia()
+    {
+        uid = mAuth.getCurrentUser().getUid();
+
+
+        bbdd.collection("familias")
+                .whereEqualTo("uid", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                //Recogemos los datos de la base de datos
+                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
+                                String imagenFamilia = document.get("img").toString();
+                                String direccionFamilia = document.get("direccion").toString();
+                                String descripcionFamilia = document.get("descripcion").toString();
+
+                                //Agrega una nueva imagen desde una url usando Picasso.
+                                Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);
+
+                                //Agrega nuevo nombre
+                                tvNombrePerfilFamilia.setText(nombreFamilia);
+                                btnDireccionPerfilFamilia.setText(direccionFamilia);
+                                tvDescripcionPerfilFamilia.setText(descripcionFamilia);
+
+                            }
+                        } else {
+
+                        }
+                    }
+                });
+
     }
 }
