@@ -3,6 +3,7 @@ package com.bbsitter.bbsitter.Login;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -25,11 +26,10 @@ public class CambiarPassActivity extends AppCompatActivity {
 
     Button cambiarContrasena;
 
-    private TextInputLayout cambiarpassEmail, cambiarpassPass, cambiarpassPass2;
+    private TextInputLayout cambiarpassEmail;
+    private EditText etCambiarPassEmail;
 
     private String email = "";
-    private String password = "";
-    private String password2 = "";
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
@@ -42,8 +42,8 @@ public class CambiarPassActivity extends AppCompatActivity {
         cambiarContrasena = (Button) findViewById(R.id.btnCambiarPass);
 
         cambiarpassEmail = findViewById(R.id.cambiarpassEmail_text_imput);
-        cambiarpassPass = findViewById(R.id.cambiarpassPassword_text_input);
-        cambiarpassPass2 = findViewById(R.id.cambiarpassPassword2_text_input);
+
+        etCambiarPassEmail = (EditText) findViewById(R.id.etcambiarpassEmail);
 
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
@@ -52,40 +52,35 @@ public class CambiarPassActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                String email = cambiarpassEmail.getEditText().getText().toString();
-                final String pass = cambiarpassPass.getEditText().getText().toString();
-                String pass2 = cambiarpassPass2.getEditText().getText().toString();
+                email = etCambiarPassEmail.getText().toString();
 
-                if(pass.equals(pass2))
+                if(!email.isEmpty())
                 {
-                    bbdd.collection("usuarios")
-                            .whereEqualTo("email", email)
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            /*Creamos un mapa para actualizar el perifl del usuario*/
-                                            Map<String, Object> userUpdate = new HashMap<>();
-                                            userUpdate.put("password", pass);
-
-                                            /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
-                                            bbdd.collection("usuarios").document()
-                                                    .set(userUpdate, SetOptions.merge());
-
-
-                                        }
-                                    }
-                                }
-                            });
+                    resetPassword();
                 }
                 else
                 {
-                    Toast.makeText(CambiarPassActivity.this, "Las contraseñas no coincide", Toast.LENGTH_SHORT).show();
+                    cambiarpassEmail.setError("Debes ingresar el email");
                 }
 
+            }
+        });
+    }
 
+    private void resetPassword()
+    {
+        mAuth.sendPasswordResetEmail(email). addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                if(task.isSuccessful())
+                {
+                    Toast.makeText(CambiarPassActivity.this, "Hemos mandado un correo a su email ", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    Toast.makeText(CambiarPassActivity.this, "No se ha podido enviar el correo", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

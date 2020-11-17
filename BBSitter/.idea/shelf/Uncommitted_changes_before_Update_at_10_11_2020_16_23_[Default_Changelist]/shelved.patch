@@ -1,0 +1,1454 @@
+Index: app/src/main/java/com/bbsitter/bbsitter/Perfiles/CrearPerfilCanguro.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.bbsitter.bbsitter.Perfiles;\r\n\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.annotation.Nullable;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\nimport android.content.Intent;\r\n\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\n\r\nimport com.bbsitter.bbsitter.R;\r\nimport com.google.android.gms.common.api.Status;\r\nimport com.google.android.libraries.places.api.Places;\r\nimport com.google.android.libraries.places.api.model.Place;\r\nimport com.google.android.libraries.places.widget.Autocomplete;\r\nimport com.google.android.libraries.places.widget.AutocompleteActivity;\r\nimport com.google.android.libraries.places.widget.model.AutocompleteActivityMode;\r\n\r\nimport com.google.android.material.datepicker.MaterialDatePicker;\r\nimport com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;\r\nimport com.google.android.material.slider.Slider;\r\nimport com.google.android.material.textfield.TextInputEditText;\r\nimport com.google.android.material.textfield.TextInputLayout;\r\n\r\nimport java.util.Arrays;\r\nimport java.util.List;\r\n\r\npublic class CrearPerfilCanguro extends AppCompatActivity {\r\n\r\n    // Atributos\r\n    private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;\r\n    private TextInputEditText etDireccion, etFechaNacimiento;\r\n    private TextView precioHora;\r\n    private Slider sliderPrecio;\r\n    private Button btnCrearCanguro;\r\n\r\n    private final String KEY_API_GOOGLE = \"AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0\";\r\n\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_crear_perfil_canguro);\r\n\r\n        // Asignacion de variables\r\n        nombre = findViewById(R.id.nombre_edit_text);\r\n        apellidos = findViewById(R.id.apellidos_edit_text);\r\n        fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);\r\n        direccion = findViewById(R.id.direccion_edit_text);\r\n        etDireccion = findViewById(R.id.etDireccion);\r\n        etFechaNacimiento = findViewById(R.id.etFechaNacimiento);\r\n        precioHora = findViewById(R.id.textViewPrecioHora);\r\n\r\n        sliderPrecio = findViewById(R.id.slider_precio_hora);\r\n\r\n        btnCrearCanguro = findViewById(R.id.btnCrearPerfilCanguro);\r\n\r\n\r\n        // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario\r\n        sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {\r\n            @Override\r\n            public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {\r\n                String precio = String.valueOf(value);\r\n                precioHora.setText(precio + \" €\");\r\n            }\r\n        });\r\n\r\n        // Campo Fecha Nacimiento\r\n        establecerFechaNacimiento();\r\n\r\n        // Campo Direccion\r\n        establecerAutocompletadoDireccion();\r\n\r\n        // Accion BOTON CREAR CANGURO\r\n        btnCrearCanguro.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n\r\n                \r\n\r\n            }\r\n        });\r\n\r\n    }\r\n\r\n    // Direccion\r\n    private void establecerAutocompletadoDireccion() {\r\n        // Iniciamos Google.PLACES para autocomplete del la direccion\r\n        Places.initialize(getApplicationContext(),KEY_API_GOOGLE);\r\n\r\n        etDireccion.setFocusable(false);\r\n        etDireccion.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                //Inicializamos la lista de lugares\r\n                List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);\r\n\r\n                // Creamos un intent que nos mostrará el autocompletado de direcciones\r\n                Intent intent = new Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fieldList).build(CrearPerfilCanguro.this);\r\n\r\n                // Start activity\r\n                startActivityForResult(intent, 100);\r\n            }\r\n        });\r\n    }\r\n    // Resultado de autocompletado Direccion\r\n    @Override\r\n    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n\r\n        if (resultCode == 100 && resultCode == RESULT_OK) {\r\n            // Si sucede, inicializamos el lugar\r\n            Place place = Autocomplete.getPlaceFromIntent(data);\r\n\r\n            Toast.makeText(getApplicationContext(), place.getAddress(), Toast.LENGTH_LONG).show();\r\n\r\n            // Escribimos la direccion en el campo direccion\r\n            etDireccion.setHint(place.getAddress());\r\n\r\n        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {\r\n            // Cuando falle\r\n            // Inicializamos estado\r\n            Status status = Autocomplete.getStatusFromIntent(data);\r\n\r\n            // Ponemos un Toast\r\n            Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();\r\n        }\r\n    }\r\n\r\n\r\n    // Fecha Nacimiento\r\n    private void establecerFechaNacimiento() {\r\n\r\n        // Creamos un DatePicker para la fecha de Nacimiento\r\n        MaterialDatePicker.Builder builderDatePicker = MaterialDatePicker.Builder.datePicker();\r\n        builderDatePicker.setTitleText(\"Selecciona una fecha\");\r\n        final MaterialDatePicker materialDatePicker = builderDatePicker.build();\r\n\r\n        etFechaNacimiento.setFocusable(false);\r\n        etFechaNacimiento.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n                materialDatePicker.show(getSupportFragmentManager(), \"DATE_PICKER\");\r\n            }\r\n        });\r\n\r\n        // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente\r\n        materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {\r\n            @Override\r\n            public void onPositiveButtonClick(Object selection) {\r\n                etFechaNacimiento.setText(materialDatePicker.getHeaderText());\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/Perfiles/CrearPerfilCanguro.java	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/java/com/bbsitter/bbsitter/Perfiles/CrearPerfilCanguro.java	(date 1605021714867)
+@@ -4,17 +4,32 @@
+ import androidx.annotation.NonNull;
+ import androidx.annotation.Nullable;
+ import androidx.appcompat.app.AppCompatActivity;
++
++import android.content.DialogInterface;
+ import android.content.Intent;
+ 
++import android.content.res.Resources;
++import android.graphics.Color;
++import android.net.Uri;
+ import android.os.Bundle;
++import android.os.Handler;
++import android.provider.MediaStore;
++import android.util.Log;
+ import android.view.View;
++import android.widget.ArrayAdapter;
+ import android.widget.Button;
++import android.widget.CheckBox;
++import android.widget.ListView;
++import android.widget.RadioButton;
++import android.widget.RadioGroup;
+ import android.widget.TextView;
+ import android.widget.Toast;
+ 
+ 
++import com.bbsitter.bbsitter.Main.MainActivity;
+ import com.bbsitter.bbsitter.R;
+ import com.google.android.gms.common.api.Status;
++import com.google.android.gms.maps.model.LatLng;
+ import com.google.android.libraries.places.api.Places;
+ import com.google.android.libraries.places.api.model.Place;
+ import com.google.android.libraries.places.widget.Autocomplete;
+@@ -23,23 +38,57 @@
+ 
+ import com.google.android.material.datepicker.MaterialDatePicker;
+ import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
++import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+ import com.google.android.material.slider.Slider;
+ import com.google.android.material.textfield.TextInputEditText;
+ import com.google.android.material.textfield.TextInputLayout;
++import com.google.firebase.auth.FirebaseAuth;
++import com.google.firebase.firestore.FirebaseFirestore;
++import com.google.firebase.firestore.SetOptions;
+ 
+ import java.util.Arrays;
++import java.util.HashMap;
+ import java.util.List;
++import java.util.Map;
++
++import de.hdodenhof.circleimageview.CircleImageView;
++import es.dmoral.toasty.Toasty;
+ 
+ public class CrearPerfilCanguro extends AppCompatActivity {
+ 
+-    // Atributos
++    private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
++
++    private FirebaseAuth mAuth;
++    private FirebaseFirestore bbdd;
++
++    private CircleImageView foto;
+     private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
+-    private TextInputEditText etDireccion, etFechaNacimiento;
++    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion;
+     private TextView precioHora;
+     private Slider sliderPrecio;
+     private Button btnCrearCanguro;
+ 
+-    private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
++    //private Uri urlFotoPerfil;
++    private String urlFotoPerfil ="";
++
++    private LatLng latLng;
++    private String latlongDirecion ="";
++
++    private double precioHoraCanguro;
++    private RadioGroup radioGroupSexo;
++    private RadioButton rbMasculino, rbFemenino, rbMenos6Meses, rb6a12meses, rb1a2años, rb2a6años, rbMas6años ;
++
++    private CheckBox checkbox_6a12meses, checkbox_1a3años,checkbox_3a6años, checkbox_mas6años;
++    private CheckBox checkBoxEspañol, checkBoxIngles,checkBoxFrances, checkBoxAleman, checkBoxOtros;
++    private CheckBox checkBoxNoFumador, checkBoxCarnetConducir,checkBoxPrimerosAuxilios, checkBoxCocinar, checkBoxDeberes;
++
++    ListView listViewPluses, listViewPreferencias, listViewIdiomas;
++    ArrayAdapter<String> adapterPrefrencias, adapterPulses, adapterIdiomas;
++    String [] arrayPreferencias = {"De 6 a 12 meses", "De 1 a 3 años", "De 3 a 6 años","Más de 6 años"};
++    String [] arrayPluses = {"No soy fumador", "Carnet de conducir", "Sé primeros auxilios","Puedo cocinar", "Ayudo con los deberes"};
++    String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
++
++    Map<String, Boolean> mapIdiomas = new HashMap<>();
+ 
+ 
+     @Override
+@@ -47,26 +96,69 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_crear_perfil_canguro);
+ 
++        // FIREBASE
++        mAuth = FirebaseAuth.getInstance();
++        bbdd = FirebaseFirestore.getInstance();
++
+         // Asignacion de variables
++        foto = findViewById(R.id.imageCanguro);
+         nombre = findViewById(R.id.nombre_edit_text);
+         apellidos = findViewById(R.id.apellidos_edit_text);
+         fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);
+         direccion = findViewById(R.id.direccion_edit_text);
++        etNombre = findViewById(R.id.etNombre);
++        etApellidos = findViewById(R.id.etApellidos);
+         etDireccion = findViewById(R.id.etDireccion);
+         etFechaNacimiento = findViewById(R.id.etFechaNacimiento);
++        etDescripcion = findViewById(R.id.etDescripcion);
+         precioHora = findViewById(R.id.textViewPrecioHora);
+ 
++        // RADIO BUTTONS SEXO
++        radioGroupSexo = findViewById(R.id.radioGroupSexo);
++        rbMasculino = findViewById(R.id.radio_button_Masculino);
++        rbFemenino = findViewById(R.id.radio_button_Femenino);
++
++        // RADIO BUTTONS EXPERIENCIA
++        rbMenos6Meses = findViewById(R.id.radio_button_Menos6meses);
++        rb1a2años = findViewById(R.id.radio_button_1a2años);
++        rb6a12meses = findViewById(R.id.radio_button_6a12meses);
++        rb2a6años = findViewById(R.id.radio_button_2a5años);
++        rbMas6años = findViewById(R.id.radio_button_Mas6años);
++
++        // ListView Checkboxs PREFERENCIAS
++        listViewPreferencias = findViewById(R.id.listViewPrefrenciaEdad);
++        adapterPrefrencias = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPreferencias);
++        listViewPreferencias.setAdapter(adapterPrefrencias);
++        listViewPreferencias.setBackgroundColor(Color.GRAY);
++
++        // ListView Checkboxs PLUSES
++        listViewPluses = findViewById(R.id.listViewPluses);
++        adapterPulses = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPluses);
++        listViewPluses.setAdapter(adapterPulses);
++        listViewPluses.setBackgroundColor(Color.GRAY);
++
++        // ListView Checkboxs IDIOMAS
++        listViewIdiomas = findViewById(R.id.listViewIdiomas);
++        adapterIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayIdiomas);
++        listViewIdiomas.setAdapter(adapterIdiomas);
++        listViewIdiomas.setBackgroundColor(Color.GRAY);
++
++        // SLIDER
+         sliderPrecio = findViewById(R.id.slider_precio_hora);
+ 
++        // BOTON CREAR CANGURO
+         btnCrearCanguro = findViewById(R.id.btnCrearPerfilCanguro);
+ 
++        // PROGRESS BAR con animacion Lottie
++        final ProgressBarCrearCanguro progressBarCrearCanguro = new ProgressBarCrearCanguro(CrearPerfilCanguro.this);
+ 
+         // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
+         sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {
+             @Override
+             public void onValueChange(@NonNull Slider slider, float value, boolean fromUser) {
+-                String precio = String.valueOf(value);
+-                precioHora.setText(precio + " €");
++                //String precio = String.valueOf(value);
++                precioHora.setText(value + " €");
++                precioHoraCanguro = value;
+             }
+         });
+ 
+@@ -76,27 +168,216 @@
+         // Campo Direccion
+         establecerAutocompletadoDireccion();
+ 
++        // Cargaremos la foto de perfil, obtenida de la memoria del movil
++        foto.setOnClickListener(new View.OnClickListener() {
++            @Override
++            public void onClick(View view) {
++                cargarImagen();
++            }
++        });
++
+         // Accion BOTON CREAR CANGURO
++        // Donde guardaremos en Firestore un objeto Canguro. Todos los datos recogidos de los campos del formulario
+         btnCrearCanguro.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+ 
+-                
++            // Si todos los campos estan rellenados correctamente, validación a true
++             if(validacionCampos()) {
++
++                 String uid = mAuth.getCurrentUser().getUid();
++                 //String fechaCreacionPerfil = ;
++                 String urlFoto = urlFotoPerfil.toString();
++                 String nombreCanguro = etNombre.getText().toString().trim();
++                 String apellidosCanguro = etApellidos.getText().toString().trim();
++                 String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
++                 String direccion = etDireccion.getText().toString().trim();
++                 String descripcion = etDescripcion.getText().toString().trim();
++                 String sexo = obtenerSexo();
++                 String experiencia = obtenerExperiencia();
++                 double precio = precioHoraCanguro;
+ 
++                 // LOCALIZACION
++                 // Obtener coordenadas de direccion
++                 double longitudLoc = latLng.longitude;
++                 double latitudLoc = latLng.latitude;
++                 // Crear MAPA COORDENADAS para meterlo en la localizacion del Canguro
++                 Map<String, Double> mapLoc = new HashMap<>();
++                 mapLoc.put("Latitud", latitudLoc);
++                 mapLoc.put("Longitud", longitudLoc);
++
++
++                 // ListView CHECKBOX PREFERENCIAS
++                 Map<String, Boolean> mapPrefEdades = new HashMap<>();
++                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
++                 for (int cont = 0; cont < listViewPreferencias.getCount(); cont++) {
++                     if (listViewPreferencias.isItemChecked(cont)) {
++                         String textoItemSeleccionado = listViewPreferencias.getItemAtPosition(cont).toString();
++                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
++                         mapPrefEdades.put(textoItemSeleccionado, true);
++                     }
++                 }
++                 //Toast.makeText(CrearPerfilCanguro.this,preferenciasSeleccionadas, Toast.LENGTH_LONG).show();
++
++
++                 // ListView CHECKBOX PLUSES
++                 Map<String, Boolean> mapPluses = new HashMap<>();
++                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
++                 for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
++                     if (listViewPluses.isItemChecked(cont)) {
++                         String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
++                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
++                         mapPluses.put(textoItemSeleccionado, true);
++                     }
++                 }
++
++                 // ListView CHECKBOX IDIOMAS
++                 Map<String, Boolean> mapIdiomas = new HashMap<>();
++                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
++                 for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
++                     if (listViewIdiomas.isItemChecked(cont)) {
++                         String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
++                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
++                         mapIdiomas.put(textoItemSeleccionado, true);
++                     }
++                 }
++
++                 // Escribir datos en FIRESTORE
++                 /*Creamos un mapa para meter los datos de las familias*/
++                 Map<String, Object> mapCanguro = new HashMap<>();
++
++                 //mapCanguro.put("Id Canguro", idCanguro);
++                 mapCanguro.put("Nombre", nombreCanguro);
++                 mapCanguro.put("Apellidos", apellidosCanguro);
++                 mapCanguro.put("Fecha Nacimiento", fechaNacimiento);
++                 mapCanguro.put("Sexo", sexo);
++                 mapCanguro.put("Direccion", direccion);
++                 mapCanguro.put("Localizacion", mapLoc);  // Mapa localizacion Canguro
++                 mapCanguro.put("Experiencia", experiencia);
++                 mapCanguro.put("Precio hora", precio);
++                 mapCanguro.put("descripcion", descripcion);
++                 mapCanguro.put("Preferencia edades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
++                 mapCanguro.put("Pluses", mapPluses);  // Mapa Pluses Canguro
++                 mapCanguro.put("Idiomas", mapIdiomas);  // Mapa Idiomas Canguro
++
++                 /*Introducimos el canguro nuevo dentro de la BBDD*/
++                 bbdd.collection("canguros")
++                         .document(uid)
++                         .set(mapCanguro);
++
++                 /*Mapa para de datos para actualizar el usuario*/
++                 Map<String, Object> userUpdate = new HashMap<>();
++                 userUpdate.put("perfil", true);
++
++                 /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
++                 bbdd.collection("usuarios")
++                         .document(uid)
++                         .set(userUpdate, SetOptions.merge());
++
++
++                 // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando)
++                 progressBarCrearCanguro.StarProgressBar();
++                 Handler handler = new Handler();
++                 handler.postDelayed(new Runnable() {
++                     @Override
++                     public void run() {
++                         progressBarCrearCanguro.finishProgressBar();
++
++                         //Aqui abrimos la actividad main
++                         Intent main = new Intent(getApplicationContext(), MainActivity.class);
++                         startActivity(main);
++                         finish();
++                     }
++                 }, 5000);
++
++             }else{
++                 Toasty.error(CrearPerfilCanguro.this,"Revisa los campos  rellenar", Toast.LENGTH_LONG).show();
++             }
++
+             }
+         });
+ 
+     }
+ 
+-    // Direccion
++    private boolean validacionCampos() {
++
++        Boolean validar = true;
++
++        String urlFoto = urlFotoPerfil.toString();
++        String nombreCanguro = etNombre.getText().toString().trim();
++        String apellidosCanguro = etApellidos.getText().toString().trim();
++        String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
++        String direccion = etDireccion.getText().toString().trim();
++        String descripcion = etDescripcion.getText().toString().trim();
++        String sexo = obtenerSexo();
++        String experiencia = obtenerExperiencia();
++        double precio = precioHoraCanguro;
++
++        if(nombreCanguro.isEmpty()){
++            nombre.setError("Debes de rellenar el campo");
++            validar = false;
++        }
++
++        // faltaria controlar los demas campos
++        // ...
++
++        return validar;
++    }
++
++    private String obtenerExperiencia() {
++
++        String experiencia ="";    // EXPERIENCIA: Elección de experiencia
++
++        if(rbMenos6Meses.isChecked()){
++            experiencia = rbMenos6Meses.getText().toString();
++        } else if(rb6a12meses.isChecked()){
++            experiencia = rbMenos6Meses.getText().toString();
++        } else if(rb1a2años.isChecked()){
++            experiencia = rb1a2años.getText().toString();
++        } else if(rb2a6años.isChecked()){
++            experiencia = rb2a6años.getText().toString();
++        } else if(rbMas6años.isChecked()){
++            experiencia = rbMas6años.getText().toString();
++        }
++
++        return experiencia;
++
++    }
++
++    private String obtenerSexo() {
++
++        String sexo;    // SEXO: Elección de femenino o masculino
++        if(rbMasculino.isChecked()){
++            sexo = rbMasculino.getText().toString();
++        }
++        else{
++            sexo = rbFemenino.getText().toString();
++        }
++        return sexo;
++    }
++
++    // Cargar imagen de la memoria de movil
++    private void cargarImagen() {
++
++        Intent intentCargarFoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
++        intentCargarFoto.setType("image/");
++        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
++
++    }
++
++    // Autocompletado de Google para el campo DIRECCION
+     private void establecerAutocompletadoDireccion() {
+-        // Iniciamos Google.PLACES para autocomplete del la direccion
+-        Places.initialize(getApplicationContext(),KEY_API_GOOGLE);
++
++        // Inicializamos Google.PLACES para autocomplete la direccion
++        if (!Places.isInitialized()) {
++            Places.initialize(getApplicationContext(), KEY_API_GOOGLE);
++        }
+ 
+         etDireccion.setFocusable(false);
+         etDireccion.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
++
+                 //Inicializamos la lista de lugares
+                 List<Place.Field> fieldList = Arrays.asList(Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.NAME);
+ 
+@@ -108,30 +389,44 @@
+             }
+         });
+     }
+-    // Resultado de autocompletado Direccion
++
++    // Resultado de:  Autocompletado Direccion o Cargar Foto. Depedniendo del resultado de la consulta
+     @Override
+     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
++
+         super.onActivityResult(requestCode, resultCode, data);
+ 
+-        if (resultCode == 100 && resultCode == RESULT_OK) {
+-            // Si sucede, inicializamos el lugar
+-            Place place = Autocomplete.getPlaceFromIntent(data);
++        // Resultado de Activity para direccion
++        if (requestCode == 100) {
++            if (resultCode == RESULT_OK) {
++
++                // Instanciamos un PLACE, el cual lo obtendremos del autocomplete
++                Place place = Autocomplete.getPlaceFromIntent(data);
++                Toast.makeText(CrearPerfilCanguro.this,"latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
+ 
+-            Toast.makeText(getApplicationContext(), place.getAddress(), Toast.LENGTH_LONG).show();
+-
+-            // Escribimos la direccion en el campo direccion
+-            etDireccion.setHint(place.getAddress());
++                String address = place.getAddress();
++                etDireccion. setText(address);
++                latLng = place.getLatLng();
+ 
+-        } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
+-            // Cuando falle
+-            // Inicializamos estado
+-            Status status = Autocomplete.getStatusFromIntent(data);
++            } else if (resultCode == AutocompleteActivity.RESULT_ERROR) {
++
++                Status status = Autocomplete.getStatusFromIntent(data);
++                Toast.makeText(CrearPerfilCanguro.this, "Error: " + status.getStatusMessage(), Toast.LENGTH_LONG).show();
++
++            } else if (resultCode == RESULT_CANCELED) {
+ 
+-            // Ponemos un Toast
+-            Toast.makeText(getApplicationContext(), status.getStatusMessage(), Toast.LENGTH_LONG).show();
+-        }
+-    }
++            }
++        }
+ 
++        // Resultado de obtener foto del movil
++        else if (requestCode == 200){
++                if (resultCode == RESULT_OK) {
++                    Uri pathFoto = data.getData();
++                    foto.setImageURI(pathFoto);
++                } else if(resultCode == RESULT_CANCELED){
++            }
++        }
++    }
+ 
+     // Fecha Nacimiento
+     private void establecerFechaNacimiento() {
+@@ -157,4 +452,5 @@
+             }
+         });
+     }
++
+ }
+\ No newline at end of file
+Index: ../Imagenes/animaciones Lottie/36415loadingpurple.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../Imagenes/animaciones Lottie/36415loadingpurple.json	(date 1605021714879)
++++ ../Imagenes/animaciones Lottie/36415loadingpurple.json	(date 1605021714879)
+@@ -0,0 +1,1 @@
++{"v":"5.1.15","fr":60,"ip":0,"op":141,"w":300,"h":300,"nm":"Composição 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Camada de forma 1","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[0],"e":[1080]},{"t":180}],"ix":10},"p":{"a":0,"k":[150,150,0],"ix":2},"a":{"a":0,"k":[-14.604,-15.104,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"d":1,"ty":"el","s":{"a":0,"k":[106.793,106.793],"ix":2},"p":{"a":0,"k":[0,0],"ix":3},"nm":"Caminho da elipse 1","mn":"ADBE Vector Shape - Ellipse","hd":false},{"ty":"st","c":{"a":0,"k":[0.4,0.2,0.6,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":11,"ix":5},"lc":2,"lj":1,"ml":4,"nm":"Traçado 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[-14.604,-15.104],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transformar"}],"nm":"Elipse 1","np":3,"cix":2,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[0],"e":[0]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":60,"s":[0],"e":[67]},{"t":119}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[3],"e":[70]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":60,"s":[70],"e":[70]},{"t":119}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Aparar caminhos 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":900,"st":0,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Camada de forma 2","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[0],"e":[1080]},{"t":180}],"ix":10},"p":{"a":0,"k":[150,150,0],"ix":2},"a":{"a":0,"k":[-14.604,-15.104,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"d":1,"ty":"el","s":{"a":0,"k":[106.793,106.793],"ix":2},"p":{"a":0,"k":[0,0],"ix":3},"nm":"Caminho da elipse 1","mn":"ADBE Vector Shape - Ellipse","hd":false},{"ty":"st","c":{"a":0,"k":[0.4,0.2,0.6,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":10,"ix":5},"lc":2,"lj":1,"ml":4,"nm":"Traçado 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[-14.604,-15.104],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transformar"}],"nm":"Elipse 1","np":3,"cix":2,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":20,"s":[0],"e":[0]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":69.916,"s":[0],"e":[67]},{"t":119}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":20,"s":[3],"e":[70]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":69.916,"s":[70],"e":[70]},{"t":119}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Aparar caminhos 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":900,"st":0,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Camada de forma 3","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[0],"e":[1080]},{"t":180}],"ix":10},"p":{"a":0,"k":[150,150,0],"ix":2},"a":{"a":0,"k":[-14.604,-15.104,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"d":1,"ty":"el","s":{"a":0,"k":[106.793,106.793],"ix":2},"p":{"a":0,"k":[0,0],"ix":3},"nm":"Caminho da elipse 1","mn":"ADBE Vector Shape - Ellipse","hd":false},{"ty":"st","c":{"a":0,"k":[0.4,0.2,0.6,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":10,"ix":5},"lc":2,"lj":1,"ml":4,"nm":"Traçado 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[-14.604,-15.104],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transformar"}],"nm":"Elipse 1","np":3,"cix":2,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":41,"s":[0],"e":[0]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":80.328,"s":[0],"e":[67]},{"t":119}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":41,"s":[3],"e":[70]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":80.328,"s":[70],"e":[70]},{"t":119}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Aparar caminhos 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":900,"st":0,"bm":0},{"ddd":0,"ind":4,"ty":4,"nm":"Camada de forma 4","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":0,"s":[0],"e":[1080]},{"t":180}],"ix":10},"p":{"a":0,"k":[150,150,0],"ix":2},"a":{"a":0,"k":[-14.604,-15.104,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"d":1,"ty":"el","s":{"a":0,"k":[106.793,106.793],"ix":2},"p":{"a":0,"k":[0,0],"ix":3},"nm":"Caminho da elipse 1","mn":"ADBE Vector Shape - Ellipse","hd":false},{"ty":"st","c":{"a":0,"k":[0.4,0.2,0.6,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":10,"ix":5},"lc":2,"lj":1,"ml":4,"nm":"Traçado 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[-14.604,-15.104],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transformar"}],"nm":"Elipse 1","np":3,"cix":2,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":54,"s":[0],"e":[0]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":86.773,"s":[0],"e":[67]},{"t":119}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":54,"s":[3],"e":[70]},{"i":{"x":[0.833],"y":[0.833]},"o":{"x":[0.167],"y":[0.167]},"n":["0p833_0p833_0p167_0p167"],"t":86.773,"s":[70],"e":[70]},{"t":119}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Aparar caminhos 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":900,"st":0,"bm":0}],"markers":[]}
+\ No newline at end of file
+Index: app/src/main/AndroidManifest.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<manifest xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    package=\"com.bbsitter.bbsitter\">\r\n\r\n    <application\r\n        android:allowBackup=\"true\"\r\n        android:icon=\"@mipmap/ic_launcher\"\r\n        android:label=\"@string/app_name\"\r\n        android:roundIcon=\"@mipmap/ic_launcher_round\"\r\n        android:supportsRtl=\"true\"\r\n        android:theme=\"@style/AppTheme\">\r\n\r\n        <!--\r\n        // KEY GOOGLE necesaria para trabajar con las APIs de Google Maps\r\n        <meta-data\r\n            android:name=\"com.google.android.geo.API_KEY\"\r\n            android:value=\"AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0\" />\r\n            -->\r\n\r\n        <activity android:name=\".Login.CambiarPassActivity\"></activity>\r\n        <activity android:name=\".Perfiles.CrearPerfilCanguro\"></activity>\r\n        <activity android:name=\".Perfiles.CrearPerfilFamilia\"></activity>\r\n        <activity android:name=\".Login.RegistroUsuarioActivity\" />\r\n        <activity android:name=\".Login.ElegirquePerfilCrear\" />\r\n        <activity android:name=\".Login.Login\" />\r\n        <activity android:name=\".Main.MainActivity\" />\r\n        <activity android:name=\".Login.SplashScreen\">\r\n            <intent-filter>\r\n                <action android:name=\"android.intent.action.MAIN\" />\r\n                <category android:name=\"android.intent.category.LAUNCHER\" />\r\n            </intent-filter>\r\n        </activity>\r\n    </application>\r\n\r\n</manifest>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/AndroidManifest.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/AndroidManifest.xml	(date 1605021714864)
+@@ -2,6 +2,8 @@
+ <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+     package="com.bbsitter.bbsitter">
+ 
++    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
++
+     <application
+         android:allowBackup="true"
+         android:icon="@mipmap/ic_launcher"
+Index: app/src/main/res/drawable/botonredondeadoblue.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<shape xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:shape=\"rectangle\" xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n\r\n    <solid android:color=\"@color/colorAccent\"/>\r\n    <corners android:radius=\"5dp\"/>\r\n\r\n</shape>
+===================================================================
+--- app/src/main/res/drawable/botonredondeadoblue.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/drawable/botonredondeadowhite.xml	(date 1605021714927)
+@@ -3,6 +3,6 @@
+     android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <solid android:color="@color/colorAccent"/>
+-    <corners android:radius="5dp"/>
++    <corners android:radius="20dp"/>
+ 
+ </shape>
+\ No newline at end of file
+Index: .idea/gradle.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"GradleMigrationSettings\" migrationVersion=\"1\" />\r\n  <component name=\"GradleSettings\">\r\n    <option name=\"linkedExternalProjectsSettings\">\r\n      <GradleProjectSettings>\r\n        <option name=\"testRunner\" value=\"PLATFORM\" />\r\n        <option name=\"distributionType\" value=\"DEFAULT_WRAPPED\" />\r\n        <option name=\"externalProjectPath\" value=\"$PROJECT_DIR$\" />\r\n        <option name=\"modules\">\r\n          <set>\r\n            <option value=\"$PROJECT_DIR$\" />\r\n            <option value=\"$PROJECT_DIR$/app\" />\r\n          </set>\r\n        </option>\r\n        <option name=\"resolveModulePerSourceSet\" value=\"false\" />\r\n      </GradleProjectSettings>\r\n    </option>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/gradle.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ .idea/gradle.xml	(date 1605013828148)
+@@ -14,6 +14,7 @@
+           </set>
+         </option>
+         <option name="resolveModulePerSourceSet" value="false" />
++        <option name="useQualifiedModuleNames" value="true" />
+       </GradleProjectSettings>
+     </option>
+   </component>
+Index: build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>// Top-level build file where you can add configuration options common to all sub-projects/modules.\r\n\r\nbuildscript {\r\n    \r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n    dependencies {\r\n        classpath 'com.android.tools.build:gradle:4.0.2'\r\n\r\n\r\n        //Firebase\r\n        classpath 'com.google.gms:google-services:4.3.3'\r\n\r\n\r\n        // NOTE: Do not place your application dependencies here; they belong\r\n        // in the individual module build.gradle files\r\n    }\r\n}\r\n\r\nallprojects {\r\n    repositories {\r\n        google()\r\n        jcenter()\r\n        \r\n    }\r\n}\r\n\r\ntask clean(type: Delete) {\r\n    delete rootProject.buildDir\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- build.gradle	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ build.gradle	(date 1605021714879)
+@@ -24,7 +24,7 @@
+     repositories {
+         google()
+         jcenter()
+-        
++        maven { url 'https://jitpack.io' }
+     }
+ }
+ 
+Index: .idea/jarRepositories.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"RemoteRepositoriesConfiguration\">\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"central\" />\r\n      <option name=\"name\" value=\"Maven Central repository\" />\r\n      <option name=\"url\" value=\"https://repo1.maven.org/maven2\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"jboss.community\" />\r\n      <option name=\"name\" value=\"JBoss Community repository\" />\r\n      <option name=\"url\" value=\"https://repository.jboss.org/nexus/content/repositories/public/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"BintrayJCenter\" />\r\n      <option name=\"name\" value=\"BintrayJCenter\" />\r\n      <option name=\"url\" value=\"https://jcenter.bintray.com/\" />\r\n    </remote-repository>\r\n    <remote-repository>\r\n      <option name=\"id\" value=\"Google\" />\r\n      <option name=\"name\" value=\"Google\" />\r\n      <option name=\"url\" value=\"https://dl.google.com/dl/android/maven2/\" />\r\n    </remote-repository>\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- .idea/jarRepositories.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ .idea/jarRepositories.xml	(date 1605021714862)
+@@ -21,5 +21,10 @@
+       <option name="name" value="Google" />
+       <option name="url" value="https://dl.google.com/dl/android/maven2/" />
+     </remote-repository>
++    <remote-repository>
++      <option name="id" value="maven" />
++      <option name="name" value="maven" />
++      <option name="url" value="https://jitpack.io" />
++    </remote-repository>
+   </component>
+ </project>
+\ No newline at end of file
+Index: app/src/main/res/drawable/fotoperfilcanguro.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/fotoperfilcanguro.xml	(date 1605021714871)
++++ app/src/main/res/drawable/fotoperfilcanguro.xml	(date 1605021714871)
+@@ -0,0 +1,8 @@
++<?xml version="1.0" encoding="utf-8"?>
++<shape xmlns:tools="http://schemas.android.com/tools"
++    android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
++
++    <gradient android:startColor="@color/colorAccent2" android:endColor="@color/colorPrimaryDark"></gradient>
++    <corners android:radius="20dp" />
++
++</shape>
+\ No newline at end of file
+Index: app/build.gradle
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>apply plugin: 'com.android.application'\r\n\r\napply plugin: 'com.google.gms.google-services'\r\n\r\nandroid {\r\n    compileSdkVersion 29\r\n    buildToolsVersion \"29.0.3\"\r\n\r\n    defaultConfig {\r\n        applicationId \"com.bbsitter.bbsitter\"\r\n        minSdkVersion 16\r\n        targetSdkVersion 29\r\n        versionCode 1\r\n        versionName \"1.0\"\r\n        multiDexEnabled true\r\n\r\n        testInstrumentationRunner \"androidx.test.runner.AndroidJUnitRunner\"\r\n    }\r\n\r\n    buildTypes {\r\n        release {\r\n            minifyEnabled false\r\n            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'\r\n        }\r\n    }\r\n\r\n}\r\n\r\ndependencies {\r\n    implementation fileTree(dir: 'libs', include: ['*.jar'])\r\n\r\n    implementation 'androidx.appcompat:appcompat:1.2.0'\r\n    implementation 'androidx.legacy:legacy-support-v4:1.0.0'\r\n    implementation 'com.google.android.material:material:1.2.1'\r\n    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'\r\n    implementation 'androidx.navigation:navigation-fragment:2.3.0'\r\n    implementation 'androidx.navigation:navigation-ui:2.3.0'\r\n    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'\r\n    testImplementation 'junit:junit:4.12'\r\n    androidTestImplementation 'androidx.test.ext:junit:1.1.2'\r\n    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'\r\n\r\n    // Imagenes circulares\r\n    implementation 'de.hdodenhof:circleimageview:3.1.0'\r\n\r\n    //Google\r\n    implementation 'com.google.android.gms:play-services-auth:18.1.0'\r\n\r\n\r\n    //Firebase\r\n    implementation 'com.google.firebase:firebase-analytics:17.5.0'\r\n    implementation 'com.google.firebase:firebase-auth:19.4.0'\r\n    implementation 'com.google.firebase:firebase-database:19.5.0'\r\n    implementation 'com.google.firebase:firebase-firestore:21.2.1'\r\n\r\n    /*Material Desing*/\r\n    implementation 'com.google.android.material:material:1.2.1.'\r\n\r\n    /*Varios dex*/\r\n    implementation 'com.android.support:multidex:1.0.1'\r\n\r\n    // Implementacion Google Places\r\n    implementation 'com.google.android.libraries.places:places:2.4.0'\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/build.gradle	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/build.gradle	(date 1605021714863)
+@@ -62,4 +62,10 @@
+     // Implementacion Google Places
+     implementation 'com.google.android.libraries.places:places:2.4.0'
+ 
++    // Implementacion de Lottie
++    implementation 'com.airbnb.android:lottie:3.4.4'
++
++    // Implementacion de Toasty, para hacerToast personalizados
++    implementation 'com.github.GrenderG:Toasty:1.4.2'
++
+ }
+Index: app/src/main/res/layout/activity_crear_perfil_familia.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:gravity=\"center_horizontal\"\r\n    android:background=\"@android:color/white\"\r\n    tools:context=\".Perfiles.CrearPerfilCanguro\">\r\n\r\n    <!-- Titulo:Estas creando... -->\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"40dp\"\r\n        android:paddingTop=\"10dp\"\r\n        android:background=\"@drawable/cabeceracrearperfilcanguro\"\r\n        >\r\n\r\n        <TextView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_gravity=\"center_horizontal\"\r\n            android:text=\"Estas creando tu perfil de familia\"\r\n            android:textAlignment=\"center\"\r\n            android:textColor=\"@android:color/white\"\r\n            android:textSize=\"14dp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n    </LinearLayout>\r\n\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"@android:color/transparent\">\r\n\r\n        <!-- Dentro del ScrollView debe haber un LinearLayout que englobe a todo-->\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_gravity=\"center_horizontal\"\r\n            android:orientation=\"vertical\">\r\n\r\n            <!-- Añadir foto -->\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:background=\"@drawable/cabeceracrearperfilcanguro\"\r\n                android:gravity=\"center_horizontal\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                <de.hdodenhof.circleimageview.CircleImageView\r\n                    android:id=\"@+id/imageCanguro\"\r\n                    android:layout_width=\"110dp\"\r\n                    android:layout_height=\"110dp\"\r\n                    android:layout_marginTop=\"10dp\"\r\n                    android:elevation=\"2dp\"\r\n                    android:padding=\"10dp\"\r\n                    android:src=\"@android:drawable/ic_menu_camera\"\r\n                    app:civ_border_color=\"@android:color/white\"\r\n                    app:civ_border_width=\"2dp\" />\r\n\r\n                <TextView\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_gravity=\"center_horizontal\"\r\n                    android:layout_marginHorizontal=\"50dp\"\r\n                    android:layout_marginTop=\"15dp\"\r\n                    android:layout_marginBottom=\"10dp\"\r\n                    android:text=\"Añade tu foto de perfil\"\r\n                    android:textAlignment=\"center\"\r\n                    android:textColor=\"@color/colorPrimary\"\r\n                    android:textStyle=\"bold\" />\r\n\r\n            </LinearLayout>\r\n\r\n            <!-- Layout Datos: Nombre, descripcion y direccion -->\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"Dinos el nombre de tu familia\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                <!-- NOMBRE EditText de Material Design -->\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/nombreFamilia_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Nombre de la familia\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@color/colorPrimaryDark\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:placeholderTextColor=\"@color/colorPrimaryDark\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"text\"\r\n                        android:maxLines=\"1\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n            </LinearLayout>\r\n\r\n\r\n            <!-- EditText Direccion -->\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Cuál es tu dirección?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                <!-- Direccion EditText de Material Design -->\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/direccion_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Introduce tu dirección\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:startIconDrawable=\"@drawable/ic_baseline_location_on_36\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:id=\"@+id/etDireccionFamilia\"\r\n                        android:layout_width=\"300dp\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"text\"\r\n                        android:maxLines=\"1\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n\r\n\r\n\r\n\r\n            <!-- Layout Descripccion -->\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"Escribe una pequeña presentación tuya\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                <!-- Direccion EditText de Material Design -->\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/descripcion_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"160dp\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Escribe tu descripción\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:counterEnabled=\"true\"\r\n                    app:counterMaxLength=\"140\"\r\n                    app:counterTextColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:layout_width=\"300dp\"\r\n                        android:layout_height=\"130dp\"\r\n                        android:gravity=\"top\"\r\n                        android:inputType=\"textMultiLine\"\r\n                        android:maxLines=\"10\"\r\n                        android:scrollbars=\"vertical\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            <!-- Boton crear familia -->\r\n\r\n            <Button\r\n                android:id=\"@+id/btnCrearPerfilFamilia\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"20sp\"\r\n                android:layout_marginBottom=\"20dp\"\r\n                android:background=\"@drawable/botonredondeadoblue\"\r\n                android:text=\"Crear perfil\"\r\n                android:textAllCaps=\"true\"\r\n                android:textColor=\"@android:color/white\"\r\n                android:textSize=\"18sp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n    </ScrollView>\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_crear_perfil_familia.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/layout/activity_crear_perfil_familia.xml	(date 1605021714873)
+@@ -254,7 +254,7 @@
+                 android:layout_marginHorizontal="30dp"
+                 android:layout_marginTop="20sp"
+                 android:layout_marginBottom="20dp"
+-                android:background="@drawable/botonredondeadoblue"
++                android:background="@drawable/botonredondeadowhite"
+                 android:text="Crear perfil"
+                 android:textAllCaps="true"
+                 android:textColor="@android:color/white"
+Index: app/src/main/res/layout/activity_crear_perfil_canguro.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:gravity=\"center_horizontal\"\r\n    android:background=\"@android:color/white\"\r\n    tools:context=\".Perfiles.CrearPerfilCanguro\">\r\n\r\n    // Titulo:Estas creando....\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"40dp\"\r\n        android:paddingTop=\"10dp\"\r\n        android:background=\"@drawable/cabeceracrearperfilcanguro\"\r\n        >\r\n\r\n        <TextView\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_gravity=\"center_horizontal\"\r\n            android:text=\"Estas creando tu perfil de canguro\"\r\n            android:textAlignment=\"center\"\r\n            android:textColor=\"@android:color/white\"\r\n            android:textSize=\"14dp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n    </LinearLayout>\r\n\r\n\r\n    <ScrollView\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"@android:color/transparent\">\r\n\r\n        // Dentro del ScrollView debe haber un LinearLayout que englobe a todo\r\n\r\n        <LinearLayout\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"match_parent\"\r\n            android:layout_gravity=\"center_horizontal\"\r\n            android:orientation=\"vertical\">\r\n\r\n            // Añadir foto\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:background=\"@drawable/cabeceracrearperfilcanguro\"\r\n                android:gravity=\"center_horizontal\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                <de.hdodenhof.circleimageview.CircleImageView\r\n                    android:id=\"@+id/imageCanguro\"\r\n                    android:layout_width=\"110dp\"\r\n                    android:layout_height=\"110dp\"\r\n                    android:layout_marginTop=\"10dp\"\r\n                    android:elevation=\"2dp\"\r\n                    android:padding=\"10dp\"\r\n                    android:src=\"@android:drawable/ic_menu_camera\"\r\n                    app:civ_border_color=\"@android:color/white\"\r\n                    app:civ_border_width=\"2dp\" />\r\n\r\n                <TextView\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_gravity=\"center_horizontal\"\r\n                    android:layout_marginHorizontal=\"50dp\"\r\n                    android:layout_marginTop=\"15dp\"\r\n                    android:layout_marginBottom=\"10dp\"\r\n                    android:text=\"Añade tu foto de perfil\"\r\n                    android:textAlignment=\"center\"\r\n                    android:textColor=\"@color/colorPrimary\"\r\n                    android:textStyle=\"bold\" />\r\n\r\n            </LinearLayout>\r\n\r\n            // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"Datos personales\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                // NOMBRE EditText de Material Design\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/nombre_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Nombre\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@color/colorPrimaryDark\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:placeholderTextColor=\"@color/colorPrimaryDark\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"text\"\r\n                        android:maxLines=\"1\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n                // apellidos EditText de Material Design\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/apellidos_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Apellidos\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"textEmailAddress\"\r\n                        android:maxLines=\"1\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n                // Fecha EditText de Material Design\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/FechaNacimiento_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Fecha de Nacimiento\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:startIconDrawable=\"@drawable/ic_baseline_calendar_today_36\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:id=\"@+id/etFechaNacimiento\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"textEmailAddress\"\r\n                        android:maxLines=\"1\"\r\n                        android:paddingBottom=\"20dp\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n                // Radio buttons SEXO\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginHorizontal=\"30dp\"\r\n                    android:layout_marginVertical=\"10dp\"\r\n                    android:background=\"@drawable/marcoblancobutton\"\r\n                    android:gravity=\"center\"\r\n                    android:orientation=\"horizontal\">\r\n\r\n                    <TextView\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_gravity=\"center_horizontal\"\r\n                        android:paddingTop=\"12dp\"\r\n                        android:text=\"Sexo\"\r\n                        android:textColor=\"@android:color/darker_gray\"\r\n                        android:textSize=\"16dp\"\r\n                        android:textStyle=\"bold\" />\r\n\r\n                    <RadioGroup\r\n                        android:id=\"@+id/radioGroupSexo\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_marginLeft=\"20dp\"\r\n                        android:checkedButton=\"@+id/radio_button_1\"\r\n                        android:orientation=\"horizontal\">\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_Masculino\"\r\n                            android:layout_width=\"119dp\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"Femenino\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_2\"\r\n                            android:layout_width=\"wrap_content\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"Masculino\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n                    </RadioGroup>\r\n                </LinearLayout>\r\n            </LinearLayout>\r\n\r\n            // Layout Direccion\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Cuál es tu dirección?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                // Direccion EditText de Material Design\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/direccion_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Introduce tu dirección\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\"\r\n                    app:startIconDrawable=\"@drawable/ic_baseline_location_on_36\"\r\n                    app:startIconTint=\"@color/colorPrimaryDark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:id=\"@+id/etDireccion\"\r\n                        android:layout_width=\"300dp\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:inputType=\"text\"\r\n                        android:maxLines=\"1\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            // Layout Precio/hora\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Cuánto cobrarias por hora?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingHorizontal=\"20dp\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"351dp\"\r\n                    android:layout_height=\"wrap_content\"\r\n                    android:layout_marginHorizontal=\"10dp\"\r\n                    android:gravity=\"center\"\r\n                    android:orientation=\"horizontal\">\r\n\r\n                    <TextView\r\n                        android:layout_width=\"wrap_content\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_marginTop=\"15dp\"\r\n                        android:text=\"Precio/hora\"\r\n                        android:textColor=\"@android:color/darker_gray\"\r\n                        android:textSize=\"16dp\"\r\n                        android:textStyle=\"bold\" />\r\n\r\n                    <TextView\r\n                        android:id=\"@+id/textViewPrecioHora\"\r\n                        android:layout_width=\"94dp\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:layout_gravity=\"center\"\r\n                        android:layout_marginLeft=\"110dp\"\r\n                        android:layout_marginTop=\"15dp\"\r\n                        android:gravity=\"end\"\r\n                        android:text=\"0€\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textSize=\"32dp\"\r\n                        android:textStyle=\"bold\" />\r\n\r\n                </LinearLayout>\r\n\r\n                // Slider Material Design Precio hora\r\n\r\n                <com.google.android.material.slider.Slider\r\n                    android:id=\"@+id/slider_precio_hora\"\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginTop=\"10dp\"\r\n                    android:stepSize=\"0.5\"\r\n                    android:valueFrom=\"0.0\"\r\n                    android:valueTo=\"40.0\" />\r\n\r\n            </LinearLayout>\r\n\r\n            // Radio Buttons EXPERIENCIA\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Cuál es tu experiencia con niños?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"left\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginHorizontal=\"30dp\"\r\n                    android:layout_marginVertical=\"10dp\"\r\n                    android:background=\"@drawable/marcoblancobutton\"\r\n                    android:gravity=\"center\"\r\n                    android:orientation=\"horizontal\">\r\n\r\n                    <RadioGroup\r\n                        android:id=\"@+id/radioGroupExperiencia\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"wrap_content\"\r\n                        android:checkedButton=\"@+id/radio_button_1\"\r\n                        android:orientation=\"vertical\">\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_Menos6meses\"\r\n                            android:layout_width=\"match_parent\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"Menos de 6 meses\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_6a12meses\"\r\n                            android:layout_width=\"match_parent\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"De 6 a 12 meses\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_1a2años\"\r\n                            android:layout_width=\"match_parent\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"De 1 a 2 años\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_2a5años\"\r\n                            android:layout_width=\"match_parent\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"De 2 a 5 años\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n\r\n                        <RadioButton\r\n                            android:id=\"@+id/radio_button_Mas6años\"\r\n                            android:layout_width=\"match_parent\"\r\n                            android:layout_height=\"match_parent\"\r\n                            android:text=\"Más de 6 años\"\r\n                            android:textColor=\"@android:color/darker_gray\"\r\n                            android:textSize=\"14dp\" />\r\n                    </RadioGroup>\r\n                </LinearLayout>\r\n            </LinearLayout>\r\n\r\n            // Checkbox Preferencia edades\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Qué edades prefieres cuidar?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"left\"\r\n                android:orientation=\"vertical\">\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginHorizontal=\"30dp\"\r\n                    android:layout_marginVertical=\"10dp\"\r\n                    android:background=\"@drawable/marcoblancobutton\"\r\n                    android:gravity=\"left\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_6a12meses\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"De 6 a 12 meses\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_1a3años\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"De 1 a 3 años\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_3a6años\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"De 3 a 6 años\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_mas6años\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Más de 6 años\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                </LinearLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            // Checkbox Pluses\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"Todo canguro tiene sus pluses, ¿Cuales tienes?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"left\"\r\n                android:orientation=\"vertical\">\r\n\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginHorizontal=\"30dp\"\r\n                    android:layout_marginVertical=\"10dp\"\r\n                    android:background=\"@drawable/marcoblancobutton\"\r\n                    android:gravity=\"left\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_fumar\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"No fumo\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_carnet\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Tengo carnet de conducir\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_pAuxilios\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Sé primeros auxilios\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_cocinar\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Puedo cocinar\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_deberes\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Ayudo en los deberes\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n                </LinearLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            // Checkbox Idiomas\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"¿Qué idiomas hablas?\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"match_parent\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"left\"\r\n                android:orientation=\"vertical\">\r\n\r\n\r\n                <LinearLayout\r\n                    android:layout_width=\"match_parent\"\r\n                    android:layout_height=\"match_parent\"\r\n                    android:layout_marginHorizontal=\"30dp\"\r\n                    android:layout_marginVertical=\"10dp\"\r\n                    android:background=\"@drawable/marcoblancobutton\"\r\n                    android:gravity=\"left\"\r\n                    android:orientation=\"vertical\">\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_Espanol\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Español\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_Ingles\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Inglés\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_Frances\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Francés\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_Aleman\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Alemán\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n\r\n                    <CheckBox\r\n                        android:id=\"@+id/checkbox_Otros\"\r\n                        android:layout_width=\"match_parent\"\r\n                        android:layout_height=\"match_parent\"\r\n                        android:text=\"Otros\"\r\n                        android:textColor=\"@android:color/darker_gray\" />\r\n                </LinearLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            // Layout Direccion\r\n\r\n            <TextView\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_gravity=\"center_horizontal\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"15dp\"\r\n                android:text=\"Escribe una pequeña presentación tuya\"\r\n                android:textColor=\"@color/colorPrimaryDark\"\r\n                android:textSize=\"16dp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n            <LinearLayout\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginVertical=\"10dp\"\r\n                android:background=\"@drawable/marcoblancobutton\"\r\n                android:elevation=\"2dp\"\r\n                android:gravity=\"center\"\r\n                android:orientation=\"vertical\"\r\n                android:paddingVertical=\"10dp\">\r\n\r\n                // Direccion EditText de Material Design\r\n\r\n                <com.google.android.material.textfield.TextInputLayout\r\n                    android:id=\"@+id/descripcion_edit_text\"\r\n                    android:layout_width=\"300dp\"\r\n                    android:layout_height=\"160dp\"\r\n                    android:layout_margin=\"4dp\"\r\n                    android:background=\"@android:color/transparent\"\r\n                    android:hint=\"Escribe tu descripción\"\r\n                    android:textColorHint=\"@android:color/darker_gray\"\r\n                    app:boxBackgroundMode=\"outline\"\r\n                    app:boxStrokeColor=\"@android:color/darker_gray\"\r\n                    app:counterEnabled=\"true\"\r\n                    app:counterMaxLength=\"200\"\r\n                    app:counterTextColor=\"@android:color/darker_gray\"\r\n                    app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n                    app:errorIconTint=\"@android:color/holo_red_dark\">\r\n\r\n                    <com.google.android.material.textfield.TextInputEditText\r\n                        android:id=\"@+id/etDescripcion\"\r\n                        android:layout_width=\"300dp\"\r\n                        android:layout_height=\"130dp\"\r\n                        android:gravity=\"top\"\r\n                        android:inputType=\"textMultiLine\"\r\n                        android:maxLines=\"10\"\r\n                        android:scrollbars=\"vertical\"\r\n                        android:textColor=\"@color/colorPrimaryDark\"\r\n                        android:textColorHint=\"@android:color/darker_gray\" />\r\n                </com.google.android.material.textfield.TextInputLayout>\r\n\r\n\r\n            </LinearLayout>\r\n\r\n            // Boton crear canguro\r\n\r\n            <Button\r\n                android:id=\"@+id/btnCrearPerfilCanguro\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:layout_marginHorizontal=\"30dp\"\r\n                android:layout_marginTop=\"20sp\"\r\n                android:layout_marginBottom=\"20dp\"\r\n                android:background=\"@drawable/botonredondeadoblue\"\r\n                android:text=\"Crear perfil\"\r\n                android:textAllCaps=\"true\"\r\n                android:textColor=\"@android:color/white\"\r\n                android:textSize=\"18sp\"\r\n                android:textStyle=\"bold\" />\r\n\r\n        </LinearLayout>\r\n\r\n    </ScrollView>\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_crear_perfil_canguro.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/layout/activity_crear_perfil_canguro.xml	(date 1605021714872)
+@@ -39,7 +39,7 @@
+ 
+         <LinearLayout
+             android:layout_width="match_parent"
+-            android:layout_height="match_parent"
++            android:layout_height="wrap_content"
+             android:layout_gravity="center_horizontal"
+             android:orientation="vertical">
+ 
+@@ -48,9 +48,11 @@
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+-                android:background="@drawable/cabeceracrearperfilcanguro"
++                android:background="@drawable/fotoperfilcanguro"
+                 android:gravity="center_horizontal"
+                 android:orientation="vertical"
++                android:layout_marginTop="20dp"
++                android:layout_marginHorizontal="30dp"
+                 android:paddingVertical="10dp">
+ 
+                 <de.hdodenhof.circleimageview.CircleImageView
+@@ -59,17 +61,16 @@
+                     android:layout_height="110dp"
+                     android:layout_marginTop="10dp"
+                     android:elevation="2dp"
+-                    android:padding="10dp"
+-                    android:src="@android:drawable/ic_menu_camera"
++                    android:src="@drawable/fotoperfil"
+                     app:civ_border_color="@android:color/white"
+-                    app:civ_border_width="2dp" />
++                    app:civ_border_width="2dp"/>
+ 
+                 <TextView
+                     android:layout_width="match_parent"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_horizontal"
+                     android:layout_marginHorizontal="50dp"
+-                    android:layout_marginTop="15dp"
++                    android:layout_marginTop="5dp"
+                     android:layout_marginBottom="10dp"
+                     android:text="Añade tu foto de perfil"
+                     android:textAlignment="center"
+@@ -120,6 +121,7 @@
+                     app:startIconTint="@color/colorPrimaryDark">
+ 
+                     <com.google.android.material.textfield.TextInputEditText
++                        android:id="@+id/etNombre"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:inputType="text"
+@@ -146,6 +148,7 @@
+                     app:startIconTint="@color/colorPrimaryDark">
+ 
+                     <com.google.android.material.textfield.TextInputEditText
++                        android:id="@+id/etApellidos"
+                         android:layout_width="match_parent"
+                         android:layout_height="wrap_content"
+                         android:inputType="textEmailAddress"
+@@ -220,7 +223,7 @@
+                             android:textSize="14dp" />
+ 
+                         <RadioButton
+-                            android:id="@+id/radio_button_2"
++                            android:id="@+id/radio_button_Femenino"
+                             android:layout_width="wrap_content"
+                             android:layout_height="match_parent"
+                             android:text="Masculino"
+@@ -457,44 +460,13 @@
+                 android:gravity="left"
+                 android:orientation="vertical">
+ 
+-                <LinearLayout
+-                    android:layout_width="match_parent"
+-                    android:layout_height="match_parent"
+-                    android:layout_marginHorizontal="30dp"
+-                    android:layout_marginVertical="10dp"
+-                    android:background="@drawable/marcoblancobutton"
+-                    android:gravity="left"
+-                    android:orientation="vertical">
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_6a12meses"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="De 6 a 12 meses"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_1a3años"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="De 1 a 3 años"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_3a6años"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="De 3 a 6 años"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_mas6años"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Más de 6 años"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                </LinearLayout>
++                <ListView
++                    android:id="@+id/listViewPrefrenciaEdad"
++                    android:layout_width="281dp"
++                    android:layout_height="200dp"
++                    android:layout_gravity="center"
++                    android:layout_marginVertical="30dp"
++                    android:choiceMode="multipleChoice" />
+ 
+ 
+             </LinearLayout>
+@@ -523,50 +495,13 @@
+                 android:orientation="vertical">
+ 
+ 
+-                <LinearLayout
+-                    android:layout_width="match_parent"
+-                    android:layout_height="match_parent"
+-                    android:layout_marginHorizontal="30dp"
+-                    android:layout_marginVertical="10dp"
+-                    android:background="@drawable/marcoblancobutton"
+-                    android:gravity="left"
+-                    android:orientation="vertical">
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_fumar"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="No fumo"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_carnet"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Tengo carnet de conducir"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_pAuxilios"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Sé primeros auxilios"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_cocinar"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Puedo cocinar"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_deberes"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Ayudo en los deberes"
+-                        android:textColor="@android:color/darker_gray" />
+-                </LinearLayout>
++                <ListView
++                    android:id="@+id/listViewPluses"
++                    android:layout_width="281dp"
++                    android:layout_height="250dp"
++                    android:layout_gravity="center"
++                    android:layout_marginVertical="30dp"
++                    android:choiceMode="multipleChoice" />
+ 
+ 
+             </LinearLayout>
+@@ -595,50 +530,13 @@
+                 android:orientation="vertical">
+ 
+ 
+-                <LinearLayout
+-                    android:layout_width="match_parent"
+-                    android:layout_height="match_parent"
+-                    android:layout_marginHorizontal="30dp"
+-                    android:layout_marginVertical="10dp"
+-                    android:background="@drawable/marcoblancobutton"
+-                    android:gravity="left"
+-                    android:orientation="vertical">
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_Espanol"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Español"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_Ingles"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Inglés"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_Frances"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Francés"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_Aleman"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Alemán"
+-                        android:textColor="@android:color/darker_gray" />
+-
+-                    <CheckBox
+-                        android:id="@+id/checkbox_Otros"
+-                        android:layout_width="match_parent"
+-                        android:layout_height="match_parent"
+-                        android:text="Otros"
+-                        android:textColor="@android:color/darker_gray" />
+-                </LinearLayout>
++                <ListView
++                    android:id="@+id/listViewIdiomas"
++                    android:layout_width="281dp"
++                    android:layout_height="250dp"
++                    android:layout_gravity="center"
++                    android:layout_marginVertical="30dp"
++                    android:choiceMode="multipleChoice" />
+ 
+ 
+             </LinearLayout>
+@@ -709,7 +607,7 @@
+                 android:layout_marginHorizontal="30dp"
+                 android:layout_marginTop="20sp"
+                 android:layout_marginBottom="20dp"
+-                android:background="@drawable/botonredondeadoblue"
++                android:background="@drawable/botonredondeadowhite"
+                 android:text="Crear perfil"
+                 android:textAllCaps="true"
+                 android:textColor="@android:color/white"
+Index: app/src/main/res/layout/activity_login.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<LinearLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    android:orientation=\"vertical\"\r\n    android:gravity=\"center\"\r\n    tools:context=\"com.bbsitter.bbsitter.Login.Login\"\r\n    android:background=\"@drawable/fondologinbbs\">\r\n\r\n<!--\r\n    <ImageView\r\n        android:layout_width=\"106sp\"\r\n        android:layout_height=\"118sp\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:layout_marginBottom=\"20sp\"\r\n        android:src=\"@drawable/logobbsitterverticalblanco\" />\r\n-->\r\n    <TextView\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"225dp\"\r\n        android:text=\"¡Bienvenido!\"\r\n        android:textSize=\"40sp\"\r\n        android:textStyle=\"bold\"\r\n        android:textColor=\"@color/colorAccent2\"\r\n        />\r\n\r\n\r\n    // EditText de Material Design\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/email_edit_text\"\r\n        android:layout_width=\"300dp\"\r\n        android:layout_height=\"80dp\"\r\n        android:layout_marginTop=\"10dp\"\r\n        android:hint=\"Email\"\r\n        android:background=\"@android:color/transparent\"\r\n        android:textColorHint=\"@color/colorPrimary\"\r\n        app:placeholderTextColor=\"@color/colorPrimary\"\r\n        app:errorIconTint=\"@android:color/holo_red_dark\"\r\n        app:boxStrokeErrorColor=\"@android:color/holo_red_dark\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n        app:startIconDrawable=\"@android:drawable/sym_action_email\"\r\n        app:startIconTint=\"@color/colorPrimary\"\r\n        app:boxBackgroundMode=\"outline\"\r\n        app:boxBackgroundColor=\"@android:color/transparent\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:inputType=\"textEmailAddress\"\r\n            android:textColor=\"@color/colorPrimary\"\r\n            android:textColorHint=\"@android:color/white\"\r\n            android:maxLines=\"1\" />\r\n\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n    <com.google.android.material.textfield.TextInputLayout\r\n        android:id=\"@+id/password_text_input\"\r\n        android:layout_width=\"300dp\"\r\n        android:layout_height=\"70dp\"\r\n        android:layout_marginTop=\"4dp\"\r\n        android:layout_marginBottom=\"20dp\"\r\n        android:hint=\"Contraseña\"\r\n        android:textColorHint=\"@color/colorPrimary\"\r\n        app:placeholderTextColor=\"@color/colorPrimary\"\r\n        app:boxStrokeErrorColor=\"@android:color/holo_red_dark\"\r\n        app:errorIconTint=\"@android:color/holo_red_dark\"\r\n        app:errorEnabled=\"true\"\r\n        app:errorIconDrawable=\"@android:drawable/stat_notify_error\"\r\n        app:startIconDrawable=\"@android:drawable/ic_partial_secure\"\r\n        app:startIconTint=\"@color/colorPrimary\"\r\n        app:passwordToggleEnabled=\"true\"\r\n        app:passwordToggleTint=\"@color/colorPrimary\"\r\n        app:boxBackgroundColor=\"@android:color/transparent\"\r\n        app:boxBackgroundMode=\"outline\">\r\n\r\n        <com.google.android.material.textfield.TextInputEditText\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:inputType=\"textPassword\"\r\n            android:textColor=\"@color/colorPrimary\"\r\n            android:paddingBottom=\"20dp\"\r\n            />\r\n    </com.google.android.material.textfield.TextInputLayout>\r\n\r\n\r\n    <TextView\r\n        android:id=\"@+id/etCambiarPass\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"5dp\"\r\n        android:layout_gravity=\"right\"\r\n        android:paddingRight=\"10dp\"\r\n        android:text=\"¿Olvidaste la contraseña? Pincha aquí\"\r\n        android:textColor=\"@drawable/letrasblancas\"\r\n        android:textSize=\"12sp\"\r\n        android:layout_marginRight=\"45sp\" />\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"vertical\"\r\n        android:gravity=\"center\"\r\n        android:layout_marginTop=\"10dp\">\r\n\r\n        <Button\r\n            android:id=\"@+id/btnLogin\"\r\n            android:layout_width=\"295dp\"\r\n            android:layout_height=\"40dp\"\r\n            android:background=\"@drawable/botonpurple\"\r\n            android:text=\"Acceder\"\r\n            android:textAllCaps=\"true\"\r\n            android:textColor=\"@drawable/text_purple_click\"\r\n            android:textSize=\"15sp\"\r\n            android:textStyle=\"bold\" />\r\n\r\n\r\n        <com.google.android.gms.common.SignInButton\r\n            android:id=\"@+id/sign_in_button\"\r\n            android:layout_width=\"303dp\"\r\n            android:layout_height=\"45dp\"\r\n            android:layout_marginTop=\"10dp\"/>\r\n\r\n    </LinearLayout>\r\n\r\n    <LinearLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:orientation=\"horizontal\"\r\n        android:gravity=\"center\"\r\n        android:layout_marginTop=\"30dp\">\r\n\r\n        <TextView\r\n            android:id=\"@+id/etCrearCuenta\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:text=\"¿Todavía no tienes cuenta? ¡Regístrate!\"\r\n            android:textSize=\"12sp\"\r\n            android:textStyle=\"bold\"\r\n            android:textColor=\"@drawable/letrasblancas\"\r\n            />\r\n\r\n    </LinearLayout>\r\n</LinearLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_login.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/layout/activity_login.xml	(date 1605021714874)
+@@ -18,13 +18,22 @@
+         android:src="@drawable/logobbsitterverticalblanco" />
+ -->
+     <TextView
+-        android:layout_width="wrap_content"
+-        android:layout_height="wrap_content"
+-        android:layout_marginBottom="225dp"
+-        android:text="¡Bienvenido!"
+-        android:textSize="40sp"
+-        android:textStyle="bold"
+-        android:textColor="@color/colorAccent2"
++    android:layout_width="wrap_content"
++    android:layout_height="wrap_content"
++    android:layout_marginTop="10dp"
++    android:text="!Bienvenido!"
++    android:textSize="40sp"
++    android:textStyle="bold"
++    android:textColor="@color/colorAccent2"
++    />
++    <TextView
++        android:layout_width="wrap_content"
++        android:layout_height="wrap_content"
++        android:layout_marginBottom="200dp"
++        android:text="a BBSitter"
++        android:textSize="25dp"
++        android:textStyle="bold"
++        android:textColor="@android:color/white"
+         />
+ 
+ 
+@@ -53,7 +62,8 @@
+             android:inputType="textEmailAddress"
+             android:textColor="@color/colorPrimary"
+             android:textColorHint="@android:color/white"
+-            android:maxLines="1" />
++            android:maxLines="1"
++            android:text="juanito@gmail.com"/>
+ 
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+@@ -83,6 +93,7 @@
+             android:inputType="textPassword"
+             android:textColor="@color/colorPrimary"
+             android:paddingBottom="20dp"
++            android:text="123456"
+             />
+     </com.google.android.material.textfield.TextInputLayout>
+ 
+@@ -92,12 +103,11 @@
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginBottom="5dp"
+-        android:layout_gravity="right"
+-        android:paddingRight="10dp"
++        android:layout_gravity="center"
+         android:text="¿Olvidaste la contraseña? Pincha aquí"
+         android:textColor="@drawable/letrasblancas"
+         android:textSize="12sp"
+-        android:layout_marginRight="45sp" />
++        />
+ 
+     <LinearLayout
+         android:layout_width="match_parent"
+@@ -131,7 +141,7 @@
+         android:layout_height="wrap_content"
+         android:orientation="horizontal"
+         android:gravity="center"
+-        android:layout_marginTop="30dp">
++        android:layout_marginTop="10dp">
+ 
+         <TextView
+             android:id="@+id/etCrearCuenta"
+Index: app/src/main/java/com/bbsitter/bbsitter/Login/ElegirquePerfilCrear.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.bbsitter.bbsitter.Login;\r\n\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\n\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.bbsitter.bbsitter.Perfiles.CrearPerfilCanguro;\r\nimport com.bbsitter.bbsitter.Perfiles.CrearPerfilFamilia;\r\nimport com.bbsitter.bbsitter.R;\r\n\r\npublic class ElegirquePerfilCrear extends AppCompatActivity {\r\n\r\n\r\n    Button btnPerfilFamilia, btnPerfilCanguro;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_elegirque_perfil_crear);\r\n\r\n        btnPerfilCanguro = (Button) findViewById(R.id.btnPerfilCanguro);\r\n        btnPerfilFamilia = (Button) findViewById(R.id.btnPerfilFamilia);\r\n\r\n        // Boton perfil Canguro\r\n        btnPerfilCanguro.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n\r\n                //Aqui abrimos la actividad para rellenar los datos y crear el perfil Canguro\r\n                Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);\r\n                startActivity(crearCanguro);\r\n\r\n            }\r\n        });\r\n\r\n        //Boton perfil Familia\r\n        btnPerfilFamilia.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n\r\n                //Aqui abrimos la actividad principal\r\n                Intent crearFamilia = new Intent (getApplicationContext(), CrearPerfilFamilia.class);\r\n                startActivity(crearFamilia);\r\n\r\n            }\r\n        });\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/Login/ElegirquePerfilCrear.java	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/java/com/bbsitter/bbsitter/Login/ElegirquePerfilCrear.java	(date 1605021714866)
+@@ -1,5 +1,6 @@
+ package com.bbsitter.bbsitter.Login;
+ 
++import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.os.Bundle;
+ import android.view.View;
+@@ -10,6 +11,7 @@
+ import com.bbsitter.bbsitter.Perfiles.CrearPerfilCanguro;
+ import com.bbsitter.bbsitter.Perfiles.CrearPerfilFamilia;
+ import com.bbsitter.bbsitter.R;
++import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+ 
+ public class ElegirquePerfilCrear extends AppCompatActivity {
+ 
+@@ -21,6 +23,20 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_elegirque_perfil_crear);
+ 
++
++        // Mensaje de que el usuario necesita crearse un perfil antes de poder usar la app
++
++        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(ElegirquePerfilCrear.this, R.style.MyMaterialAlertDialog);
++        builder.setTitle("¿Todavia no tienes un perfil creado?");
++        builder.setMessage("Antes de usar nuestra App necesitas crear tu perfil para que lo demás sepan  si eres una familia molona o un canguro responsable!");
++        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
++            @Override
++            public void onClick(DialogInterface dialog, int which) {
++
++            }
++        });
++        builder.show();
++
+         btnPerfilCanguro = (Button) findViewById(R.id.btnPerfilCanguro);
+         btnPerfilFamilia = (Button) findViewById(R.id.btnPerfilFamilia);
+ 
+Index: app/src/main/res/layout/app_bar_main.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:layout_width=\"match_parent\"\r\n    android:layout_height=\"match_parent\"\r\n    tools:context=\".Main.MainActivity\">\r\n\r\n    <com.google.android.material.appbar.AppBarLayout\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\">\r\n\r\n        <androidx.appcompat.widget.Toolbar\r\n            android:id=\"@+id/toolbar\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"?attr/actionBarSize\"\r\n            android:background=\"?attr/colorPrimary\"/>\r\n\r\n    </com.google.android.material.appbar.AppBarLayout>\r\n\r\n    <include layout=\"@layout/content_main\" />\r\n\r\n    <com.google.android.material.floatingactionbutton.FloatingActionButton\r\n        android:id=\"@+id/fab\"\r\n        android:layout_width=\"wrap_content\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_gravity=\"bottom|end\"\r\n        android:layout_margin=\"@dimen/fab_margin\"\r\n        app:srcCompat=\"@android:drawable/ic_dialog_email\" />\r\n\r\n</androidx.coordinatorlayout.widget.CoordinatorLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/app_bar_main.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/layout/app_bar_main.xml	(date 1605021714874)
+@@ -10,11 +10,13 @@
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content">
+ 
++
+         <androidx.appcompat.widget.Toolbar
+             android:id="@+id/toolbar"
+             android:layout_width="match_parent"
+             android:layout_height="?attr/actionBarSize"
+-            android:background="?attr/colorPrimary"/>
++            android:background="?attr/colorPrimaryDark"/>
++
+ 
+     </com.google.android.material.appbar.AppBarLayout>
+ 
+Index: app/src/main/res/values/strings.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n    <string name=\"app_name\">BBSitter</string>\r\n    <string name=\"navigation_drawer_open\">Open navigation drawer</string>\r\n    <string name=\"navigation_drawer_close\">Close navigation drawer</string>\r\n    <string name=\"nav_header_title\">Nombre y apellidos</string>\r\n    <string name=\"nav_header_subtitle\">email</string>\r\n    <string name=\"nav_header_desc\">Navigation header</string>\r\n    <string name=\"action_settings\">Opciones</string>\r\n\r\n    <string name=\"menu_home\">Inicio</string>\r\n    <string name=\"menu_mensajes\">Mensajes</string>\r\n    <string name=\"menu_fav\">Favoritos</string>\r\n    <string name=\"menu_logout\">Cerrar sesión</string>\r\n\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/strings.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/values/strings.xml	(date 1605021714877)
+@@ -11,5 +11,4 @@
+     <string name="menu_mensajes">Mensajes</string>
+     <string name="menu_fav">Favoritos</string>
+     <string name="menu_logout">Cerrar sesión</string>
+-
+ </resources>
+Index: app/src/main/res/values/styles.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><resources>\r\n\r\n    --Theme.AppCompat.Light.NoActionBar\r\n\r\n    <style name=\"AppTheme\" parent=\"Theme.MaterialComponents.NoActionBar\">\r\n        <item name=\"colorPrimary\">#951b81</item>\r\n        <item name=\"colorPrimaryDark\">#6E145F</item>\r\n        <item name=\"colorAccent\">#9AF4EB</item>\r\n    </style>\r\n\r\n    <style name=\"MyAppTheme\" parent=\"@style/AppTheme\" />\r\n\r\n    <style name=\"ThemeOverlay.App.BottomNavigationView\" parent=\"\">\r\n        <item name=\"colorPrimary\">@color/colorPrimaryDark</item>\r\n        <item name=\"colorOnPrimary\">@color/colorPrimary</item>\r\n    </style>\r\n\r\n</resources>\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/values/styles.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/values/styles.xml	(date 1605021714878)
+@@ -6,6 +6,7 @@
+         <item name="colorPrimary">#951b81</item>
+         <item name="colorPrimaryDark">#6E145F</item>
+         <item name="colorAccent">#9AF4EB</item>
++
+     </style>
+ 
+     <style name="MyAppTheme" parent="@style/AppTheme" />
+@@ -15,4 +16,11 @@
+         <item name="colorOnPrimary">@color/colorPrimary</item>
+     </style>
+ 
++    <style name="MyMaterialAlertDialog" parent="Theme.MaterialComponents.Light.Dialog.Alert">
++        <item name="colorPrimary">@color/colorPrimaryDark</item>
++        <item name="colorOnPrimary">@color/colorPrimary</item>
++        <item name="android:colorBackground">@color/colorPrimary</item>
++        <item name="titleTextColor">@color/colorPrimaryDark</item>
++    </style>
++
+ </resources>
+Index: app/src/main/java/com/bbsitter/bbsitter/Login/Login.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.bbsitter.bbsitter.Login;\r\n\r\nimport android.content.DialogInterface;\r\nimport android.content.Intent;\r\nimport android.os.Bundle;\r\nimport android.view.View;\r\nimport android.widget.Button;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.appcompat.app.AppCompatActivity;\r\n\r\nimport com.bbsitter.bbsitter.Main.MainActivity;\r\nimport com.bbsitter.bbsitter.R;\r\nimport com.google.android.gms.auth.api.signin.GoogleSignIn;\r\nimport com.google.android.gms.auth.api.signin.GoogleSignInAccount;\r\nimport com.google.android.gms.auth.api.signin.GoogleSignInClient;\r\nimport com.google.android.gms.auth.api.signin.GoogleSignInOptions;\r\nimport com.google.android.gms.common.SignInButton;\r\nimport com.google.android.gms.common.api.ApiException;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.dialog.MaterialAlertDialogBuilder;\r\nimport com.google.android.material.textfield.TextInputLayout;\r\nimport com.google.firebase.auth.AuthResult;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\n\r\npublic class Login extends AppCompatActivity {\r\n\r\n\r\n    private static final String TAG = \"datos\";\r\n    private String email = \"\";\r\n    private String password = \"\";\r\n    private static final int RC_SIGN_IN = 9001;\r\n\r\n    private TextInputLayout editTextEmail, editTextPassword;\r\n\r\n    private Button btnLogin;\r\n\r\n    private SignInButton btnGoogle;\r\n\r\n    private TextView etCrearCuenta, etCambiarPass;\r\n\r\n    private FirebaseAuth mAuth;\r\n    private FirebaseFirestore bbdd;\r\n\r\n    private GoogleSignInClient mGoogleSingInClient;\r\n\r\n    @Override\r\n    protected void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        setContentView(R.layout.activity_login);\r\n\r\n\r\n        editTextPassword = findViewById(R.id.password_text_input);\r\n        editTextEmail = findViewById(R.id.email_edit_text);\r\n\r\n        btnLogin = (Button) findViewById(R.id.btnLogin);\r\n        btnGoogle = (SignInButton) findViewById(R.id.sign_in_button);\r\n        btnGoogle.setSize(SignInButton.SIZE_STANDARD);\r\n        etCrearCuenta = (TextView) findViewById(R.id.etCrearCuenta);\r\n        etCambiarPass = (TextView) findViewById(R.id.etCambiarPass);\r\n\r\n\r\n        mAuth = FirebaseAuth.getInstance();\r\n        bbdd = FirebaseFirestore.getInstance();\r\n\r\n\r\n        btnLogin.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                email = editTextEmail.getEditText().getText().toString().trim();\r\n                password = editTextPassword.getEditText().getText().toString().trim();\r\n\r\n                if (!email.isEmpty() && !password.isEmpty()) {\r\n\r\n                    logearUsuario();\r\n\r\n                } else {\r\n                    validarEmail();\r\n                    validarPassword();\r\n                    //Toast.makeText(Login.this, \"Error al iniciar sesion\", Toast.LENGTH_SHORT).show();\r\n                }\r\n\r\n            }\r\n        });\r\n\r\n        loginGoogle();\r\n\r\n        btnGoogle.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View view) {\r\n\r\n                signIn();\r\n            }\r\n        });\r\n\r\n\r\n        etCrearCuenta.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                Intent crearUsuario = new Intent(getApplicationContext(), RegistroUsuarioActivity.class);\r\n                startActivity(crearUsuario);\r\n\r\n            }\r\n\r\n        });\r\n\r\n        etCambiarPass.setOnClickListener(new View.OnClickListener() {\r\n            @Override\r\n            public void onClick(View v) {\r\n\r\n                Intent cambiarPass = new Intent(getApplicationContext(), CambiarPassActivity.class);\r\n                startActivity(cambiarPass);\r\n            }\r\n        });\r\n\r\n\r\n    }\r\n\r\n    /*Comprobar que el usuario esta conectado al iniciar app*/\r\n    /*@Override\r\n    protected void onStart() {\r\n        super.onStart();\r\n        FirebaseUser currentUser = mAuth.getCurrentUser();\r\n        updateUI(currentUser);\r\n    }*/\r\n\r\n    @Override\r\n    protected void onRestart() {\r\n        super.onRestart();\r\n        editTextEmail.setError(null);\r\n        editTextPassword.setError(null);\r\n\r\n    }\r\n\r\n    private boolean validarEmail() {\r\n\r\n        email = editTextEmail.getEditText().getText().toString().trim();\r\n\r\n        if (email.isEmpty()) {\r\n            editTextEmail.setError(\"Debes rellenar el campo\");\r\n            return false;\r\n        } else {\r\n            editTextEmail.setError(null);\r\n            return true;\r\n        }\r\n\r\n    }\r\n\r\n    private boolean validarPassword() {\r\n\r\n        password = editTextPassword.getEditText().getText().toString().trim();\r\n\r\n        if (password.isEmpty()) {\r\n            editTextPassword.setError(\"Debes rellenar el campo\");\r\n            return false;\r\n        } else {\r\n            editTextEmail.setError(null);\r\n            return true;\r\n        }\r\n\r\n    }\r\n\r\n    private void logearUsuario(/*String idToken*/) {\r\n\r\n\r\n        //comprobamos que el email y la contraseña estan en la base de datos\r\n        mAuth.signInWithEmailAndPassword(email, password)\r\n                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {\r\n\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<AuthResult> task) {\r\n                        if (task.isSuccessful()) { //Si la tarea es satisfactoria\r\n\r\n                            String uid = mAuth.getCurrentUser().getUid();\r\n\r\n                            bbdd.collection(\"usuarios\")\r\n                                    .whereEqualTo(\"uid\", uid)\r\n                                    .get()\r\n                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                                        @Override\r\n                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n                                            if (task.isSuccessful()) {\r\n                                                for (QueryDocumentSnapshot document : task.getResult()) {\r\n                                                    Boolean perfil = ((Boolean) document.get(\"perfil\"));\r\n\r\n                                                    if (perfil == true) {\r\n                                                        //Aqui abrimos la actividad principal\r\n                                                        Intent main = new Intent(getApplicationContext(), MainActivity.class);\r\n                                                        startActivity(main);\r\n                                                        finish();\r\n\r\n                                                    } else {\r\n\r\n                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this);\r\n\r\n                                                        builder.setTitle(\"Crear Perfil\");\r\n                                                        builder.setMessage(\"Antes de entrar necesitas crear tu perfil!\");\r\n                                                        builder.setPositiveButton(\"Aceptar\", new DialogInterface.OnClickListener() {\r\n                                                            @Override\r\n                                                            public void onClick(DialogInterface dialog, int which) {\r\n                                                                //Aqui abrimos la actividad perfil\r\n                                                                Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);\r\n                                                                startActivity(crearPerfil);\r\n                                                                finish();\r\n                                                            }\r\n                                                        });\r\n                                                        builder.show();\r\n\r\n                                                    }\r\n\r\n                                                }\r\n                                            } else {\r\n                                                Toast.makeText(Login.this, \"Movida\", Toast.LENGTH_SHORT).show();\r\n                                            }\r\n                                        }\r\n                                    });\r\n\r\n                        } else {\r\n                            //Si no existe ese usuario en la base de datos no inicia sesion\r\n                            Toast.makeText(Login.this, \"El usuario no existe.\",\r\n                                    Toast.LENGTH_SHORT).show();\r\n                        }\r\n\r\n                    }\r\n                });\r\n\r\n    }\r\n\r\n    /*Inicia los elementos necesarios para poder iniciar sesión con Google.*/\r\n    private void loginGoogle()\r\n    {\r\n        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)\r\n                .requestIdToken(getString(R.string.default_web_client_id))\r\n                .requestEmail()\r\n                .build();\r\n\r\n        mGoogleSingInClient = GoogleSignIn.getClient(this,gso);\r\n    }\r\n\r\n    /*Inicio de sesión con Google.*/\r\n    private void signIn()\r\n    {\r\n        Intent googleIntent = mGoogleSingInClient.getSignInIntent();\r\n        startActivityForResult(googleIntent, RC_SIGN_IN);\r\n    }\r\n\r\n    /*Se ejecuta cuando termina la actividad iniciada (Ventana de Google Sing In)*/\r\n    /*FALTA IMPLEMENTAR*/\r\n    @Override\r\n    public void onActivityResult(int requestCode, int resultCode, Intent data)\r\n    {\r\n        super.onActivityResult(requestCode, resultCode, data);\r\n\r\n\r\n        if (requestCode == RC_SIGN_IN) {\r\n            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);\r\n            try {\r\n\r\n                GoogleSignInAccount account = task.getResult(ApiException.class);\r\n                //logearUsuario(account.getIdToken());\r\n\r\n            } catch (ApiException e) {\r\n\r\n            }\r\n        }\r\n    }\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/Login/Login.java	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/java/com/bbsitter/bbsitter/Login/Login.java	(date 1605021714866)
+@@ -3,6 +3,7 @@
+ import android.content.DialogInterface;
+ import android.content.Intent;
+ import android.os.Bundle;
++import android.os.Handler;
+ import android.view.View;
+ import android.widget.Button;
+ import android.widget.TextView;
+@@ -12,6 +13,8 @@
+ import androidx.appcompat.app.AppCompatActivity;
+ 
+ import com.bbsitter.bbsitter.Main.MainActivity;
++import com.bbsitter.bbsitter.Perfiles.CrearPerfilCanguro;
++import com.bbsitter.bbsitter.Perfiles.ProgressBarCrearCanguro;
+ import com.bbsitter.bbsitter.R;
+ import com.google.android.gms.auth.api.signin.GoogleSignIn;
+ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+@@ -199,7 +202,14 @@
+ 
+                                                     } else {
+ 
+-                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this);
++                                                        // Meter progress bar para que inicie
++
++                                                        Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
++                                                        startActivity(crearPerfil);
++                                                        finish();
++
++                                                        /*
++                                                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(Login.this, R.style.MyMaterialAlertDialog);
+ 
+                                                         builder.setTitle("Crear Perfil");
+                                                         builder.setMessage("Antes de entrar necesitas crear tu perfil!");
+@@ -213,6 +223,8 @@
+                                                             }
+                                                         });
+                                                         builder.show();
++                                                        */
++
+ 
+                                                     }
+ 
+Index: app/src/main/res/layout/progressbar_creacioncanguro.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/progressbar_creacioncanguro.xml	(date 1605021714875)
++++ app/src/main/res/layout/progressbar_creacioncanguro.xml	(date 1605021714875)
+@@ -0,0 +1,30 @@
++<?xml version="1.0" encoding="utf-8"?>
++<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
++    android:layout_width="350dp"
++    android:layout_height="400dp"
++    xmlns:app="http://schemas.android.com/apk/res-auto"
++    android:orientation="vertical"
++    android:gravity="center"
++    android:padding="30dp"
++    android:background="@android:color/white">
++
++
++    <com.airbnb.lottie.LottieAnimationView
++        android:id="@+id/lottieLoad"
++        android:layout_width="300dp"
++        android:layout_height="142dp"
++        app:lottie_autoPlay="true"
++        app:lottie_rawRes="@raw/loadlottie2" />
++
++    <TextView
++        android:layout_width="match_parent"
++        android:layout_height="wrap_content"
++        android:layout_gravity="center_horizontal"
++        android:text="Creando canguro..."
++        android:textAlignment="center"
++        android:textColor="@color/colorPrimaryDark"
++        android:textSize="20dp"
++        android:textStyle="bold" />
++
++
++</LinearLayout>
+\ No newline at end of file
+Index: app/src/main/res/drawable/cabeceracrearperfilcanguro.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<shape xmlns:tools=\"http://schemas.android.com/tools\"\r\n    android:shape=\"rectangle\" xmlns:android=\"http://schemas.android.com/apk/res/android\">\r\n\r\n    <gradient android:startColor=\"@color/colorAccent2\" android:endColor=\"@color/colorPrimaryDark\"></gradient>\r\n    <corners android:bottomRightRadius=\"0dp\" android:bottomLeftRadius=\"0dp\"/>\r\n\r\n</shape>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/drawable/cabeceracrearperfilcanguro.xml	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/res/drawable/cabeceracrearperfilcanguro.xml	(date 1605021714869)
+@@ -3,6 +3,6 @@
+     android:shape="rectangle" xmlns:android="http://schemas.android.com/apk/res/android">
+ 
+     <gradient android:startColor="@color/colorAccent2" android:endColor="@color/colorPrimaryDark"></gradient>
+-    <corners android:bottomRightRadius="0dp" android:bottomLeftRadius="0dp"/>
++    <corners android:bottomRightRadius="20dp" android:bottomLeftRadius="20dp"/>
+ 
+ </shape>
+\ No newline at end of file
+Index: app/src/main/java/com/bbsitter/bbsitter/Clases/Canguro.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.bbsitter.bbsitter.Clases;\r\n\r\nimport java.io.Serializable;\r\n\r\npublic class Canguro implements Serializable {\r\n\r\n    //Atributos\r\n\r\n    private String nombre;\r\n    private String apellidos;\r\n    private String fechaNacimiento;\r\n    private float precioHora;\r\n    private String sexo;\r\n    private String experiencia;\r\n    private String descripcion;\r\n\r\n\r\n    // Constructores\r\n    public Canguro(){}\r\n\r\n\r\n\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/Clases/Canguro.java	(revision 0294381b3a241e95e6767ee656c50243e64d3e4e)
++++ app/src/main/java/com/bbsitter/bbsitter/Clases/Canguro.java	(date 1605021714865)
+@@ -1,24 +1,187 @@
+ package com.bbsitter.bbsitter.Clases;
+ 
+ import java.io.Serializable;
++import java.util.Map;
+ 
+ public class Canguro implements Serializable {
+ 
+     //Atributos
++    private String urlFoto;
+ 
++    // Datos personales
+     private String nombre;
+     private String apellidos;
+     private String fechaNacimiento;
+-    private float precioHora;
++    private int edad;  //Calculada a traves del String
+     private String sexo;
++
++    // Direccion y fecha nacimiento
++    private String direccion; // Obtenidad de autocompletar Direccion
++    private double longitudLoc;
++    private double latitudLoc;
++
++    // Demás atributos
++    private double precioHora;    //Obtenida de slider precio/Hora
+     private String experiencia;
+     private String descripcion;
++    Map<String, Boolean> mapPluses;     // Pluses
++    Map<String, Boolean> mapPrefenciaEdades;    // PreferenciaEdades
++    Map<String, Boolean> mapIdiomas;    // PreferenciaEdades
++
++    // Fecha creacion
++    String fechaCreacionPerfil;
+ 
+ 
+     // Constructores
++
+     public Canguro(){}
+ 
++    public Canguro(String urlFoto, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil) {
++        this.urlFoto = urlFoto;
++        this.nombre = nombre;
++        this.apellidos = apellidos;
++        this.fechaNacimiento = fechaNacimiento;
++        this.edad = edad;
++        this.sexo = sexo;
++        this.direccion = direccion;
++        this.longitudLoc = longitudLoc;
++        this.latitudLoc = latitudLoc;
++        this.precioHora = precioHora;
++        this.experiencia = experiencia;
++        this.descripcion = descripcion;
++        this.mapPluses = mapPluses;
++        this.mapPrefenciaEdades = mapPrefenciaEdades;
++        this.mapIdiomas = mapIdiomas;
++        this.fechaCreacionPerfil = fechaCreacionPerfil;
++    }
++
++    // Getters and setters
++
++    public String getUrlFoto() {
++        return urlFoto;
++    }
++
++    public void setUrlFoto(String urlFoto) {
++        this.urlFoto = urlFoto;
++    }
++
++    public String getNombre() {
++        return nombre;
++    }
++
++    public void setNombre(String nombre) {
++        this.nombre = nombre;
++    }
++
++    public String getApellidos() {
++        return apellidos;
++    }
++
++    public void setApellidos(String apellidos) {
++        this.apellidos = apellidos;
++    }
++
++    public String getFechaNacimiento() {
++        return fechaNacimiento;
++    }
++
++    public void setFechaNacimiento(String fechaNacimiento) {
++        this.fechaNacimiento = fechaNacimiento;
++    }
++
++    public int getEdad() {
++        return edad;
++    }
++
++    public void setEdad(int edad) {
++        this.edad = edad;
++    }
++
++    public String getSexo() {
++        return sexo;
++    }
++
++    public void setSexo(String sexo) {
++        this.sexo = sexo;
++    }
++
++    public String getDireccion() {
++        return direccion;
++    }
++
++    public void setDireccion(String direccion) {
++        this.direccion = direccion;
++    }
++
++    public double getLongitudLoc() {
++        return longitudLoc;
++    }
++
++    public void setLongitudLoc(double longitudLoc) {
++        this.longitudLoc = longitudLoc;
++    }
++
++    public double getLatitudLoc() {
++        return latitudLoc;
++    }
++
++    public void setLatitudLoc(double latitudLoc) {
++        this.latitudLoc = latitudLoc;
++    }
++
++    public double getPrecioHora() {
++        return precioHora;
++    }
++
++    public void setPrecioHora(double precioHora) {
++        this.precioHora = precioHora;
++    }
++
++    public String getExperiencia() {
++        return experiencia;
++    }
+ 
++    public void setExperiencia(String experiencia) {
++        this.experiencia = experiencia;
++    }
+ 
++    public String getDescripcion() {
++        return descripcion;
++    }
+ 
++    public void setDescripcion(String descripcion) {
++        this.descripcion = descripcion;
++    }
++
++    public Map<String, Boolean> getMapPluses() {
++        return mapPluses;
++    }
++
++    public void setMapPluses(Map<String, Boolean> mapPluses) {
++        this.mapPluses = mapPluses;
++    }
++
++    public Map<String, Boolean> getMapPrefenciaEdades() {
++        return mapPrefenciaEdades;
++    }
++
++    public void setMapPrefenciaEdades(Map<String, Boolean> mapPrefenciaEdades) {
++        this.mapPrefenciaEdades = mapPrefenciaEdades;
++    }
++
++    public Map<String, Boolean> getMapIdiomas() {
++        return mapIdiomas;
++    }
++
++    public void setMapIdiomas(Map<String, Boolean> mapIdiomas) {
++        this.mapIdiomas = mapIdiomas;
++    }
++
++    public String getFechaCreacionPerfil() {
++        return fechaCreacionPerfil;
++    }
++
++    public void setFechaCreacionPerfil(String fechaCreacionPerfil) {
++        this.fechaCreacionPerfil = fechaCreacionPerfil;
++    }
+ }
+Index: app/src/main/res/raw/lottieload.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/raw/lottieload.json	(date 1605021714876)
++++ app/src/main/res/raw/lottieload.json	(date 1605021714876)
+@@ -0,0 +1,1 @@
++{"v":"5.5.6","fr":29.9700012207031,"ip":0,"op":102.000004154545,"w":1920,"h":1080,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Load Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.515,51.515,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,-190.771],[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0]],"o":[[0,0],[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.767],[0,0],[-190.77,0]],"v":[[-347.995,-338.72],[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.726],[2.58,-684.141],[-2.575,-684.141]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[50]},{"t":43.0000017514259,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[69]},{"t":43.0000017514259,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.579999976065,0.301999978458,0.969000004787,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,233.258],[-193.632,0],[0,0],[0,-193.632],[0,0],[0,0],[190.723,0],[0,0],[0,190.724],[0,0]],"o":[[0,-193.632],[0,0],[193.633,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0],[0,0],[0,-149.566]],"v":[[-350.603,-334.046],[-0.001,-684.641],[0,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641],[-350.603,339.305],[-350.603,334.722]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[81]},{"t":30.0000012219251,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[100]},{"t":30.0000012219251,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.383,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":-180,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":3,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,233.258],[-193.632,0],[0,0],[0,-193.632],[0,0],[0,0],[190.723,0],[0,0],[0,190.724],[0,0]],"o":[[0,-193.632],[0,0],[193.633,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0],[0,0],[0,-149.566]],"v":[[-350.603,-334.046],[-0.001,-684.641],[0,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641],[-350.603,339.305],[-350.603,334.722]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[81]},{"t":30.0000012219251,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[100]},{"t":30.0000012219251,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.383,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 4","np":3,"cix":2,"bm":0,"ix":4,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":0,"k":0,"ix":1},"e":{"a":0,"k":100,"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":5,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":46.0000018736184,"st":0,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Load2 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.375,51.375,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[81]},{"t":43.0000017514259,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[100]},{"t":43.0000017514259,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.972999961703,0.74900004069,0.270999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":0,"op":46.0000018736184,"st":0,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,539,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,190.724],[0,233.258],[-193.633,0],[0,0],[0,-193.632],[0,0],[0,0],[190.724,0],[0,0]],"o":[[0,0],[0,-193.632],[0,0],[193.632,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0]],"v":[[-350.603,339.305],[-350.603,-334.046],[0,-684.641],[0.001,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[50]},{"t":82.0000033399285,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[69]},{"t":82.0000033399285,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.382,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 4","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":7.00000028511585,"bm":0},{"ddd":0,"ind":4,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":180,"ix":10},"p":{"a":0,"k":[764,580,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,190.724],[0,233.258],[-193.633,0],[0,0],[0,-193.632],[0,0],[0,0],[190.724,0],[0,0]],"o":[[0,0],[0,-193.632],[0,0],[193.632,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0]],"v":[[-350.603,339.305],[-350.603,-334.046],[0,-684.641],[0.001,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.382,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[50]},{"t":82.0000033399285,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[69]},{"t":82.0000033399285,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":-3.00000012219251,"bm":0},{"ddd":0,"ind":5,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[81]},{"t":96.0000039101602,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[100]},{"t":96.0000039101602,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.579999976065,0.301999978458,0.969000004787,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":3.00000012219251,"bm":0},{"ddd":0,"ind":6,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":-180,"ix":10},"p":{"a":0,"k":[1120,570,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[81]},{"t":96.0000039101602,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[100]},{"t":96.0000039101602,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.972999961703,0.74900004069,0.270999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1022.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 3","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":3.00000012219251,"bm":0}],"markers":[]}
+\ No newline at end of file
+Index: app/src/main/res/raw/loadlottie2.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/raw/loadlottie2.json	(date 1605021714875)
++++ app/src/main/res/raw/loadlottie2.json	(date 1605021714875)
+@@ -0,0 +1,1 @@
++{"v":"5.5.6","fr":29.9700012207031,"ip":0,"op":223.000009082976,"w":1920,"h":1080,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Load_simple Outlines 4","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":167,"s":[-90]},{"t":222.000009042245,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.580392181873,0.301960796118,0.96862745285,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":189,"s":[0]},{"t":222.000009042245,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":167,"s":[0]},{"t":197.000008023974,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":167.000006802049,"op":223.000009082976,"st":167.000006802049,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Load_simple Outlines 3","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":111,"s":[-90]},{"t":166.000006761319,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470588237047,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":133,"s":[0]},{"t":166.000006761319,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":111,"s":[0]},{"t":141.000005743048,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":111.000004521123,"op":167.000006802049,"st":111.000004521123,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Load_simple Outlines 2","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":55,"s":[-90]},{"t":110.000004480392,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.972549021244,0.749019622803,0.270588248968,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":77,"s":[0]},{"t":110.000004480392,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":55,"s":[0]},{"t":85.000003462121,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":55.0000022401959,"op":111.000004521123,"st":55.0000022401959,"bm":0},{"ddd":0,"ind":4,"ty":4,"nm":"Load_simple Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[-90]},{"t":55.0000022401959,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":22,"s":[0]},{"t":55.0000022401959,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[0]},{"t":30.0000012219251,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":56.0000022809268,"st":0,"bm":0}],"markers":[]}
+\ No newline at end of file
+Index: app/src/main/java/com/bbsitter/bbsitter/Perfiles/ProgressBarCrearCanguro.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/Perfiles/ProgressBarCrearCanguro.java	(date 1605021714868)
++++ app/src/main/java/com/bbsitter/bbsitter/Perfiles/ProgressBarCrearCanguro.java	(date 1605021714868)
+@@ -0,0 +1,33 @@
++package com.bbsitter.bbsitter.Perfiles;
++
++import android.app.Activity;
++import android.app.AlertDialog;
++import android.view.LayoutInflater;
++
++import com.bbsitter.bbsitter.R;
++
++public class ProgressBarCrearCanguro {
++
++    Activity activity;
++    AlertDialog alertDialog;
++
++    public ProgressBarCrearCanguro(Activity miActivity){
++        activity = miActivity;
++    }
++
++    public void StarProgressBar(){
++        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
++
++        LayoutInflater inflater = activity.getLayoutInflater();
++        builder.setView(inflater.inflate(R.layout.progressbar_creacioncanguro, null));
++        builder.setCancelable(false);
++
++        alertDialog = builder.create();
++        alertDialog.show();
++
++    }
++
++    public void finishProgressBar(){
++        alertDialog.dismiss();
++    }
++}
+Index: ../Imagenes/animaciones Lottie/7807load.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../Imagenes/animaciones Lottie/7807load.json	(date 1605021714881)
++++ ../Imagenes/animaciones Lottie/7807load.json	(date 1605021714881)
+@@ -0,0 +1,1 @@
++{"v":"5.5.6","fr":29.9700012207031,"ip":0,"op":223.000009082976,"w":1920,"h":1080,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Load_simple Outlines 4","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":167,"s":[-90]},{"t":222.000009042245,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.580392181873,0.301960796118,0.96862745285,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":189,"s":[0]},{"t":222.000009042245,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":167,"s":[0]},{"t":197.000008023974,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":167.000006802049,"op":223.000009082976,"st":167.000006802049,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Load_simple Outlines 3","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":111,"s":[-90]},{"t":166.000006761319,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470588237047,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":133,"s":[0]},{"t":166.000006761319,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":111,"s":[0]},{"t":141.000005743048,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":111.000004521123,"op":167.000006802049,"st":111.000004521123,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Load_simple Outlines 2","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":55,"s":[-90]},{"t":110.000004480392,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.972549021244,0.749019622803,0.270588248968,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":77,"s":[0]},{"t":110.000004480392,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":55,"s":[0]},{"t":85.000003462121,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":55.0000022401959,"op":111.000004521123,"st":55.0000022401959,"bm":0},{"ddd":0,"ind":4,"ty":4,"nm":"Load_simple Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[-90]},{"t":55.0000022401959,"s":[270]}],"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[170.5,170.5,0],"ix":1},"s":{"a":0,"k":[100,100,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[-75.152,0],[0,-75.152],[75.152,0],[0,75.152]],"o":[[75.152,0],[0,75.152],[-75.152,0],[0,-75.152]],"v":[[0,-136.075],[136.075,0],[0,136.075],[-136.075,0]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":67.965,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[170.057,170.058],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":22,"s":[0]},{"t":55.0000022401959,"s":[100]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[0]},{"t":30.0000012219251,"s":[100]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":56.0000022809268,"st":0,"bm":0}],"markers":[]}
+\ No newline at end of file
+Index: ../Imagenes/animaciones Lottie/7751load.json
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- ../Imagenes/animaciones Lottie/7751load.json	(date 1605021714880)
++++ ../Imagenes/animaciones Lottie/7751load.json	(date 1605021714880)
+@@ -0,0 +1,1 @@
++{"v":"5.5.6","fr":29.9700012207031,"ip":0,"op":102.000004154545,"w":1920,"h":1080,"nm":"Comp 1","ddd":0,"assets":[],"layers":[{"ddd":0,"ind":1,"ty":4,"nm":"Load Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.515,51.515,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,-190.771],[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0]],"o":[[0,0],[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.767],[0,0],[-190.77,0]],"v":[[-347.995,-338.72],[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.726],[2.58,-684.141],[-2.575,-684.141]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[50]},{"t":43.0000017514259,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[69]},{"t":43.0000017514259,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.579999976065,0.301999978458,0.969000004787,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,233.258],[-193.632,0],[0,0],[0,-193.632],[0,0],[0,0],[190.723,0],[0,0],[0,190.724],[0,0]],"o":[[0,-193.632],[0,0],[193.633,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0],[0,0],[0,-149.566]],"v":[[-350.603,-334.046],[-0.001,-684.641],[0,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641],[-350.603,339.305],[-350.603,334.722]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[81]},{"t":30.0000012219251,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[100]},{"t":30.0000012219251,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.383,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":-180,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":3,"cix":2,"bm":0,"ix":2,"mn":"ADBE Vector Group","hd":false},{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,233.258],[-193.632,0],[0,0],[0,-193.632],[0,0],[0,0],[190.723,0],[0,0],[0,190.724],[0,0]],"o":[[0,-193.632],[0,0],[193.633,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0],[0,0],[0,-149.566]],"v":[[-350.603,-334.046],[-0.001,-684.641],[0,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641],[-350.603,339.305],[-350.603,334.722]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[81]},{"t":30.0000012219251,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":0,"s":[100]},{"t":30.0000012219251,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.383,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 4","np":3,"cix":2,"bm":0,"ix":4,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":0,"k":0,"ix":1},"e":{"a":0,"k":100,"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":5,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":0,"op":46.0000018736184,"st":0,"bm":0},{"ddd":0,"ind":2,"ty":4,"nm":"Load2 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.375,51.375,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[81]},{"t":43.0000017514259,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":14,"s":[100]},{"t":43.0000017514259,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.972999961703,0.74900004069,0.270999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":0,"op":46.0000018736184,"st":0,"bm":0},{"ddd":0,"ind":3,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,539,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,190.724],[0,233.258],[-193.633,0],[0,0],[0,-193.632],[0,0],[0,0],[190.724,0],[0,0]],"o":[[0,0],[0,-193.632],[0,0],[193.632,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0]],"v":[[-350.603,339.305],[-350.603,-334.046],[0,-684.641],[0.001,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[50]},{"t":82.0000033399285,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[69]},{"t":82.0000033399285,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.361000001197,0.851000019148,0.925,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.382,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 4","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":7.00000028511585,"bm":0},{"ddd":0,"ind":4,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":180,"ix":10},"p":{"a":0,"k":[764,580,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,190.724],[0,233.258],[-193.633,0],[0,0],[0,-193.632],[0,0],[0,0],[190.724,0],[0,0]],"o":[[0,0],[0,-193.632],[0,0],[193.632,0],[0,0],[0,0],[0,190.724],[0,0],[-190.724,0]],"v":[[-350.603,339.305],[-350.603,-334.046],[0,-684.641],[0.001,-684.641],[350.603,-334.046],[350.603,334.722],[350.603,339.305],[5.267,684.641],[-5.267,684.641]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"st","c":{"a":0,"k":[1,0,0.470999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1327.382,1042.938],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 2","np":2,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[50]},{"t":82.0000033399285,"s":[0]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":52,"s":[69]},{"t":82.0000033399285,"s":[19]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":-3.00000012219251,"bm":0},{"ddd":0,"ind":5,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":0,"ix":10},"p":{"a":0,"k":[960,540,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[81]},{"t":96.0000039101602,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[100]},{"t":96.0000039101602,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.579999976065,0.301999978458,0.969000004787,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1042.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 1","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":3.00000012219251,"bm":0},{"ddd":0,"ind":6,"ty":4,"nm":"Load3 Outlines","sr":1,"ks":{"o":{"a":0,"k":100,"ix":11},"r":{"a":0,"k":-180,"ix":10},"p":{"a":0,"k":[1120,570,0],"ix":2},"a":{"a":0,"k":[1518,1004.5,0],"ix":1},"s":{"a":0,"k":[51.5,51.5,100],"ix":6}},"ao":0,"shapes":[{"ty":"gr","it":[{"ind":0,"ty":"sh","ix":1,"ks":{"a":0,"k":{"i":[[0,0],[-192.192,0],[0,0],[0,192.192],[0,0],[0,0],[190.767,0],[0,0],[0,-190.771]],"o":[[0,192.192],[0,0],[192.192,0],[0,0],[0,0],[0,-190.768],[0,0],[-190.77,0],[0,0]],"v":[[-347.995,336.15],[0,684.141],[0,684.141],[347.995,336.15],[347.995,-334.141],[347.995,-338.725],[2.58,-684.141],[-2.575,-684.141],[-347.995,-338.72]],"c":true},"ix":2},"nm":"Path 1","mn":"ADBE Vector Shape - Group","hd":false},{"ty":"tm","s":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[81]},{"t":96.0000039101602,"s":[31]}],"ix":1},"e":{"a":1,"k":[{"i":{"x":[0.667],"y":[1]},"o":{"x":[0.333],"y":[0]},"t":66,"s":[100]},{"t":96.0000039101602,"s":[50]}],"ix":2},"o":{"a":0,"k":0,"ix":3},"m":1,"ix":2,"nm":"Trim Paths 1","mn":"ADBE Vector Filter - Trim","hd":false},{"ty":"st","c":{"a":0,"k":[0.972999961703,0.74900004069,0.270999983245,1],"ix":3},"o":{"a":0,"k":100,"ix":4},"w":{"a":0,"k":173.862,"ix":5},"lc":2,"lj":1,"ml":10,"bm":0,"nm":"Stroke 1","mn":"ADBE Vector Graphic - Stroke","hd":false},{"ty":"tr","p":{"a":0,"k":[1673.182,1022.438],"ix":2},"a":{"a":0,"k":[0,0],"ix":1},"s":{"a":0,"k":[100,100],"ix":3},"r":{"a":0,"k":0,"ix":6},"o":{"a":0,"k":100,"ix":7},"sk":{"a":0,"k":0,"ix":4},"sa":{"a":0,"k":0,"ix":5},"nm":"Transform"}],"nm":"Group 3","np":3,"cix":2,"bm":0,"ix":1,"mn":"ADBE Vector Group","hd":false}],"ip":45.0000018328876,"op":103.000004195276,"st":3.00000012219251,"bm":0}],"markers":[]}
+\ No newline at end of file

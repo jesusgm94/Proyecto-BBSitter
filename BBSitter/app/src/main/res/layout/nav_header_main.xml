@@ -19,14 +19,14 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/imageView"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imagenUsuarioMenu"
             android:layout_width="60dp"
             android:layout_height="90dp"
             android:layout_marginRight="15dp"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
-            app:srcCompat="@drawable/fotoperfil" />
+            android:src="@drawable/fotoperfil" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -35,6 +35,7 @@
             android:paddingTop="20dp">
 
             <TextView
+                android:id="@+id/tvNombreUsuarioMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
@@ -46,7 +47,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvEmailUsuarioMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_header_subtitle"

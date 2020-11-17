@@ -33,7 +33,7 @@
         android:layout_marginHorizontal="30dp"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
-        android:text="Ingresa tu dirección de email y la contraseña nueva"
+        android:text="No pasa nada, a todos se nos olvida la contraseña. Te mandamos un email y lo solucionamos"
         android:textSize="18dp"
         android:textColor="@android:color/white"
         />
@@ -64,6 +64,7 @@
             app:boxBackgroundColor="@android:color/transparent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etcambiarpassEmail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textEmailAddress"
@@ -71,80 +72,19 @@
                 android:paddingBottom="20dp"
                 android:maxLines="1" />
 
-
         </com.google.android.material.textfield.TextInputLayout>
-
-        <!-- EditText Nueva Contraseña -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cambiarpassPassword_text_input"
-            android:layout_width="300dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="4dp"
-            android:hint="Nueva contraseña"
-            android:textColorHint="@color/colorPrimary"
-            app:placeholderTextColor="@color/colorPrimary"
-            app:errorIconTint="@android:color/holo_red_dark"
-            app:boxStrokeErrorColor="@android:color/holo_red_dark"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@android:drawable/stat_notify_error"
-            app:startIconDrawable="@android:drawable/ic_partial_secure"
-            app:startIconTint="@color/colorPrimary"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimary"
-            app:boxBackgroundColor="@android:color/transparent"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:textColor="@color/colorPrimary"
-                android:paddingBottom="20dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
-
-        <!-- EditText Repite Nueva Contraseña -->
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cambiarpassPassword2_text_input"
-            android:layout_width="300dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="4dp"
-            android:layout_marginBottom="20dp"
-            android:hint="Repite contraseña"
-            android:textColorHint="@color/colorPrimary"
-            app:placeholderTextColor="@color/colorPrimary"
-            app:errorIconTint="@android:color/holo_red_dark"
-            app:boxStrokeErrorColor="@android:color/holo_red_dark"
-            app:errorEnabled="true"
-            app:errorIconDrawable="@android:drawable/stat_notify_error"
-            app:startIconDrawable="@android:drawable/ic_partial_secure"
-            app:startIconTint="@color/colorPrimary"
-            app:passwordToggleEnabled="true"
-            app:passwordToggleTint="@color/colorPrimary"
-            app:boxBackgroundColor="@android:color/transparent"
-            app:boxBackgroundMode="outline">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword"
-                android:textColor="@color/colorPrimary"
-                android:paddingBottom="20dp"
-                />
-        </com.google.android.material.textfield.TextInputLayout>
-
 
         <Button
             android:id="@+id/btnCambiarPass"
             android:layout_width="303dp"
             android:layout_height="45dp"
             android:background="@drawable/botonpurple"
-            android:text="Cambiar contraseña"
+            android:text="Enviar"
             android:textAllCaps="true"
             android:textColor="@drawable/text_purple_click"
             android:textSize="15sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:layout_marginTop="50dp"/>
 
     </LinearLayout>
 

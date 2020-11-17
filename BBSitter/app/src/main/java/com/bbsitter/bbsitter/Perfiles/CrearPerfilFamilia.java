@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,8 @@ import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
@@ -26,6 +29,9 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -39,23 +45,26 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
     private final String KEY_API_GOOGLE = "AIzaSyCAq5pFIif49ezgqjq4x6ZEaFMyuGXnCH0";
 
+    /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
+    private StorageReference storageRef;
 
     private CircleImageView foto;
     private TextInputLayout nombre, descripcion, direccion;
     private TextInputEditText etNombre, etDireccion, etDescripcion;
     private Button btnCrearPerfilFamilia;
 
-    //private Uri urlFotoPerfil;
-    private String urlFotoPerfil ="";
+    /*Para coger la foto de perfil*/
+    private Uri uri;
+    private String urlFoto;
 
     private LatLng latLng;
-    private String latlongDirecion ="";
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_familia);
@@ -64,10 +73,14 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
+        /*Subir archivos a Storage*/
+        storageRef = FirebaseStorage.getInstance().getReference();
+
 
         nombre = findViewById(R.id.nombreFamilia_edit_text);
         descripcion = findViewById(R.id.descripcionFamilia_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
+        foto = findViewById(R.id.imageFamilia);
 
         etNombre = findViewById(R.id.etNombreFamilia);
         etDireccion = findViewById(R.id.etDireccionFamilia);
@@ -78,6 +91,13 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         establecerAutocompletadoDireccion();
         final ProgressBarCrearPerfil progressBarCrearFamilia = new ProgressBarCrearPerfil(CrearPerfilFamilia.this);
 
+        foto.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                cargarImagen();
+            }
+        });
 
         btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,10 +109,15 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                     String nombre = etNombre.getText().toString().trim();
                     String descripcion = etDescripcion.getText().toString().trim();
                     String direccion = etDireccion.getText().toString().trim();
-                    String uid = mAuth.getCurrentUser().getUid();
+                    final String uid = mAuth.getCurrentUser().getUid();
+
+                    /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
+                    storageRef = storageRef.child("img_familias").child(uid);
+
 
                     /*Creamos un mapa para meter los datos de las familias*/
                     Map<String, Object> mapUser = new HashMap<>();
+                    mapUser.put("img", urlFoto);
                     mapUser.put("nombre", nombre);
                     mapUser.put("descripcion", descripcion);
                     mapUser.put("direccion", direccion);
@@ -125,20 +150,35 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             .set(userUpdate, SetOptions.merge());
 
 
-                    /*MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(CrearPerfilFamilia.this);
-                    builder.setTitle("Perfil Creado");
-                    builder.setMessage("Ya puedes disfrutar de nuestra app!");
-                    builder.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                    /*Metemos la foto en Storage*/
+                    storageRef.putFile(uri).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Le damos click y cerramos la activity
-                            finish();
-                            //Aqui abrimos la actividad main
-                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(main);
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            storageRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    final Uri downloadUrl = uri;
+                                    urlFoto = downloadUrl.toString();
+
+                                    /*Creamos un mapa para actualizar la imagen del perfil*/
+                                    Map<String, Object> userUpdateImg = new HashMap<>();
+                                    userUpdateImg.put("img", urlFoto);
+
+                                    bbdd.collection("familias").document(uid)
+                                            .set(userUpdateImg, SetOptions.merge());
+
+                                }
+                            } ).addOnFailureListener( new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception exception) {
+
+                                }
+                            } );
+
                         }
-                    });
-                    builder.show();*/
+                    } );
+
+
 
                     // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
                     progressBarCrearFamilia.StarProgressBar();
@@ -153,7 +193,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             startActivity(main);
                             finish();
                         }
-                    }, 5000);
+                    }, 2000);
 
 
 
@@ -161,7 +201,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                 }
                 catch(Exception e)
                 {
-
+                    Toast.makeText(CrearPerfilFamilia.this, e.toString(), Toast.LENGTH_SHORT).show();
                     comprobarDatos();
                 }
 
@@ -220,6 +260,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         intentCargarFoto.setType("image/");
         startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
 
+
+
     }
 
     /*Buscamos la dirrecion con la API de Google*/
@@ -260,7 +302,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                 // Instanciamos un PLACE, el cual lo obtendremos del autocomplete
                 Place place = Autocomplete.getPlaceFromIntent(data);
 
-
                 String address = place.getAddress();
 
                 try {
@@ -287,8 +328,13 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         // Resultado de obtener foto del movil
         else if (requestCode == 200){
             if (resultCode == RESULT_OK) {
-                Uri pathFoto = data.getData();
-                foto.setImageURI(pathFoto);
+
+                uri = data.getData();
+
+
+                foto.setImageURI(uri);
+
+
             } else if(resultCode == RESULT_CANCELED){
             }
         }

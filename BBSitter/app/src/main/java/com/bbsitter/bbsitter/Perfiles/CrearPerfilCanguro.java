@@ -1,12 +1,7 @@
 package com.bbsitter.bbsitter.Perfiles;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,6 +17,9 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
@@ -37,7 +35,6 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.slider.Slider;
@@ -334,7 +331,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                          startActivity(main);
                          finish();
                      }
-                 }, 5000);
+                 }, 2000);
 
              }else{
                  Toasty.error(CrearPerfilCanguro.this,"Revisa los campos  rellenar", Toast.LENGTH_LONG).show();
