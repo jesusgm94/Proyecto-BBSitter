@@ -25,8 +25,6 @@ public class PerfilFamiliaActivity extends AppCompatActivity {
     private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
     private MaterialButton btnDireccionPerfilFamilia;
 
-
-
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
 
@@ -52,7 +50,6 @@ public class PerfilFamiliaActivity extends AppCompatActivity {
     private void cargarDatosPerfilFamilia()
     {
         uid = mAuth.getCurrentUser().getUid();
-
 
         bbdd.collection("familias")
                 .whereEqualTo("uid", uid)
