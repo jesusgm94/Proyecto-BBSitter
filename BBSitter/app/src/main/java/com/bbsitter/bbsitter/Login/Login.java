@@ -26,9 +26,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import es.dmoral.toasty.Toasty;
 
 public class Login extends AppCompatActivity {
 
@@ -43,7 +46,6 @@ public class Login extends AppCompatActivity {
     private Button btnLogin;
 
     private SignInButton btnGoogle;
-
     private TextView etCrearCuenta, etCambiarPass;
 
     private FirebaseAuth mAuth;
@@ -131,7 +133,8 @@ public class Login extends AppCompatActivity {
     }
 
     /*Comprobar que el usuario esta conectado al iniciar app*/
-    /*@Override
+    /*
+    @Override
     protected void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -246,7 +249,7 @@ public class Login extends AppCompatActivity {
 
                                                 }
                                             } else {
-                                                Toast.makeText(Login.this, "Movida", Toast.LENGTH_SHORT).show();
+                                                Toasty.error(Login.this, "Movida", Toast.LENGTH_SHORT).show();
                                             }
                                         }
                                     });

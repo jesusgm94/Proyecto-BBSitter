@@ -8,21 +8,31 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.bbsitter.bbsitter.OpcionesMenu.Inicio.InicioFragment"
-        android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home">
-
-    </fragment>
-
+        android:label="Busca canguro"
+        tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_mensajes"
         android:name="com.bbsitter.bbsitter.OpcionesMenu.Mensajes.MensajesFragment"
-        android:label="@string/menu_mensajes"
+        android:label="Chats"
         tools:layout="@layout/fragment_mensajes" />
 
     <fragment
         android:id="@+id/nav_fav"
         android:name="com.bbsitter.bbsitter.OpcionesMenu.Favoritos.FavoritosFragment"
-        android:label="@string/menu_fav"
+        android:label="Mis anuncios"
         tools:layout="@layout/fragment_fav" />
+
+    <fragment
+        android:id="@+id/miPerfilFamiliaFragment"
+        android:name="com.bbsitter.bbsitter.MiPerfilFamiliaFragment"
+        android:label="Mi perfil"
+        tools:layout="@layout/fragment_mi_perfil_familia" />
+
+    <fragment
+        android:id="@+id/crearAnuncioFragment"
+        android:name="com.bbsitter.bbsitter.CrearAnuncioFragment"
+        android:label="Crear_anuncio_fragment"
+        tools:layout="@layout/crear_anuncio_fragment" />
+
 </navigation>
