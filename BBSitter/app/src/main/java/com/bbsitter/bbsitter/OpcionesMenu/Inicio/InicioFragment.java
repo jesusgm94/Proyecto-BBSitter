@@ -8,18 +8,58 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.bbsitter.bbsitter.PagerAdapter;
 import com.bbsitter.bbsitter.R;
+import com.google.android.material.tabs.TabLayout;
+import com.google.android.material.tabs.TabLayoutMediator;
 
 public class InicioFragment extends Fragment {
 
     private InicioViewModel inicioViewModel;
 
+    // TABLAYOUT para ver tanto la lista como el Map
+    private ViewPager2 viewPager2;
+    private TabLayout tabLayout;
+    TabLayoutMediator tabLayoutMediator;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        inicioViewModel =
-                ViewModelProviders.of(this).get(InicioViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
+
+        inicioViewModel = ViewModelProviders.of(this).get(InicioViewModel.class);
+
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        viewPager2 = view.findViewById(R.id.viewPagerTab);
+
+        viewPager2.setAdapter(new PagerAdapter(this));
+
+        tabLayout = view.findViewById(R.id.tabLayoutCanguros);
+
+        tabLayoutMediator = new TabLayoutMediator(tabLayout, viewPager2, new TabLayoutMediator.TabConfigurationStrategy() {
+            @Override
+            public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
+                switch (position){
+                    case 0: {
+                        tab.setText("Lista");
+                        tab.setIcon(R.drawable.ic_baseline_filter_list_24);
+                        break;
+                    }
+                    case 1: {
+                        tab.setText("Mapa");
+                        tab.setIcon(R.drawable.ic_baseline_add_location_24);
+                        break;
+                    }
+                }
+            }
+        });
+        tabLayoutMediator.attach();
+
+
+ 
+
         /*
         final TextView textView = root.findViewById(R.id.text_home);
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
@@ -30,6 +70,6 @@ public class InicioFragment extends Fragment {
         });
         */
 
-        return root;
+        return view;
     }
 }

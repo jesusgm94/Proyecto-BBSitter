@@ -4,5 +4,7 @@
     <color name="colorPrimary">#9AF4EB</color>
     <color name="colorAccent">#FFFFFF</color>
     <color name="colorAccent2">#630F79</color>
+    <color name="colorgris">#eef0f2</color>
+
 </resources>
 

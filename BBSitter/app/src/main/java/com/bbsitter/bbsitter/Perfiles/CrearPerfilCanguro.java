@@ -1,12 +1,7 @@
 package com.bbsitter.bbsitter.Perfiles;
 
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
-
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -22,17 +17,24 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.Autocomplete;
 import com.google.android.libraries.places.widget.AutocompleteActivity;
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
-
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.slider.Slider;
@@ -41,11 +43,15 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -56,6 +62,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
+    private StorageReference storageReference;
 
     private CircleImageView foto;
     private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
@@ -64,11 +71,10 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private Slider sliderPrecio;
     private Button btnCrearCanguro;
 
-    //private Uri urlFotoPerfil;
+    private Uri uriFoto;
     private String urlFotoPerfil ="";
 
     private LatLng latLng;
-    private String latlongDirecion ="";
 
     private double precioHoraCanguro;
     private RadioGroup radioGroupSexo;
@@ -84,8 +90,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     String [] arrayPluses = {"No soy fumador", "Carnet de conducir", "Sé primeros auxilios","Puedo cocinar", "Ayudo con los deberes"};
     String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
 
-    Map<String, Boolean> mapIdiomas = new HashMap<>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         // FIREBASE
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
+        storageReference = FirebaseStorage.getInstance().getReference();
 
         // Asignacion de variables
         foto = findViewById(R.id.imageCanguro);
@@ -158,6 +163,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             }
         });
 
+
         // Campo Fecha Nacimiento
         establecerFechaNacimiento();
 
@@ -169,6 +175,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cargarImagen();
+                Toasty.info(CrearPerfilCanguro.this, "Uri foto: " + uriFoto, Toasty.LENGTH_LONG).show();
             }
         });
 
@@ -181,9 +188,10 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             // Si todos los campos estan rellenados correctamente, validación a true
              if(validacionCampos()) {
 
-                 String uid = mAuth.getCurrentUser().getUid();
+
+                 final String uid = mAuth.getCurrentUser().getUid();
+                 final String urlFoto = "";
                  //String fechaCreacionPerfil = ;
-                 String urlFoto = urlFotoPerfil.toString();
                  String nombreCanguro = etNombre.getText().toString().trim();
                  String apellidosCanguro = etApellidos.getText().toString().trim();
                  String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
@@ -243,6 +251,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  Map<String, Object> mapCanguro = new HashMap<>();
 
                  //mapCanguro.put("Id Canguro", idCanguro);
+                 mapCanguro.put("urlImagen", urlFoto);
                  mapCanguro.put("Nombre", nombreCanguro);
                  mapCanguro.put("Apellidos", apellidosCanguro);
                  mapCanguro.put("Fecha Nacimiento", fechaNacimiento);
@@ -265,11 +274,49 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  Map<String, Object> userUpdate = new HashMap<>();
                  userUpdate.put("perfil", true);
 
+
+
+                 // METER FOTO DEL PERFIL CANGURO
+
+                 final StorageReference rutaArchivo = storageReference.child("img_Canguros").child(uid +".jpg");
+                 /*Metemos la foto en Storage*/
+                 rutaArchivo.putFile(uriFoto).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                     @Override
+                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                         rutaArchivo.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                             @Override
+                             public void onSuccess(Uri uri) {
+                                 final Uri downloadUrl = uri;
+                                 urlFotoPerfil = downloadUrl.toString();
+                                 //urlFoto = urlFotoPerfil.toString();
+
+                                 // Creamos un mapa para actualizar el perifl del usuario*/
+                                 Map<String, Object> userUpdateImg = new HashMap<>();
+                                 userUpdateImg.put("img", urlFotoPerfil);
+
+                                 // Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                                 bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
+
+
+                             }
+                         } ).addOnFailureListener( new OnFailureListener() {
+                             @Override
+                             public void onFailure(@NonNull Exception exception) {
+
+                                 Toast.makeText(CrearPerfilCanguro.this, "Ha fallado", Toast.LENGTH_SHORT).show();
+                             }
+                         } );
+
+
+                     }
+                 } );
+
+
                  /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
                  bbdd.collection("usuarios")
                          .document(uid)
                          .set(userUpdate, SetOptions.merge());
-
 
                  // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando)
                  progressBarCrearPerfil.StarProgressBar();
@@ -284,7 +331,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                          startActivity(main);
                          finish();
                      }
-                 }, 5000);
+                 }, 2000);
 
              }else{
                  Toasty.error(CrearPerfilCanguro.this,"Revisa los campos  rellenar", Toast.LENGTH_LONG).show();
@@ -310,12 +357,30 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         double precio = precioHoraCanguro;
 
         if(nombreCanguro.isEmpty()){
+            nombre.setError("Debes de rellenar tu nombre");
+            validar = false;
+        }
+        else if (fechaNacimiento.isEmpty()){
+            nombre.setError("Debes de rellenar tu fecha de nacimiento");
+            validar = false;
+        }
+        else if (direccion.isEmpty()){
+            nombre.setError("Debes de rellenar con una direccion");
+            validar = false;
+        }
+        else if (descripcion.isEmpty()){
+            nombre.setError("Debes de rellenar el campo");
+            validar = false;
+        }
+        else if (apellidosCanguro.isEmpty()){
+            nombre.setError("Debes de rellenar el campo");
+            validar = false;
+        }
+        else if (experiencia.isEmpty()){
             nombre.setError("Debes de rellenar el campo");
             validar = false;
         }
 
-        // faltaria controlar los demas campos
-        // ...
 
         return validar;
     }
@@ -356,7 +421,9 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private void cargarImagen() {
 
         Intent intentCargarFoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
         intentCargarFoto.setType("image/");
+
         startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
 
     }
@@ -417,8 +484,15 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         // Resultado de obtener foto del movil
         else if (requestCode == 200){
                 if (resultCode == RESULT_OK) {
+
+                    String uid = mAuth.getCurrentUser().getUid();
+
                     Uri pathFoto = data.getData();
                     foto.setImageURI(pathFoto);
+                    uriFoto = pathFoto;
+
+                    //Toasty.info(CrearPerfilCanguro.this, "Uri foto: " + uriFoto, Toasty.LENGTH_LONG).show();
+
                 } else if(resultCode == RESULT_CANCELED){
             }
         }

@@ -23,6 +23,8 @@ public class MensajesFragment extends Fragment {
         mensajesViewModel =
                 ViewModelProviders.of(this).get(MensajesViewModel.class);
         View root = inflater.inflate(R.layout.fragment_mensajes, container, false);
+
+        /*
         final TextView textView = root.findViewById(R.id.text_gallery);
         mensajesViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -30,6 +32,9 @@ public class MensajesFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        */
+
+
         return root;
     }
 }

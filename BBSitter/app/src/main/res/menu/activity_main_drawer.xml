@@ -3,23 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_home"
-            android:icon="@drawable/home"
-            android:title="@string/menu_home" />
-        <item
-            android:id="@+id/nav_mensajes"
-            android:icon="@drawable/mensajes"
-            android:title="@string/menu_mensajes" />
-        <item
-            android:id="@+id/nav_fav"
-            android:icon="@drawable/fav"
-            android:title="@string/menu_fav" />
+    <group
+    android:id="@+id/group_general"
+    android:checkableBehavior="single">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/home"
+        android:title="Busca canguro " />
+    <item
+        android:id="@+id/nav_mensajes"
+        android:icon="@drawable/mensajes"
+        android:title="Chats" />
+    <item
+        android:id="@+id/nav_fav"
+        android:icon="@drawable/fav"
+        android:title="Mis anuncios" />
 
-        <item
-            android:id="@+id/nav_cerrarSesion"
-            android:icon="@drawable/logout"
-            android:title="@string/menu_logout" />
+
     </group>
+
+    <group
+        android:id="@+id/group_miPerfilFamilia"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/miPerfilFamiliaFragment"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Mi perfil" />
+
+    </group>
+
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:title="Cerrar sesión" />
+
+    </group>
+
+
 </menu>
