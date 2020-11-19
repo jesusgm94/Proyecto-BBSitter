@@ -15,6 +15,8 @@ import com.bbsitter.bbsitter.PagerAdapter;
 import com.bbsitter.bbsitter.R;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class InicioFragment extends Fragment {
 
@@ -25,10 +27,14 @@ public class InicioFragment extends Fragment {
     private TabLayout tabLayout;
     TabLayoutMediator tabLayoutMediator;
 
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore bbdd;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         inicioViewModel = ViewModelProviders.of(this).get(InicioViewModel.class);
+
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 

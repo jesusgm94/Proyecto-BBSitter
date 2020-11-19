@@ -4,20 +4,13 @@
     tools:showIn="navigation_view">
 
     <group
-    android:id="@+id/group_general"
-    android:checkableBehavior="single">
-    <item
-        android:id="@+id/nav_home"
-        android:icon="@drawable/home"
-        android:title="Busca canguro " />
-    <item
-        android:id="@+id/nav_chats"
-        android:icon="@drawable/mensajes"
-        android:title="Chats" />
-    <item
-        android:id="@+id/nav_anuncios"
-        android:icon="@drawable/fav"
-        android:title="Mis anuncios" />
+        android:id="@+id/group_general"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/home"
+            android:title="Busca familias " />
+
 
 
     </group>

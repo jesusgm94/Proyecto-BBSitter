@@ -12,16 +12,16 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_mensajes"
-        android:name="com.bbsitter.bbsitter.OpcionesMenu.Mensajes.MensajesFragment"
+        android:id="@+id/nav_chats"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.Chats.ChatsFragment"
         android:label="Chats"
-        tools:layout="@layout/fragment_mensajes" />
+        tools:layout="@layout/fragment_chats" />
 
     <fragment
-        android:id="@+id/nav_fav"
-        android:name="com.bbsitter.bbsitter.OpcionesMenu.Favoritos.FavoritosFragment"
+        android:id="@+id/nav_anuncios"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.Anuncios.AnunciosFragment"
         android:label="Mis anuncios"
-        tools:layout="@layout/fragment_fav" />
+        tools:layout="@layout/fragment_anuncios" />
 
     <fragment
         android:id="@+id/miPerfilFamiliaFragment"

@@ -105,7 +105,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                 try {
                     /*Cargamos los datos*/
-
                     String nombre = etNombre.getText().toString().trim();
                     String descripcion = etDescripcion.getText().toString().trim();
                     String direccion = etDireccion.getText().toString().trim();
@@ -144,6 +143,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                     /*Creamos un mapa para actualizar el perifl del usuario*/
                     Map<String, Object> userUpdate = new HashMap<>();
                     userUpdate.put("perfil", true);
+                    userUpdate.put("tipo", "familia");
 
                     /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
                     bbdd.collection("usuarios").document(uid)

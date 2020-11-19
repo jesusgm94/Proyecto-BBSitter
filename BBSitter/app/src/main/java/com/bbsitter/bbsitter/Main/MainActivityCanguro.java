@@ -1,5 +1,14 @@
 package com.bbsitter.bbsitter.Main;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,17 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.bbsitter.bbsitter.MiPerfilFamiliaFragment;
 import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,7 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivityCanguro extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -39,15 +37,11 @@ public class MainActivity extends AppCompatActivity {
     /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
-    private NavigationView navigationView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_canguro);
 
         // ACTION BAR
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -59,11 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_chats, R.id.nav_anuncios)
+                R.id.nav_home)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -90,19 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-
     }
 
-
-
-    //Cargamos los datos del usuario en el menu deplegable
     private void cargarDatosUsuario()
     {
         String uid = mAuth.getCurrentUser().getUid();
 
-        bbdd.collection("familias")
+        bbdd.collection("canguros")
                 .whereEqualTo("uid", uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -113,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
+                                String nombreFamilia =  document.get("nombre").toString();
                                 String imagenFamilia = document.get("img").toString();
                                 String emailFamilia = mAuth.getCurrentUser().getEmail();
 
@@ -127,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
                         } else {
-                            Toast.makeText(MainActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivityCanguro.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
+import com.bbsitter.bbsitter.Main.MainActivityCanguro;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -272,6 +273,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  /*Mapa para de datos para actualizar el usuario*/
                  Map<String, Object> userUpdate = new HashMap<>();
                  userUpdate.put("perfil", true);
+                 userUpdate.put("tipo", "canguro");
 
 
 
@@ -326,7 +328,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                          progressBarCrearPerfil.finishProgressBar();
 
                          //Aqui abrimos la actividad main
-                         Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                         Intent main = new Intent(getApplicationContext(), MainActivityCanguro.class);
                          startActivity(main);
                          finish();
                      }
