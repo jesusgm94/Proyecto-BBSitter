@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenuCanguro;
+package com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats;
 
 import androidx.lifecycle.ViewModel;
 

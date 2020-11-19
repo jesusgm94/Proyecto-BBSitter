@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
@@ -68,6 +69,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_familia);
+
+
 
         /*Firebase Auth y BBDD*/
         mAuth = FirebaseAuth.getInstance();

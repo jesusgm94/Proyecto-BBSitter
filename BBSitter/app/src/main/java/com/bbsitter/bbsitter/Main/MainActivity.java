@@ -29,11 +29,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private ImageView imagenUsuarioMenu;
+    private CircleImageView imagenUsuarioMenu;
     private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
 
     /*Movidas de Firebase*/
