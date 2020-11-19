@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenu.Mensajes;
+package com.bbsitter.bbsitter.OpcionesMenu.Chats;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,14 +16,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
 import com.bbsitter.bbsitter.Clases.CanguroAdapter;
+import com.bbsitter.bbsitter.OpcionesMenu.Chats.ChatsViewModel;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
-public class MensajesFragment extends Fragment {
+public class ChatsFragment extends Fragment {
 
-    private MensajesViewModel mensajesViewModel;
+    private ChatsViewModel mensajesViewModel;
 /*
     private FirebaseFirestore bbdd;
 
@@ -35,9 +36,9 @@ public class MensajesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        mensajesViewModel =  ViewModelProviders.of(this).get(MensajesViewModel.class);
+        mensajesViewModel =  ViewModelProviders.of(this).get(ChatsViewModel.class);
 
-        View view = inflater.inflate(R.layout.fragment_mensajes, container, false);
+        View view = inflater.inflate(R.layout.fragment_chats, container, false);
 /*
         bbdd = FirebaseFirestore.getInstance();
 

@@ -29,7 +29,7 @@ import com.squareup.picasso.Picasso;
 
 public class MainActivityCanguro extends AppCompatActivity {
 
-    private AppBarConfiguration mAppBarConfiguration;
+    private AppBarConfiguration mAppBarConfigurationCanguro;
 
     private ImageView imagenUsuarioMenu;
     private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
@@ -44,35 +44,36 @@ public class MainActivityCanguro extends AppCompatActivity {
         setContentView(R.layout.activity_main_canguro);
 
         // ACTION BAR
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarCanguro);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_canguro);
 
-        NavigationView navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationViewCanguro = findViewById(R.id.nav_view_canguro);
 
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home)
+        mAppBarConfigurationCanguro = new AppBarConfiguration.Builder(
+                R.id.inicioCanguroFragment, R.id.miPerfilCanguroFragment, R.id.chatsCanguroFragment )
                 .setDrawerLayout(drawer)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavController navControllerCanguro = Navigation.findNavController(this, R.id.nav_host_fragment_canguro);
 
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupActionBarWithNavController(this, navControllerCanguro, mAppBarConfigurationCanguro);
+
+        NavigationUI.setupWithNavController(navigationViewCanguro, navControllerCanguro);
 
 
         ////////////////////////////// Menú desplegable parte superior //////////////////////////////////////
-        navigationView = findViewById(R.id.nav_view);
-        imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
-        tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
-        tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
+        navigationViewCanguro = findViewById(R.id.nav_view_canguro);
+        imagenUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.imagenCanguroMenu);
+        tvNombreUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.tvNombreCanguroMenu);
+        tvEmailUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.tvEmailCanguroMenu);
         cargarDatosUsuario();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
@@ -132,8 +133,8 @@ public class MainActivityCanguro extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+        NavController navControllerCanguro = Navigation.findNavController(this, R.id.nav_host_fragment_canguro);
+        return NavigationUI.navigateUp(navControllerCanguro, mAppBarConfigurationCanguro)
                 || super.onSupportNavigateUp();
     }
 }

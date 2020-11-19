@@ -7,19 +7,27 @@
         android:id="@+id/group_general"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/inicioCanguroFragment"
             android:icon="@drawable/home"
-            android:title="Busca familias " />
-
-
+            android:title="Anuncios" />
 
     </group>
 
     <group
-        android:id="@+id/group_miPerfilFamilia"
+        android:id="@+id/group_misChatsCanguro"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/miPerfilFamiliaFragment"
+            android:id="@+id/chatsCanguroFragment"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="Chats" />
+
+    </group>
+
+    <group
+        android:id="@+id/group_miPerfilCanguro"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/miPerfilCanguroFragment"
             android:icon="@android:drawable/ic_menu_agenda"
             android:title="Mi perfil" />
 

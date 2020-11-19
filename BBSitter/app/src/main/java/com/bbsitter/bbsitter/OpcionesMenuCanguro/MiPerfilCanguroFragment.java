@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.OpcionesMenuCanguro;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -12,24 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class InicioCanguroFragment extends Fragment {
+import com.bbsitter.bbsitter.R;
 
-    private InicioCanguroViewModel mViewModel;
+public class MiPerfilCanguroFragment extends Fragment {
 
-    public static InicioCanguroFragment newInstance() {
-        return new InicioCanguroFragment();
+    private MiPerfilCanguroViewModel mViewModel;
+
+    public static MiPerfilCanguroFragment newInstance() {
+        return new MiPerfilCanguroFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.inicio_canguro_fragment, container, false);
+        return inflater.inflate(R.layout.mi_perfil_canguro_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InicioCanguroViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(MiPerfilCanguroViewModel.class);
         // TODO: Use the ViewModel
     }
 

@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         ////////////////////////////// Menú desplegable parte superior //////////////////////////////////////
+
         navigationView = findViewById(R.id.nav_view);
         imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
         tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
