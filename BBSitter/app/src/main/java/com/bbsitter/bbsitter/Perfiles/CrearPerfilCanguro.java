@@ -251,19 +251,18 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  Map<String, Object> mapCanguro = new HashMap<>();
 
                  //mapCanguro.put("Id Canguro", idCanguro);
-                 mapCanguro.put("urlImagen", urlFoto);
-                 mapCanguro.put("Nombre", nombreCanguro);
-                 mapCanguro.put("Apellidos", apellidosCanguro);
-                 mapCanguro.put("Fecha Nacimiento", fechaNacimiento);
-                 mapCanguro.put("Sexo", sexo);
-                 mapCanguro.put("Direccion", direccion);
-                 mapCanguro.put("Localizacion", mapLoc);  // Mapa localizacion Canguro
-                 mapCanguro.put("Experiencia", experiencia);
-                 mapCanguro.put("Precio hora", precio);
+                 mapCanguro.put("nombre", nombreCanguro);
+                 mapCanguro.put("apellidos", apellidosCanguro);
+                 mapCanguro.put("fechaNacimiento", fechaNacimiento);
+                 mapCanguro.put("sexo", sexo);
+                 mapCanguro.put("direccion", direccion);
+                 mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
+                 mapCanguro.put("experiencia", experiencia);
+                 mapCanguro.put("precioHora", precio);
                  mapCanguro.put("descripcion", descripcion);
-                 mapCanguro.put("Preferencia edades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
-                 mapCanguro.put("Pluses", mapPluses);  // Mapa Pluses Canguro
-                 mapCanguro.put("Idiomas", mapIdiomas);  // Mapa Idiomas Canguro
+                 mapCanguro.put("preferenciaEdades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
+                 mapCanguro.put("pluses", mapPluses);  // Mapa Pluses Canguro
+                 mapCanguro.put("idiomas", mapIdiomas);  // Mapa Idiomas Canguro
 
                  /*Introducimos el canguro nuevo dentro de la BBDD*/
                  bbdd.collection("canguros")
