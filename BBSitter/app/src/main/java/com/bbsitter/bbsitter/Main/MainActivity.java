@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
     private ImageView imagenUsuarioMenu;
-    private TextView tvNombreUsuarioMenu, tvCorreoUsuarioMenu;
+    private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
 
     /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
@@ -90,22 +91,20 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
         tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
+        tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
         cargarDatosUsuario();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent perfilFamilia = new Intent(getApplicationContext(), PerfilFamiliaActivity.class);
+                Intent perfilFamilia = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(perfilFamilia);
+
             }
         });
 
         //////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
 
     }
 
@@ -129,12 +128,14 @@ public class MainActivity extends AppCompatActivity {
                                 //Recogemos los datos de la base de datos
                                 String nombreFamilia =  "Familia " + document.get("nombre").toString();
                                 String imagenFamilia = document.get("img").toString();
+                                String emailFamilia = mAuth.getCurrentUser().getEmail();
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
                                 Picasso.get().load(imagenFamilia).into(imagenUsuarioMenu);
 
                                 //Agrega nuevo nombre
                                 tvNombreUsuarioMenu.setText(nombreFamilia);
+                                tvEmailUsuarioMenu.setText(emailFamilia);
 
 
                             }
