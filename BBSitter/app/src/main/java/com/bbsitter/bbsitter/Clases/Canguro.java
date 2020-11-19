@@ -6,7 +6,7 @@ import java.util.Map;
 public class Canguro implements Serializable {
 
     //Atributos
-    private String urlFoto;
+    private String img;
 
     // Datos personales
     private String nombre;
@@ -37,7 +37,7 @@ public class Canguro implements Serializable {
     public Canguro(){}
 
     public Canguro(String urlFoto, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil) {
-        this.urlFoto = urlFoto;
+        this.img = urlFoto;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.fechaNacimiento = fechaNacimiento;
@@ -57,12 +57,12 @@ public class Canguro implements Serializable {
 
     // Getters and setters
 
-    public String getUrlFoto() {
-        return urlFoto;
+    public String getImg() {
+        return img;
     }
 
-    public void setUrlFoto(String urlFoto) {
-        this.urlFoto = urlFoto;
+    public void setImg(String urlFoto) {
+        this.img = urlFoto;
     }
 
     public String getNombre() {

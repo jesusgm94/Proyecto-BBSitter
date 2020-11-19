@@ -2,6 +2,7 @@ package com.bbsitter.bbsitter;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -9,15 +10,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
-import com.bbsitter.bbsitter.Clases.CanguroAdapter;
-import com.google.firebase.database.FirebaseDatabase;
+import com.bbsitter.bbsitter.Clases.CangurosAdapter;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ListaCangurosFragment#newInstance} factory method to
@@ -37,8 +44,7 @@ public class ListaCangurosFragment extends Fragment {
     private FirebaseFirestore bbdd;
 
     RecyclerView recyclerViewListaCanguros;
-
-    List<Canguro> listaCanguros;
+    CangurosAdapter adapterCanguro;
 
 
     public ListaCangurosFragment() {
@@ -80,27 +86,33 @@ public class ListaCangurosFragment extends Fragment {
 
         bbdd = FirebaseFirestore.getInstance();
 
-
-        listaCanguros = new ArrayList<>();
         recyclerViewListaCanguros = view.findViewById(R.id.recycler_ListaCanguros);
         recyclerViewListaCanguros.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        rellenarListaCanguros();
+        Query query = bbdd.collection("canguros");
 
-        CanguroAdapter adapterCanguro = new CanguroAdapter(listaCanguros);
+        FirestoreRecyclerOptions<Canguro> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Canguro>()
+                .setQuery(query, Canguro.class).build();
+
+        adapterCanguro = new CangurosAdapter(firestoreRecyclerOptions);
+        adapterCanguro.notifyDataSetChanged();
+
         recyclerViewListaCanguros.setAdapter(adapterCanguro);
 
         return view;
     }
 
-    private void rellenarListaCanguros() {
-
-        Canguro canguro = new Canguro();
-        canguro.setNombre("David");
-        canguro.setEdad(31);
-        canguro.setPrecioHora(10.50);
-
-        listaCanguros.add(canguro);
-
+    // Si no ponemos estos dos metodos no nos cargarán los datos
+    @Override
+    public void onStart() {
+        super.onStart();
+        adapterCanguro.startListening();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        adapterCanguro.stopListening();
+    }
+
 }
