@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
+import com.bbsitter.bbsitter.Main.MainActivityCanguro;
+import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -37,14 +39,13 @@ public class Login extends AppCompatActivity {
     private static final String TAG = "datos";
     private String email = "";
     private String password = "";
+    private String tipo;
     private static final int RC_SIGN_IN = 9001;
 
     private TextInputLayout editTextEmail, editTextPassword;
 
     private Button btnLogin;
-
     private SignInButton btnGoogle;
-
     private TextView etCrearCuenta, etCambiarPass;
 
     private FirebaseAuth mAuth;
@@ -85,7 +86,6 @@ public class Login extends AppCompatActivity {
                 if (!email.isEmpty() && !password.isEmpty()) {
 
                     logearUsuario();
-
 
 
                 } else {
@@ -195,8 +195,10 @@ public class Login extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                             if (task.isSuccessful()) {
+
                                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                                     Boolean perfil = ((Boolean) document.get("perfil"));
+                                                    tipo = document.get("tipo").toString();
 
                                                     if (perfil == true) {
 
@@ -208,10 +210,21 @@ public class Login extends AppCompatActivity {
                                                             public void run() {
                                                                 progressBarInicioSesion.finishProgressBar();
 
-                                                                //Aqui abrimos la actividad main
-                                                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                                                                startActivity(main);
-                                                                finish();
+                                                                if(tipo.equals("familia"))
+                                                                {
+                                                                    //Aqui abrimos la actividad main
+                                                                    Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                                                    startActivity(main);
+                                                                    finish();
+                                                                }
+                                                                else if (tipo.equals("canguro"))
+                                                                {
+                                                                    Intent maincanguro = new Intent(getApplicationContext(), MainActivityCanguro.class);
+                                                                    startActivity(maincanguro);
+                                                                    finish();
+                                                                }
+
+
 
                                                             }
                                                         }, 2000);

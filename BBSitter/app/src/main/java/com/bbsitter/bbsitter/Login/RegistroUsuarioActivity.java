@@ -164,6 +164,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     mapUser.put("email", email);
                     //mapUser.put("password", password);
                     mapUser.put("perfil", perfil);
+                    mapUser.put("tipo", "");
                     mapUser.put("uid", uid);
 
                     bbdd.collection("usuarios")

@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/mobile_navigation_canguro">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation_canguro"
+    app:startDestination="@id/inicioCanguroFragment">
+
+    <fragment
+        android:id="@+id/inicioCanguroFragment"
+        android:name="com.bbsitter.bbsitter.InicioCanguroFragment"
+        android:label="Busca Familias"
+        tools:layout="@layout/inicio_canguro_fragment" />
+
 
 </navigation>

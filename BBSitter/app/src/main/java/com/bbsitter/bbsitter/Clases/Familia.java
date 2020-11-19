@@ -7,14 +7,18 @@ public class Familia implements Serializable {
     private String nombre;
     private String descripcion;
     private String direccion;
+    private double longitudLoc;
+    private double latitudLoc;
     private String uid;
 
     public Familia(){}
 
-    public Familia(String nombre, String descripcion, String direccion, String uid) {
+    public Familia(String nombre, String descripcion, String direccion, double longitudLoc, double latitudLoc, String uid) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.direccion = direccion;
+        this.longitudLoc = longitudLoc;
+        this.latitudLoc = latitudLoc;
         this.uid = uid;
     }
 
@@ -42,6 +46,14 @@ public class Familia implements Serializable {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+
+    public double getLongitudLoc() {return longitudLoc;}
+
+    public void setLongitudLoc(double longitudLoc) {this.longitudLoc = longitudLoc;}
+
+    public double getLatitudLoc() {return latitudLoc;}
+
+    public void setLatitudLoc(double latitudLoc) {this.latitudLoc = latitudLoc;}
 
     public String getUid() {return uid;}
 

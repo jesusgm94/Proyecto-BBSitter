@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
+    tools:context=".InicioCanguroFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+
+        <!-- TITULO
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvFiltrarcanguros"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginRight="15dp"
+                android:gravity="start"
+                android:text="Encuentra a tu mejor canguro"
+                android:textAlignment="viewStart"
+                android:textSize="14dp" />
+        </LinearLayout>-->
+    </LinearLayout>
+
+    <!-- GRUPO DE CHIPS -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:chipSpacingHorizontal="15dp">
+
+            <!-- Chips can be declared here, or added dynamically. -->
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Cercanos"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorAccent2"
+                app:checkedIconTint="@color/colorPrimary"
+                />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Valoración"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorAccent2"
+                app:checkedIconTint="@color/colorPrimary"
+                />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Precio"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorAccent2"
+                app:checkedIconTint="@color/colorPrimary"
+                />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Edad"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorAccent2"
+                app:checkedIconTint="@color/colorPrimary"
+                />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Cercanos"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorAccent2"
+                app:checkedIconTint="@color/colorPrimary"
+                />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <!-- BARRA TABS -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayoutCanguros"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed"
+            app:tabIndicatorHeight="4dp"
+            app:tabBackground="@color/colorPrimary"
+            />
+
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/viewPagerTab"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+        <!--
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_list"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_baseline_format_list_bulleted_24"
+            android:text="lista"
+            />
+
+        <com.google.android.material.tabs.TabItem
+            android:id="@+id/tab_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:icon="@drawable/ic_baseline_add_location_24"
+            android:text="mapa"
+            />
+    -->
+
+
+    </LinearLayout>
+
+</LinearLayout>
