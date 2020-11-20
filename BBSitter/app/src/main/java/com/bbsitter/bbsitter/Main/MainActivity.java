@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
         imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
         tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
         tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
-        cargarDatosUsuario();
+        cargarDatosFamilias();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Cargamos los datos del usuario en el menu deplegable
-    private void cargarDatosUsuario()
+    private void cargarDatosFamilias()
     {
         String uid = mAuth.getCurrentUser().getUid();
 

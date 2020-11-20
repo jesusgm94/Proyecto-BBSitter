@@ -58,7 +58,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
     /*Para coger la foto de perfil*/
     private Uri uri;
-    private String urlFoto;
+    private String urlFoto = "";
 
     private LatLng latLng;
 
@@ -119,10 +119,10 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                     /*Creamos un mapa para meter los datos de las familias*/
                     Map<String, Object> mapUser = new HashMap<>();
-                    mapUser.put("img", urlFoto);
                     mapUser.put("nombre", nombre);
                     mapUser.put("descripcion", descripcion);
                     mapUser.put("direccion", direccion);
+                    mapUser.put("uid", uid);
 
 
                     /* LOCALIZACION*/

@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.bbsitter.bbsitter.R;
-import com.google.android.material.snackbar.Snackbar;
 
 public class AnunciosFragment extends Fragment {
 
@@ -31,8 +31,8 @@ public class AnunciosFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Snackbar.make(view, "Necesitas una intent para  crear el anuncio", Snackbar.LENGTH_LONG)
-                        .setAction("Necesitas hacer el intent para hacer un anuncio", null).show();
+                Intent crearAnuncio = new Intent(getContext(), CrearAnuncioActivity.class);
+                startActivity(crearAnuncio);
             }
         });
 

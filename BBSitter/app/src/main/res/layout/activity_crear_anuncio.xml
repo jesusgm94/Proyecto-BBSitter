@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".Perfiles.CrearPerfilCanguro">
+
+    <!-- Titulo:Estas creando... -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/cabeceracrearperfilcanguro">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Creando un anuncio"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <!-- Dentro del ScrollView debe haber un LinearLayout que englobe a todo-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <!-- Layout Datos: Nombre, descripcion y direccion -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Pon un título a tu anuncio"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- NOMBRE EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/tituloFamilia_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Ej: 'Canguro fines de semana' "
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:placeholderTextColor="@color/colorPrimaryDark"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etTituloAnuncio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLength="25"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <!-- Layout Descripccion -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Escribe una descripción para tu anuncio"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- Direccion EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descripcionAnuncio_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Escribe tu descripción"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="140"
+                    app:counterTextColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcionAnuncio"
+                        android:layout_width="300dp"
+                        android:layout_height="130dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Qué día quieres que cuiden a tu hijo/a?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+
+                <CheckBox
+                    android:id="@+id/radio_button_Dia"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="18dp"
+                    android:text="Sólo un día"
+                    android:checked="true"
+                    android:textColor="@android:color/darker_gray"
+                    android:textSize="14dp" />
+
+
+                <!-- NOMBRE EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/FechaCuidadoInicio_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Fecha Inicio"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaCuidadoInicio"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingBottom="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/FechaCuidadoFin_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Fecha Fin"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaCuidadoFin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingBottom="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <!-- Boton crear familia -->
+
+            <Button
+                android:id="@+id/btnCrearAnuncio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="20sp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/botonredondeadowhite"
+                android:text="Crear anuncio"
+                android:textAllCaps="true"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
