@@ -75,7 +75,6 @@ public class PerfilFamiliaActivity extends AppCompatActivity {
                                 btnDireccionPerfilFamilia.setText(direccionFamilia);
                                 tvDescripcionPerfilFamilia.setText(descripcionFamilia);
 
-
                             }
                         } else {
                             Toast.makeText(PerfilFamiliaActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();

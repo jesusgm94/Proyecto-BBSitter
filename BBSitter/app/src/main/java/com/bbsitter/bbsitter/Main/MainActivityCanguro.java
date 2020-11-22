@@ -1,5 +1,14 @@
 package com.bbsitter.bbsitter.Main;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -7,17 +16,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-import androidx.navigation.ui.AppBarConfiguration;
-import androidx.navigation.ui.NavigationUI;
-
-import com.bbsitter.bbsitter.MiPerfilFamiliaFragment;
 import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -29,60 +27,54 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
-import de.hdodenhof.circleimageview.CircleImageView;
+public class MainActivityCanguro extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity {
+    private AppBarConfiguration mAppBarConfigurationCanguro;
 
-    private AppBarConfiguration mAppBarConfiguration;
-
-    private CircleImageView imagenUsuarioMenu;
+    private ImageView imagenUsuarioMenu;
     private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
 
     /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
-    private NavigationView navigationView;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main_canguro);
 
         // ACTION BAR
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbarCanguro);
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout_canguro);
 
-        navigationView = findViewById(R.id.nav_view);
+        NavigationView navigationViewCanguro = findViewById(R.id.nav_view_canguro);
 
 
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_chats, R.id.nav_anuncios)
+        mAppBarConfigurationCanguro = new AppBarConfiguration.Builder(
+                R.id.inicioCanguroFragment, R.id.miPerfilCanguroFragment, R.id.chatsCanguroFragment )
                 .setDrawerLayout(drawer)
                 .build();
 
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        NavController navControllerCanguro = Navigation.findNavController(this, R.id.nav_host_fragment_canguro);
 
-        NavigationUI.setupWithNavController(navigationView, navController);
+        NavigationUI.setupActionBarWithNavController(this, navControllerCanguro, mAppBarConfigurationCanguro);
+
+        NavigationUI.setupWithNavController(navigationViewCanguro, navControllerCanguro);
 
 
         ////////////////////////////// Menú desplegable parte superior //////////////////////////////////////
-
-        navigationView = findViewById(R.id.nav_view);
-        imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
-        tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
-        tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
-        cargarDatosFamilias();
+        navigationViewCanguro = findViewById(R.id.nav_view_canguro);
+        imagenUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.imagenCanguroMenu);
+        tvNombreUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.tvNombreCanguroMenu);
+        tvEmailUsuarioMenu = navigationViewCanguro.getHeaderView(0).findViewById(R.id.tvEmailCanguroMenu);
+        cargarDatosUsuario();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
@@ -93,19 +85,13 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-        //////////////////////////////////////////////////////////////////////////////////////////////////////
-
     }
 
-
-
-    //Cargamos los datos del usuario en el menu deplegable
-    private void cargarDatosFamilias()
+    private void cargarDatosUsuario()
     {
         String uid = mAuth.getCurrentUser().getUid();
 
-        bbdd.collection("familias")
+        bbdd.collection("canguros")
                 .whereEqualTo("uid", uid)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -116,21 +102,21 @@ public class MainActivity extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
                                 //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
-                                String imagenFamilia = document.get("img").toString();
-                                String emailFamilia = mAuth.getCurrentUser().getEmail();
+                                String nombre =  document.get("nombre").toString();
+                                String imagen = document.get("img").toString();
+                                String email = mAuth.getCurrentUser().getEmail();
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagenFamilia).into(imagenUsuarioMenu);
+                                Picasso.get().load(imagen).into(imagenUsuarioMenu);
 
                                 //Agrega nuevo nombre
-                                tvNombreUsuarioMenu.setText(nombreFamilia);
-                                tvEmailUsuarioMenu.setText(emailFamilia);
+                                tvNombreUsuarioMenu.setText(nombre);
+                                tvEmailUsuarioMenu.setText(email);
 
 
                             }
                         } else {
-                            Toast.makeText(MainActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivityCanguro.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -147,8 +133,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        return NavigationUI.navigateUp(navController, mAppBarConfiguration)
+        NavController navControllerCanguro = Navigation.findNavController(this, R.id.nav_host_fragment_canguro);
+        return NavigationUI.navigateUp(navControllerCanguro, mAppBarConfigurationCanguro)
                 || super.onSupportNavigateUp();
     }
 }

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
+    tools:context=".OpcionesMenuCanguro.Inicio.InicioCanguroFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:background="@color/colorPrimaryDark"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <!-- GRUPO DE CHIPS -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/colorazulcielo">
+
+        <com.google.android.material.chip.ChipGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="10dp"
+            style="@style/Widget.MaterialComponents.Chip.Action"
+            app:singleLine="true"
+            app:singleSelection="true"
+            app:chipSpacingHorizontal="15dp">
+
+            <!-- Chips can be declared here, or added dynamically. -->
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="Novedades"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorazulcielo"
+                app:checkedIconTint="@color/colorPrimaryDark"
+                app:chipStrokeColor="@android:color/white"
+                app:chipStrokeWidth="1dp"
+                />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Cercanos"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorazulcielo"
+                app:checkedIconTint="@color/colorPrimaryDark"
+                app:chipStrokeColor="@android:color/white"
+                app:chipStrokeWidth="1dp"
+                />
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Precio"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorazulcielo"
+                app:checkedIconTint="@color/colorPrimaryDark"
+                app:chipStrokeColor="@android:color/white"
+                app:chipStrokeWidth="1dp"
+                />
+
+            <com.google.android.material.chip.Chip
+                style="@style/Widget.MaterialComponents.Chip.Filter"
+                android:id="@+id/chip_4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="false"
+                android:text="Edad"
+                android:textColor="@android:color/white"
+                app:chipBackgroundColor="@color/colorazulcielo"
+                app:checkedIconTint="@color/colorPrimaryDark"
+                app:chipStrokeColor="@android:color/white"
+                app:chipStrokeWidth="1dp"
+                />
+
+        </com.google.android.material.chip.ChipGroup>
+
+    </HorizontalScrollView>
+
+    <!-- RECYCLER VIEW ANUNCIOS-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_ListaAnuncios"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorgris"/>
+
+    </LinearLayout>
+
+</LinearLayout>

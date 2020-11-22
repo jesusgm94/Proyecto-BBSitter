@@ -48,6 +48,7 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
                 //Aqui abrimos la actividad para rellenar los datos y crear el perfil Canguro
                 Intent crearCanguro = new Intent (getApplicationContext(), CrearPerfilCanguro.class);
                 startActivity(crearCanguro);
+                finish();
 
             }
         });
@@ -60,6 +61,7 @@ public class ElegirquePerfilCrear extends AppCompatActivity {
                 //Aqui abrimos la actividad principal
                 Intent crearFamilia = new Intent (getApplicationContext(), CrearPerfilFamilia.class);
                 startActivity(crearFamilia);
+                finish();
 
             }
         });

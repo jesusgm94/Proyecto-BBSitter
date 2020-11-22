@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="140dp"
-    android:background="@drawable/cabeceracrearperfilcanguro"
+    android:background="@drawable/cabeceracrearperfilfamilia"
     android:gravity="bottom"
     android:orientation="vertical"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -15,14 +15,14 @@
     >
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="204dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/imagenUsuarioMenu"
-            android:layout_width="70dp"
-            android:layout_height="100dp"
+            android:id="@+id/imagenCanguroMenu"
+            android:layout_width="60dp"
+            android:layout_height="90dp"
             android:layout_marginRight="15dp"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
@@ -37,24 +37,24 @@
             android:paddingTop="20dp">
 
             <TextView
-                android:id="@+id/tvNombreUsuarioMenu"
+                android:id="@+id/tvNombreCanguroMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/nav_header_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                android:textColor="@color/colorAccent"
-                android:textSize="17dp"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="14dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/tvEmailUsuarioMenu"
+                android:id="@+id/tvEmailCanguroMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/nav_header_subtitle"
-                android:textColor="@color/colorAccent"
-                android:textSize="12dp" />
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="8dp" />
 
         </LinearLayout>
     </LinearLayout>

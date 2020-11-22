@@ -1,6 +1,6 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio;
 
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.os.Bundle;
 
@@ -12,24 +12,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class CrearAnuncioFragment extends Fragment {
+import com.bbsitter.bbsitter.R;
 
-    private CrearAnuncioViewModel mViewModel;
+public class InicioCanguroFragment extends Fragment {
 
-    public static CrearAnuncioFragment newInstance() {
-        return new CrearAnuncioFragment();
+    private InicioCanguroViewModel mViewModel;
+
+    public static InicioCanguroFragment newInstance() {
+        return new InicioCanguroFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.crear_anuncio_fragment, container, false);
+        return inflater.inflate(R.layout.inicio_canguro_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = ViewModelProviders.of(this).get(CrearAnuncioViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(InicioCanguroViewModel.class);
         // TODO: Use the ViewModel
     }
 
