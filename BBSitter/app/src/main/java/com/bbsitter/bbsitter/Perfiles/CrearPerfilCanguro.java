@@ -261,6 +261,8 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  mapCanguro.put("experiencia", experiencia);
                  mapCanguro.put("precioHora", precio);
                  mapCanguro.put("descripcion", descripcion);
+                 mapCanguro.put("latitud", latitudLoc);
+                 mapCanguro.put("longitud", longitudLoc);
                  mapCanguro.put("preferenciaEdades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
                  mapCanguro.put("pluses", mapPluses);  // Mapa Pluses Canguro
                  mapCanguro.put("idiomas", mapIdiomas);  // Mapa Idiomas Canguro

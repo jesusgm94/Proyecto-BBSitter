@@ -4,6 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -16,6 +19,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bbsitter.bbsitter.MiPerfilFamiliaFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment;
+import com.bbsitter.bbsitter.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -80,8 +86,8 @@ public class MainActivityCanguro extends AppCompatActivity {
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent perfilFamilia = new Intent(getApplicationContext(), PerfilFamiliaActivity.class);
-                startActivity(perfilFamilia);
+
+                cargarFragment(new MiPerfilCanguroFragment());
 
             }
         });
@@ -136,5 +142,12 @@ public class MainActivityCanguro extends AppCompatActivity {
         NavController navControllerCanguro = Navigation.findNavController(this, R.id.nav_host_fragment_canguro);
         return NavigationUI.navigateUp(navControllerCanguro, mAppBarConfigurationCanguro)
                 || super.onSupportNavigateUp();
+    }
+
+    private void cargarFragment(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fm.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment_canguro, fragment);
+        fragmentTransaction.commit();
     }
 }
