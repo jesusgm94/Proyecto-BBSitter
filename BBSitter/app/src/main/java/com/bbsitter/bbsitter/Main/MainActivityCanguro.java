@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bbsitter.bbsitter.MiPerfilFamiliaFragment;
-import com.bbsitter.bbsitter.OpcionesMenuCanguro.MiPerfilCanguroFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment;
 import com.bbsitter.bbsitter.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
