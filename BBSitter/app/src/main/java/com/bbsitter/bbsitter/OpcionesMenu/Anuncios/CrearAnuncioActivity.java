@@ -1,18 +1,25 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -32,6 +39,10 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
 
     private Button btnCrearAnuncio;
+
+    private String nombre = "";
+    private String direccion = "";
+    private String img = "";
 
 
 
@@ -75,7 +86,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
                 String descripcion = etDescripcion.getText().toString().trim();
                 String tiempo = obtenerTiempo();
                 String casa = obtenerCasa();
-                final String uid = mAuth.getCurrentUser().getUid();
+
 
                 // Creamos un objeto Date
                 Date fechaPublicacion = new Date();
@@ -86,24 +97,75 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
                 String fechaHoy = sdf.format(fechaPublicacion);
 
+                String uid = mAuth.getCurrentUser().getUid();
+
+
+
+
                 Map<String, Object> mapUser = new HashMap<>();
                 mapUser.put("titulo", titulo);
                 mapUser.put("descripcion", descripcion);
                 mapUser.put("fechaPublicacion", fechaHoy);
                 mapUser.put("casa", casa);
                 mapUser.put("tiempo", tiempo);
+                mapUser.put("nombre", nombre);
+                mapUser.put("img", img);
+                mapUser.put("direccion", direccion);
                 mapUser.put("uid", uid);
+
+
 
                 /*Creamos la coleccion Anuncios en la bbdd*/
                 bbdd.collection("anuncios")
                         .document(uid)
                         .set(mapUser);
 
+                obtenerDatos();
+
                 finish();
 
 
             }
         });
+
+
+    }
+
+    private void obtenerDatos() {
+        final String uid = mAuth.getCurrentUser().getUid();
+
+        bbdd.collection("familias")
+                .whereEqualTo("uid", uid)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if (task.isSuccessful()) {
+
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                //Recogemos los datos de la base de datos
+                                nombre = "Familia " + document.get("nombre").toString();
+                                img = document.get("img").toString();
+                                direccion = document.get("direccion").toString();
+
+                            }
+
+                            /*Creamos un mapa para actualizar el anuncio*/
+                            Map<String, Object> userUpdate = new HashMap<>();
+                            userUpdate.put("nombre", nombre);
+                            userUpdate.put("img", img);
+                            userUpdate.put("direccion", direccion);
+
+                            /*Actualizamos el anuncio*/
+                            bbdd.collection("anuncios").document(uid)
+                                    .set(userUpdate, SetOptions.merge());
+                        } else {
+                            Toast.makeText(CrearAnuncioActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
 
     }

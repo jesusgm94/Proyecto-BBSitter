@@ -12,17 +12,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bbsitter.bbsitter.MiPerfilFamiliaFragment;
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment;
-import com.bbsitter.bbsitter.PerfilCanguroFragment;
-import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

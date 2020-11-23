@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/moradooscuro"
     android:orientation="vertical"
-    tools:context=".MiPerfilFamiliaFragment">
+    tools:context=".OpcionesMenu.MiPerfilFamiliaFragment">
 
     <ScrollView
         android:layout_width="match_parent"

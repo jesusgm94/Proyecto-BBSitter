@@ -10,21 +10,20 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.AnunciosAdapter;
-import com.bbsitter.bbsitter.Clases.Anuncio;
 import com.bbsitter.bbsitter.R;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.Query;
 
 public class AnunciosFragment extends Fragment {
 
     private AnunciosViewModel anunciosViewModel;
 
     private Button btnCrearAnuncio;
+
+    private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
     private RecyclerView recyclerViewListaAnuncios;
     private AnunciosAdapter mAdapter;
@@ -36,6 +35,8 @@ public class AnunciosFragment extends Fragment {
 
         btnCrearAnuncio = view.findViewById(R.id.btnAñadirAnuncio);
 
+        mAuth = FirebaseAuth.getInstance();
+
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -44,6 +45,22 @@ public class AnunciosFragment extends Fragment {
                 startActivity(crearAnuncio);
             }
         });
+
+
+        /*String uid = mAuth.getCurrentUser().getUid();
+
+        recyclerViewListaAnuncios = view.findViewById(R.id.recycler_misAnuncios);
+        recyclerViewListaAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
+        bbdd = FirebaseFirestore.getInstance();
+
+        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid);
+
+        FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
+                .setQuery(query, Anuncio.class).build();
+
+        mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        recyclerViewListaAnuncios.setAdapter(mAdapter);*/
 
         return view;
     }

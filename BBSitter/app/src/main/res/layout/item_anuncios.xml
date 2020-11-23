@@ -8,7 +8,7 @@
         android:id="@+id/card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="4dp"
+        android:layout_margin="10dp"
         android:checkable="true"
         android:elevation="2dp"
         app:cardBackgroundColor="@android:color/white"
@@ -130,7 +130,7 @@
                 android:orientation="horizontal">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/itemImagenCanguro"
+                    android:id="@+id/itemImagenPerfilAnuncio"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="10dp"
@@ -144,7 +144,7 @@
                     android:gravity="center">
 
                     <TextView
-                        android:id="@+id/itemNombreCanguro"
+                        android:id="@+id/itemNombreAnuncio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingLeft="5dp"
