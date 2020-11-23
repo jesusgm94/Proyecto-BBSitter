@@ -4,9 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:gravity="center"
     android:background="@color/moradooscuro"
     android:orientation="vertical"
-    tools:context=".MiPerfilFamiliaFragment">
+    tools:context=".Main.MainActivityCanguro">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -15,15 +16,14 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="198dp"
+            android:layout_height="match_parent"
             android:background="@color/moradooscuro"
             android:gravity="center"
             android:orientation="vertical">
 
-            <!-- CABECERA PRECIO, IMAGEN Y EXPERIENCIA -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="260dp"
+                android:layout_height="227dp"
                 android:background="@drawable/fondocabecerafamilia"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -31,12 +31,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginBottom="20dp"
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <!-- PRECIO HORA -->
                     <LinearLayout
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
@@ -67,7 +66,6 @@
                             android:textStyle="bold" />
                     </LinearLayout>
 
-                    <!-- IMAGEN -->
                     <de.hdodenhof.circleimageview.CircleImageView
                         android:id="@+id/imagenPerfilFamilia"
                         android:layout_width="90dp"
@@ -78,7 +76,6 @@
                         app:civ_border_color="@android:color/white"
                         app:civ_border_width="2dp" />
 
-                    <!-- EXPERIENCIA -->
                     <LinearLayout
                         android:layout_width="149dp"
                         android:layout_height="wrap_content"
@@ -112,7 +109,6 @@
 
                 </LinearLayout>
 
-                <!-- SEPARADOR -->
                 <View
                     android:layout_width="500dp"
                     android:layout_height="4dp"
@@ -121,7 +117,6 @@
                     android:layout_marginRight="50dp"
                     android:background="@color/moradooscuro" />
 
-                <!-- NOMBRE CANGURO -->
                 <TextView
                     android:id="@+id/tvNombrePerfilFamilia"
                     android:layout_width="match_parent"
@@ -136,45 +131,23 @@
                     android:textSize="20dp"
                     android:textStyle="bold" />
 
-                <!-- RATING BAR -->
                 <RatingBar
                     android:id="@+id/itemRatingBarCanguro"
                     style="?android:attr/ratingBarStyleSmall"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:numStars="5"
                     android:rating="4.5"
                     android:stepSize="0.5" />
 
-                <!-- DIRECCION -->
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btnDireccionPerfilFamilia"
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_marginHorizontal="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:backgroundTint="@color/colorPrimary"
-                    android:text="Direccion"
-                    android:textAllCaps="true"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="10dp"
-                    app:cornerRadius="30dp"
-                    app:icon="@drawable/puntomarcadormorado"
-                    app:iconSize="25dp"
-                    app:iconTint="@color/colorPrimaryDark"
-                    app:strokeColor="@android:color/white"
-                    app:strokeWidth="1dp" />
-
             </LinearLayout>
 
-            <!-- DESCRIPCION-->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -182,12 +155,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                     android:textColor="@android:color/white"
                     android:textSize="14dp" />
 
             </LinearLayout>
+
 
             <!-- PLUSES-->
             <!-- Titulo PLUSES -->
@@ -222,6 +197,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/groupChipsPluses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -304,6 +280,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/groupChipsIdiomas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -385,6 +362,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/groupChipsPreferenciaEdades"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -446,15 +424,13 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="110dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"
         android:contentDescription="chat"
         android:gravity="bottom|center|end"
-        android:text="EDITAR PERFIL"
-        android:textStyle="bold"
-        app:icon="@android:drawable/ic_menu_edit"
         app:backgroundTint="@color/colorPrimary"
-        />
-
+        android:text="CHAT"
+        android:textStyle="bold"
+        app:icon="@drawable/fui_ic_mail_white_24dp" />
 </RelativeLayout>
