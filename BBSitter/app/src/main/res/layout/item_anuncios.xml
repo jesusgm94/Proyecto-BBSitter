@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/itemTitulo"
+                    android:id="@+id/itemTituloAnuncio"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
@@ -57,7 +57,7 @@
                         android:src="@drawable/ic_baseline_location_on_36" />
 
                     <TextView
-                        android:id="@+id/itemDistanciaAnuncio"
+                        android:id="@+id/itemCiudadAnuncio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -83,7 +83,7 @@
                         android:src="@drawable/ic_baseline_calendar_today_36" />
 
                     <TextView
-                        android:id="@+id/itemFechaAnuncio"
+                        android:id="@+id/itemTiempoAnuncio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -107,7 +107,7 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/idAnuncioFamilia"
+                    android:id="@+id/iditemDescripcionAnuncio"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:maxLength="150"
@@ -162,6 +162,7 @@
                     android:gravity="center">
 
                     <TextView
+                        android:id="@+id/itemFechaPublicacion"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Fecha de publicación"

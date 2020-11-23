@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.Clases;
+package com.bbsitter.bbsitter.Adaptadores;
 
 
 import android.view.LayoutInflater;
@@ -10,10 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bbsitter.bbsitter.Clases.Canguro;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.database.annotations.NotNull;
 import com.squareup.picasso.Picasso;
 
 
@@ -58,6 +58,7 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
 
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_canguro, viewGroup, false);
         return new ViewHolder(view);
+
     }
 
 

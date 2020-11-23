@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -88,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent perfilFamilia = new Intent(getApplicationContext(), PerfilFamiliaActivity.class);
-                startActivity(perfilFamilia);
+
+                cargarFragment(new MiPerfilFamiliaFragment());
 
             }
         });
@@ -150,5 +152,12 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    private void cargarFragment(Fragment fragment){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fm.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+        fragmentTransaction.commit();
     }
 }

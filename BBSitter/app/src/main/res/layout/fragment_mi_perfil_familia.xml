@@ -69,8 +69,6 @@
                     app:strokeColor="@android:color/white"
                     app:strokeWidth="1dp" />
 
-
-
             </LinearLayout>
 
             <LinearLayout

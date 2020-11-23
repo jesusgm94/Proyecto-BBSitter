@@ -4,19 +4,49 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.content.Context;
+import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import com.bbsitter.bbsitter.Login.ElegirquePerfilCrear;
+import com.bbsitter.bbsitter.Login.Login;
+import com.bbsitter.bbsitter.Main.MainActivity;
+import com.bbsitter.bbsitter.Main.MainActivityCanguro;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+import es.dmoral.toasty.Toasty;
 
 public class MapsFragmentCanguros extends Fragment {
+
+
+    FirebaseFirestore bbdd = FirebaseFirestore.getInstance();
 
 
     // Toca poner los marcadores de los canguros que salgan en la lista
@@ -34,9 +64,53 @@ public class MapsFragmentCanguros extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+            final GoogleMap miGoogleMap = googleMap;
+
+            // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
+            LatLng MIUBICACION = new LatLng(40.48205, -3.35996);
+
+
+            googleMap.addMarker(new MarkerOptions().position(MIUBICACION).title("Mi ubicacion"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
+            googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+
+            // Lo segundo será recorrrer nuetro canguros y pintar cada uno, con su marcador, en el mapa.
+
+            bbdd.collection("canguros")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                    // Object localizacionCanguro = document.getData().get("Localizacion");
+
+                                    String nombreCanguro = document.get("nombre").toString();
+                                    String urlFotoCanguro = document.get("img").toString();
+                                    Double Latitud = document.getDouble("latitud");
+                                    Double Longitud = document.getDouble("longitud");
+
+                                    /*
+                                    CircleImageView fotoCanguro = null;
+                                    Picasso.get().load(urlFotoCanguro).into(fotoCanguro);
+                                    */
+
+                                    LatLng ubicacionCanguro = new LatLng(Latitud, Longitud);
+                                    miGoogleMap.addMarker(new MarkerOptions().position(ubicacionCanguro).title(nombreCanguro));
+                                }
+
+                            } else {
+
+                                Toasty.error(getContext(), "Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+
         }
     };
 
@@ -45,16 +119,27 @@ public class MapsFragmentCanguros extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_maps_canguros, container, false);
+
+
+        View view = inflater.inflate(R.layout.fragment_maps_canguros, container, false);
+
+
+        // ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+        return view;
+
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
         super.onViewCreated(view, savedInstanceState);
-        SupportMapFragment mapFragment =
-                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
+        SupportMapFragment mapFragment =  (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+
         }
     }
 }

@@ -29,5 +29,15 @@
         android:label="Mi perfil"
         tools:layout="@layout/fragment_mi_perfil_familia" />
 
+    <fragment
+        android:id="@+id/crearAnuncioFragment"
+        android:name="com.bbsitter.bbsitter.CrearAnuncioFragment"
+        android:label="Crear_anuncio_fragment"
+        tools:layout="@layout/crear_anuncio_fragment" />
+    <fragment
+        android:id="@+id/perfilCanguroFragment"
+        android:name="com.bbsitter.bbsitter.PerfilCanguroFragment"
+        android:label="perfil_canguro_fragment"
+        tools:layout="@layout/perfil_canguro_fragment" />
 
 </navigation>
