@@ -7,17 +7,17 @@
 
     <fragment
         android:id="@+id/inicioCanguroFragment"
-        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.InicioCanguroFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio.InicioCanguroFragment"
         android:label="Anuncios"
         tools:layout="@layout/inicio_canguro_fragment" />
     <fragment
         android:id="@+id/miPerfilCanguroFragment"
-        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.MiPerfilCanguroFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment"
         android:label="Mi perfil"
         tools:layout="@layout/perfil_canguro_fragment" />
     <fragment
         android:id="@+id/chatsCanguroFragment"
-        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.ChatsCanguroFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats.ChatsCanguroFragment"
         android:label="Chats"
         tools:layout="@layout/chats_canguro_fragment" />
 

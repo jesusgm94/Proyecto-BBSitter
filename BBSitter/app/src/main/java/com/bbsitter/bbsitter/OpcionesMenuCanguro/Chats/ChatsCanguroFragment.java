@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenuCanguro;
+package com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats;
 
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,24 +14,24 @@ import android.view.ViewGroup;
 
 import com.bbsitter.bbsitter.R;
 
-public class InicioCanguroFragment extends Fragment {
+public class ChatsCanguroFragment extends Fragment {
 
-    private InicioCanguroViewModel mViewModel;
+    private ChatsCanguroViewModel mViewModel;
 
-    public static InicioCanguroFragment newInstance() {
-        return new InicioCanguroFragment();
+    public static ChatsCanguroFragment newInstance() {
+        return new ChatsCanguroFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.inicio_canguro_fragment, container, false);
+        return inflater.inflate(R.layout.chats_canguro_fragment, container, false);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InicioCanguroViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(ChatsCanguroViewModel.class);
         // TODO: Use the ViewModel
     }
 

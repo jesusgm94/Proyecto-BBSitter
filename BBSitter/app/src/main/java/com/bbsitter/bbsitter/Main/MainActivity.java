@@ -31,11 +31,13 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private ImageView imagenUsuarioMenu;
+    private CircleImageView imagenUsuarioMenu;
     private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
 
     /*Movidas de Firebase*/
@@ -82,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
         imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
         tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
         tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
-        cargarDatosUsuario();
+        cargarDatosFamilias();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
         imagenUsuarioMenu.setOnClickListener(new View.OnClickListener() {
@@ -101,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     //Cargamos los datos del usuario en el menu deplegable
-    private void cargarDatosUsuario()
+    private void cargarDatosFamilias()
     {
         String uid = mAuth.getCurrentUser().getUid();
 

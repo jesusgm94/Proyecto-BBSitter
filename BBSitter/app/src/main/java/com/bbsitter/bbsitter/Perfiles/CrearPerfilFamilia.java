@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
@@ -57,7 +58,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
     /*Para coger la foto de perfil*/
     private Uri uri;
-    private String urlFoto;
+    private String urlFoto = "";
 
     private LatLng latLng;
 
@@ -68,6 +69,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_familia);
+
+
 
         /*Firebase Auth y BBDD*/
         mAuth = FirebaseAuth.getInstance();
@@ -116,10 +119,10 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                     /*Creamos un mapa para meter los datos de las familias*/
                     Map<String, Object> mapUser = new HashMap<>();
-                    mapUser.put("img", urlFoto);
                     mapUser.put("nombre", nombre);
                     mapUser.put("descripcion", descripcion);
                     mapUser.put("direccion", direccion);
+                    mapUser.put("uid", uid);
 
 
                     /* LOCALIZACION*/

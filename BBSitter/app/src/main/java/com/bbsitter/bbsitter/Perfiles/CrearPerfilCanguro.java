@@ -176,7 +176,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 cargarImagen();
-                Toasty.info(CrearPerfilCanguro.this, "Uri foto: " + uriFoto, Toasty.LENGTH_LONG).show();
             }
         });
 
@@ -252,6 +251,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  Map<String, Object> mapCanguro = new HashMap<>();
 
                  //mapCanguro.put("Id Canguro", idCanguro);
+                 mapCanguro.put("uid", uid);
                  mapCanguro.put("nombre", nombreCanguro);
                  mapCanguro.put("apellidos", apellidosCanguro);
                  mapCanguro.put("fechaNacimiento", fechaNacimiento);
