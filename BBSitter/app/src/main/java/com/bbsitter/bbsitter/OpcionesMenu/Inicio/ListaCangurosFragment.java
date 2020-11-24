@@ -4,17 +4,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.CanguroAdapter;
 import com.bbsitter.bbsitter.Clases.Canguro;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
+
+import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -86,14 +95,34 @@ public class ListaCangurosFragment extends Fragment {
         FirestoreRecyclerOptions<Canguro> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Canguro>()
                 .setQuery(query, Canguro.class).build();
 
-        mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
+        //mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
+        mAdapter = new CanguroAdapter(firestoreRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Canguro canguro) {
+
+                // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
+                holder.getCardViewCanguro().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        PerfilCanguroFragment perfilCanguroFragment =new PerfilCanguroFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment,perfilCanguroFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                });
+
+            }
+        };
+
         mAdapter.notifyDataSetChanged();
         recyclerViewListaCanguros.setAdapter(mAdapter);
 
-
-
         return view;
     }
+
 
     @Override
     public void onStart() {
