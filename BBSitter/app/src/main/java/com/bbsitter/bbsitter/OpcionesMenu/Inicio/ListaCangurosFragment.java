@@ -5,16 +5,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.CanguroAdapter;
 import com.bbsitter.bbsitter.Clases.Canguro;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.squareup.picasso.Picasso;
+
+import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -35,6 +40,10 @@ public class ListaCangurosFragment extends Fragment {
     private FirebaseFirestore bbdd;
     private RecyclerView recyclerViewListaCanguros;
     private CanguroAdapter mAdapter;
+
+    String dist = "0";
+    Random randomStars = new Random();
+
 
 
     public ListaCangurosFragment() {
@@ -86,10 +95,44 @@ public class ListaCangurosFragment extends Fragment {
         FirestoreRecyclerOptions<Canguro> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Canguro>()
                 .setQuery(query, Canguro.class).build();
 
-        mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
+        //mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
+        mAdapter = new CanguroAdapter(firestoreRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Canguro canguro) {
+
+                // Poner FOTO
+                String img = canguro.getImg();
+                Picasso.get().load(img).into(holder.getImg());
+
+                holder.getNombre().setText(canguro.getNombre());
+                holder.getEdad().setText(String.valueOf(canguro.getEdad()));
+                holder.getPrecioHora().setText(canguro.getPrecioHora() + " €");
+
+                holder.getRatingBar().setRating(randomStars.nextInt(6)+1);
+                // Calcular la distancia
+                holder.getDistancia().setText(dist + " kms");
+
+                //Canguro canguro1 = new Canguro(getSnapshots().getSnapshot(position).getId(),canguro);
+
+                // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
+                holder.getCardViewCanguro().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, perfilCanguroFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                });
+
+            }
+        };
+
         mAdapter.notifyDataSetChanged();
         recyclerViewListaCanguros.setAdapter(mAdapter);
-
 
 
         return view;

@@ -28,6 +28,7 @@ public class Canguro implements Serializable {
     Map<String, Boolean> mapPrefenciaEdades;    // PreferenciaEdades
     Map<String, Boolean> mapIdiomas;    // PreferenciaEdades
 
+    private String uid;
     // Fecha creacion
     String fechaCreacionPerfil;
 
@@ -36,7 +37,7 @@ public class Canguro implements Serializable {
 
     public Canguro(){}
 
-    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil) {
+    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil, String uid) {
         this.img = img;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -53,7 +54,10 @@ public class Canguro implements Serializable {
         this.mapPrefenciaEdades = mapPrefenciaEdades;
         this.mapIdiomas = mapIdiomas;
         this.fechaCreacionPerfil = fechaCreacionPerfil;
+        this.uid = uid;
     }
+
+
 
     // Getters and setters
 
@@ -183,5 +187,13 @@ public class Canguro implements Serializable {
 
     public void setFechaCreacionPerfil(String fechaCreacionPerfil) {
         this.fechaCreacionPerfil = fechaCreacionPerfil;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }

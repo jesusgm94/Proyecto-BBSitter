@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAccent"
-    android:orientation="vertical"
-    tools:context=".Perfiles.PerfilFamiliaActivity">
+    android:background="@color/moradooscuro"
+    android:orientation="vertical">
 
 
     <ScrollView
@@ -46,7 +45,7 @@
                     android:layout_marginHorizontal="50dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="NombreFamilia"
+                    android:text=""
                     android:textAlignment="center"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                     android:textSize="20dp"
@@ -58,7 +57,7 @@
                     android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:text="Direccion"
+                    android:text=""
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="10dp"
@@ -108,7 +107,7 @@
                     android:layout_marginTop="10dp"
                     android:gravity="center_horizontal"
                     android:text=""
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="#FFFFFF"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -149,6 +148,31 @@
                     android:layout_marginTop="10dp"
                     android:layout_marginHorizontal="20dp"
                     />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:elevation="2dp">
+
+                    <!-- BOTON añadir Anuncio -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnAnadirHijo"
+                        android:layout_width="match_parent"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="20dp"
+                        android:layout_marginTop="20dp"
+                        android:text="Añadir Hijo"
+                        android:textColor="#fff"
+                        style="?attr/materialButtonOutlinedStyle"
+                        app:cornerRadius="10dp"
+                        app:strokeColor="#fff"
+                        app:icon="@drawable/ic_baseline_add_24"
+                        app:iconTint="#fff"
+                        app:iconGravity="textStart"
+                        />
+                </LinearLayout>
 
 
 

@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/miPerfilFamiliaFragment"
-        android:name="com.bbsitter.bbsitter.OpcionesMenu.MiPerfilFamiliaFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.Perfil.MiPerfilFamiliaFragment"
         android:label="Mi perfil"
         tools:layout="@layout/fragment_mi_perfil_familia" />
 
