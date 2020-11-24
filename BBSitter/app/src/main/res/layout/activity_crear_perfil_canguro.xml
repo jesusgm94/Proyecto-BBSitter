@@ -466,6 +466,7 @@
                     android:layout_height="200dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="30dp"
+                    android:background="@color/colorPrimaryDark"
                     android:choiceMode="multipleChoice" />
 
 
@@ -501,6 +502,7 @@
                     android:layout_height="250dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="30dp"
+                    android:background="@color/colorPrimaryDark"
                     android:choiceMode="multipleChoice" />
 
 
@@ -536,7 +538,9 @@
                     android:layout_height="250dp"
                     android:layout_gravity="center"
                     android:layout_marginVertical="30dp"
-                    android:choiceMode="multipleChoice" />
+                    android:choiceMode="multipleChoice"
+                    android:background="@color/colorPrimaryDark"
+                    />
 
 
             </LinearLayout>
@@ -607,7 +611,7 @@
                 android:layout_marginHorizontal="30dp"
                 android:layout_marginTop="20sp"
                 android:layout_marginBottom="20dp"
-                android:background="@drawable/botonredondeadowhite"
+                android:background="@drawable/botonredondeadopurpledark"
                 android:text="Crear perfil"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"

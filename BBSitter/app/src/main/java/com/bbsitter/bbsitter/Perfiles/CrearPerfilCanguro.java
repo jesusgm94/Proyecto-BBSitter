@@ -1,16 +1,20 @@
 package com.bbsitter.bbsitter.Perfiles;
 
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.CalendarContract;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,6 +23,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Main.MainActivity;
@@ -48,14 +53,20 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
+
+import static android.app.DatePickerDialog.*;
 
 public class CrearPerfilCanguro extends AppCompatActivity {
 
@@ -81,10 +92,13 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private RadioGroup radioGroupSexo;
     private RadioButton rbMasculino, rbFemenino, rbMenos6Meses, rb6a12meses, rb1a2años, rb2a6años, rbMas6años ;
 
+    /*
     private CheckBox checkbox_6a12meses, checkbox_1a3años,checkbox_3a6años, checkbox_mas6años;
     private CheckBox checkBoxEspañol, checkBoxIngles,checkBoxFrances, checkBoxAleman, checkBoxOtros;
     private CheckBox checkBoxNoFumador, checkBoxCarnetConducir,checkBoxPrimerosAuxilios, checkBoxCocinar, checkBoxDeberes;
+    */
 
+    // Para crear los checkbox y podamos  marcarlos y enviar a la base de datos, aquellos que esten mrcados
     ListView listViewPluses, listViewPreferencias, listViewIdiomas;
     ArrayAdapter<String> adapterPrefrencias, adapterPulses, adapterIdiomas;
     String [] arrayPreferencias = {"De 6 a 12 meses", "De 1 a 3 años", "De 3 a 6 años","Más de 6 años"};
@@ -131,7 +145,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         listViewPreferencias = findViewById(R.id.listViewPrefrenciaEdad);
         adapterPrefrencias = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPreferencias);
         listViewPreferencias.setAdapter(adapterPrefrencias);
-        listViewPreferencias.setBackgroundColor(Color.GRAY);
+
 
         // ListView Checkboxs PLUSES
         listViewPluses = findViewById(R.id.listViewPluses);
@@ -504,19 +518,44 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     // Fecha Nacimiento
     private void establecerFechaNacimiento() {
 
+        /*
         // Creamos un DatePicker para la fecha de Nacimiento
         MaterialDatePicker.Builder builderDatePicker = MaterialDatePicker.Builder.datePicker();
         builderDatePicker.setTitleText("Selecciona una fecha");
         final MaterialDatePicker materialDatePicker = builderDatePicker.build();
-
+*/
         etFechaNacimiento.setFocusable(false);
         etFechaNacimiento.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View view) {
-                materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+
+                //materialDatePicker.show(getSupportFragmentManager(), "DATE_PICKER");
+
+                final Calendar calendar = Calendar.getInstance();
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(CrearPerfilCanguro.this, new DatePickerDialog.OnDateSetListener(){
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+
+                        Calendar calendarResultado = Calendar.getInstance();
+                        calendarResultado.set(Calendar.YEAR, year);
+                        calendarResultado.set(Calendar.MONTH, month);
+                        calendarResultado.set(Calendar.DAY_OF_MONTH, day);
+
+                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                        Date date = calendarResultado.getTime();
+                        String fechaNacimiento = simpleDateFormat.format(date);
+
+                        etFechaNacimiento.setText(fechaNacimiento);
+                    }
+                }, calendar.get(Calendar.YEAR) - 18, calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
             }
         });
 
+        /*
         // Cuando el usuario eliga la fecha y de al boton OK, hara lo siguiente
         materialDatePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener() {
             @Override
@@ -524,6 +563,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                 etFechaNacimiento.setText(materialDatePicker.getHeaderText());
             }
         });
+         */
     }
 
 }

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/moradooscuro"
+    android:background="@android:color/white"
     android:orientation="vertical"
     tools:context=".MiPerfilFamiliaFragment">
 
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="198dp"
-            android:background="@color/moradooscuro"
+            android:background="@android:color/white"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -119,7 +119,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="50dp"
-                    android:background="@color/moradooscuro" />
+                    android:background="@android:color/white" />
 
                 <!-- NOMBRE CANGURO -->
                 <TextView
@@ -184,7 +184,7 @@
                     android:layout_marginHorizontal="25dp"
                     android:gravity="center_horizontal"
                     android:text="Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -237,7 +237,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Tengo coche"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -248,7 +248,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="No fumo"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -259,7 +259,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Tengo primeros auxilios"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -319,7 +319,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Español"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -330,7 +330,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Inglés"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -341,7 +341,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Francés"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -400,7 +400,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Más de 6 meses"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -411,7 +411,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Entre 1 y 2 años"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -422,7 +422,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Más de 6 años"
-                        app:chipBackgroundColor="@color/moradooscuro"
+                        app:chipBackgroundColor="@color/colorPrimary"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -452,8 +452,10 @@
         android:contentDescription="chat"
         android:gravity="bottom|center|end"
         android:text="EDITAR PERFIL"
+        android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:icon="@android:drawable/ic_menu_edit"
+        app:iconTint="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         />
 

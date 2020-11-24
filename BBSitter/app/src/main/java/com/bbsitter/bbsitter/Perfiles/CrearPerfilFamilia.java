@@ -260,7 +260,9 @@ public class CrearPerfilFamilia extends AppCompatActivity {
     private void cargarImagen() {
 
         Intent intentCargarFoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+
         intentCargarFoto.setType("image/");
+
         startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
 
 
@@ -333,7 +335,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             if (resultCode == RESULT_OK) {
 
                 uri = data.getData();
-
 
                 foto.setImageURI(uri);
 
