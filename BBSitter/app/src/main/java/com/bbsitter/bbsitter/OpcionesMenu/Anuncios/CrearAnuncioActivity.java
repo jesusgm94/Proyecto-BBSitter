@@ -77,9 +77,13 @@ public class CrearAnuncioActivity extends AppCompatActivity {
         btnCrearAnuncio = (Button) findViewById(R.id.btnCrearAnuncio);
 
 
+
+
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                obtenerDatos();
 
                 /*Cargamos los datos*/
                 String titulo = etTitulo.getText().toString().trim();
@@ -99,9 +103,6 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
                 String uid = mAuth.getCurrentUser().getUid();
 
-
-
-
                 Map<String, Object> mapUser = new HashMap<>();
                 mapUser.put("titulo", titulo);
                 mapUser.put("descripcion", descripcion);
@@ -119,8 +120,6 @@ public class CrearAnuncioActivity extends AppCompatActivity {
                 bbdd.collection("anuncios")
                         .document(uid)
                         .set(mapUser);
-
-                obtenerDatos();
 
                 finish();
 
@@ -152,15 +151,15 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
                             }
 
-                            /*Creamos un mapa para actualizar el anuncio*/
+                            //Creamos un mapa para actualizar el anuncio
                             Map<String, Object> userUpdate = new HashMap<>();
                             userUpdate.put("nombre", nombre);
                             userUpdate.put("img", img);
                             userUpdate.put("direccion", direccion);
 
-                            /*Actualizamos el anuncio*/
-                            bbdd.collection("anuncios").document(uid)
-                                    .set(userUpdate, SetOptions.merge());
+                            //Actualizamos el anuncio
+                            bbdd.collection("anuncios").document(uid).set(userUpdate, SetOptions.merge());
+
                         } else {
                             Toast.makeText(CrearAnuncioActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                         }

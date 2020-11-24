@@ -1,7 +1,6 @@
 package com.bbsitter.bbsitter.Adaptadores;
 
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +20,7 @@ import com.squareup.picasso.Picasso;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosAdapter.ViewHolder>
-                            implements View.OnClickListener{
+                            /*implements View.OnClickListener*/{
 
 
     private FirebaseAuth mAuth;
@@ -48,8 +47,9 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
         holder.fechaPublicacion.setText("Publicado: " + anuncio.getFechaPublicacion());
 
         //Ponemos datos de la familia
-        String img = anuncio.getImg();
-        Picasso.get().load(img).into(holder.img);
+        String imagen = anuncio.getImg();
+        Picasso.get().load(imagen).into(holder.img);
+
         holder.direccion.setText(anuncio.getDireccion());
         holder.nombre.setText(anuncio.getNombre());
     }
@@ -59,13 +59,13 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_anuncios, viewGroup, false);
 
-        view.setOnClickListener(this);
+        //view.setOnClickListener(this);
 
         return new AnunciosAdapter.ViewHolder(view);
     }
 
 
-    public void setOnClickListener (View.OnClickListener listener)
+    /*public void setOnClickListener (View.OnClickListener listener)
     {
         this.listener = listener;
     }
@@ -77,7 +77,7 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
         {
             listener.onClick(view);
         }
-    }
+    }*/
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

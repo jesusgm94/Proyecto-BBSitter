@@ -61,9 +61,6 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
 
     }
 
-
-
-
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         CircleImageView img;
