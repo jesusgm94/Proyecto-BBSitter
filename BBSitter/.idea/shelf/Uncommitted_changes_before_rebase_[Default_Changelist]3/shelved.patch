@@ -1,0 +1,38 @@
+Index: app/src/main/java/com/bbsitter/bbsitter/MiPerfilFamiliaFragment.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.bbsitter.bbsitter;\r\n\r\nimport android.os.Bundle;\r\n\r\nimport androidx.annotation.NonNull;\r\nimport androidx.fragment.app.Fragment;\r\n\r\nimport android.view.LayoutInflater;\r\nimport android.view.View;\r\nimport android.view.ViewGroup;\r\nimport android.widget.TextView;\r\nimport android.widget.Toast;\r\n\r\nimport com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;\r\nimport com.google.android.gms.tasks.OnCompleteListener;\r\nimport com.google.android.gms.tasks.Task;\r\nimport com.google.android.material.button.MaterialButton;\r\nimport com.google.firebase.auth.FirebaseAuth;\r\nimport com.google.firebase.firestore.FirebaseFirestore;\r\nimport com.google.firebase.firestore.QueryDocumentSnapshot;\r\nimport com.google.firebase.firestore.QuerySnapshot;\r\nimport com.squareup.picasso.Picasso;\r\n\r\nimport de.hdodenhof.circleimageview.CircleImageView;\r\nimport es.dmoral.toasty.Toasty;\r\n\r\n/**\r\n * A simple {@link Fragment} subclass.\r\n * Use the {@link MiPerfilFamiliaFragment#newInstance} factory method to\r\n * create an instance of this fragment.\r\n */\r\npublic class MiPerfilFamiliaFragment extends Fragment {\r\n\r\n    // TODO: Rename parameter arguments, choose names that match\r\n    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER\r\n    private static final String ARG_PARAM1 = \"param1\";\r\n    private static final String ARG_PARAM2 = \"param2\";\r\n\r\n    // TODO: Rename and change types of parameters\r\n    private String mParam1;\r\n    private String mParam2;\r\n\r\n    private CircleImageView fotoPerfilFamilia;\r\n    private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;\r\n    private MaterialButton btnDireccionPerfilFamilia;\r\n\r\n\r\n\r\n    private FirebaseAuth mAuth;\r\n    private FirebaseFirestore bbdd;\r\n\r\n    private String uid;\r\n\r\n    public MiPerfilFamiliaFragment() {\r\n        // Required empty public constructor\r\n    }\r\n\r\n    /**\r\n     * Use this factory method to create a new instance of\r\n     * this fragment using the provided parameters.\r\n     *\r\n     * @param param1 Parameter 1.\r\n     * @param param2 Parameter 2.\r\n     * @return A new instance of fragment MiPerfilFamiliaFragment.\r\n     */\r\n    // TODO: Rename and change types and number of parameters\r\n    public static MiPerfilFamiliaFragment newInstance(String param1, String param2) {\r\n        MiPerfilFamiliaFragment fragment = new MiPerfilFamiliaFragment();\r\n        Bundle args = new Bundle();\r\n        args.putString(ARG_PARAM1, param1);\r\n        args.putString(ARG_PARAM2, param2);\r\n        fragment.setArguments(args);\r\n        return fragment;\r\n    }\r\n\r\n    @Override\r\n    public void onCreate(Bundle savedInstanceState) {\r\n        super.onCreate(savedInstanceState);\r\n        if (getArguments() != null) {\r\n            mParam1 = getArguments().getString(ARG_PARAM1);\r\n            mParam2 = getArguments().getString(ARG_PARAM2);\r\n        }\r\n    }\r\n\r\n    @Override\r\n    public View onCreateView(LayoutInflater inflater, ViewGroup container,\r\n                             Bundle savedInstanceState) {\r\n\r\n        /*Firebase Auth y BBDD*/\r\n        mAuth = FirebaseAuth.getInstance();\r\n        bbdd = FirebaseFirestore.getInstance();\r\n\r\n        View view = inflater.inflate(R.layout.fragment_mi_perfil_familia, container, false);\r\n\r\n        fotoPerfilFamilia = view.findViewById(R.id.imagenPerfilFamilia);\r\n        tvNombrePerfilFamilia = view.findViewById(R.id.tvNombrePerfilFamilia);\r\n        btnDireccionPerfilFamilia = view.findViewById(R.id.btnDireccionPerfilFamilia);\r\n        tvDescripcionPerfilFamilia = view.findViewById(R.id.tvDescripcionPerfilFamilia);\r\n\r\n        cargarDatosPerfilFamilia();\r\n\r\n        // Inflate the layout for this fragment\r\n        return view;\r\n    }\r\n\r\n    private void cargarDatosPerfilFamilia()\r\n    {\r\n        uid = mAuth.getCurrentUser().getUid();\r\n\r\n\r\n        bbdd.collection(\"familias\")\r\n                .whereEqualTo(\"uid\", uid)\r\n                .get()\r\n                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {\r\n                    @Override\r\n                    public void onComplete(@NonNull Task<QuerySnapshot> task) {\r\n\r\n                        if (task.isSuccessful()) {\r\n                            for (QueryDocumentSnapshot document : task.getResult()) {\r\n\r\n                                //Recogemos los datos de la base de datos\r\n                                String nombreFamilia =  \"Familia \" + document.get(\"nombre\").toString();\r\n                                String imagenFamilia = document.get(\"img\").toString();\r\n                                String direccionFamilia = document.get(\"direccion\").toString();\r\n                                String descripcionFamilia = document.get(\"descripcion\").toString();\r\n\r\n                                //Agrega una nueva imagen desde una url usando Picasso.\r\n                                Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);\r\n\r\n                                //Agrega nuevo nombre\r\n                                tvNombrePerfilFamilia.setText(nombreFamilia);\r\n                                btnDireccionPerfilFamilia.setText(direccionFamilia);\r\n                                tvDescripcionPerfilFamilia.setText(descripcionFamilia);\r\n\r\n                            }\r\n                        } else {\r\n\r\n                        }\r\n                    }\r\n                });\r\n\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/bbsitter/bbsitter/MiPerfilFamiliaFragment.java	(revision dc5744c4068040e11bcfee51c8c84b1a1b0421d8)
++++ app/src/main/java/com/bbsitter/bbsitter/MiPerfilFamiliaFragment.java	(date 1605618544395)
+@@ -1,17 +1,14 @@
+ package com.bbsitter.bbsitter;
+ 
+ import android.os.Bundle;
+-
+-import androidx.annotation.NonNull;
+-import androidx.fragment.app.Fragment;
+-
+ import android.view.LayoutInflater;
+ import android.view.View;
+ import android.view.ViewGroup;
+ import android.widget.TextView;
+-import android.widget.Toast;
+ 
+-import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
++import androidx.annotation.NonNull;
++import androidx.fragment.app.Fragment;
++
+ import com.google.android.gms.tasks.OnCompleteListener;
+ import com.google.android.gms.tasks.Task;
+ import com.google.android.material.button.MaterialButton;
+@@ -22,7 +19,6 @@
+ import com.squareup.picasso.Picasso;
+ 
+ import de.hdodenhof.circleimageview.CircleImageView;
+-import es.dmoral.toasty.Toasty;
+ 
+ /**
+  * A simple {@link Fragment} subclass.

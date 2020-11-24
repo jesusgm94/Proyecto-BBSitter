@@ -1,17 +1,15 @@
-package com.bbsitter.bbsitter;
+package com.bbsitter.bbsitter.OpcionesMenu;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bbsitter.bbsitter.Perfiles.PerfilFamiliaActivity;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+
+import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
@@ -22,7 +20,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import es.dmoral.toasty.Toasty;
 
 /**
  * A simple {@link Fragment} subclass.

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:gravity="center"
-    android:background="#FFFFFF"
+    android:background="@color/colorAccent"
     android:orientation="vertical"
-    tools:context=".MiPerfilFamiliaFragment">
+    tools:context=".Perfiles.PerfilFamiliaActivity">
+
 
     <ScrollView
         android:layout_width="match_parent"
@@ -22,9 +22,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="220dp"
-                android:background="@color/colorPrimaryDark"
-                android:gravity="center_horizontal"
+                android:layout_height="227dp"
+                android:background="@drawable/fondocabecerafamilia"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
@@ -67,7 +67,8 @@
                     app:iconSize="25dp"
                     app:iconTint="@color/colorPrimaryDark"
                     app:strokeColor="@android:color/white"
-                    app:strokeWidth="1dp" />
+                    app:strokeWidth="1dp"
+                    android:layout_marginBottom="20dp"/>
 
             </LinearLayout>
 
@@ -77,25 +78,38 @@
                 android:layout_marginTop="10dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="Descripción"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="#000000" />
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@drawable/cabeceracrearperfilcanguro"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="3dp"
+                        android:text="Descripción"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
 
                 <TextView
                     android:id="@+id/tvDescripcionPerfilFamilia"
                     android:layout_width="match_parent"
-                    android:layout_height="150dp"
-                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="25dp"
                     android:layout_marginTop="10dp"
-                    android:text="descripcionfamilia"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="#000000"
-                    android:textSize="17dp" />
-
+                    android:gravity="center_horizontal"
+                    android:text=""
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="14dp" />
 
             </LinearLayout>
 
@@ -106,25 +120,44 @@
                 android:layout_marginTop="20dp"
                 android:orientation="vertical">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20dp"
-                    android:text="Hijos"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-                    android:textColor="#000000" />
+                    android:gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginHorizontal="30dp"
+                    android:background="@drawable/cabeceracrearperfilcanguro"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:gravity="center"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_marginVertical="3dp"
+                        android:text="Hijos"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:textAllCaps="true"
+                        android:textColor="@color/colorPrimary" />
+                </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewHijosPerfilFamilia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"/>
+                    android:layout_marginTop="10dp"
+                    android:layout_marginHorizontal="20dp"
+                    />
+
+
+
 
             </LinearLayout>
 
 
         </LinearLayout>
 
-    </ScrollView>
 
+    </ScrollView>
 </LinearLayout>

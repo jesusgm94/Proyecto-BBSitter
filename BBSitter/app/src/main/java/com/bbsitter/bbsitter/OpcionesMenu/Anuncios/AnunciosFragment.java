@@ -10,22 +10,32 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bbsitter.bbsitter.Adaptadores.AnunciosAdapter;
 import com.bbsitter.bbsitter.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class AnunciosFragment extends Fragment {
 
     private AnunciosViewModel anunciosViewModel;
 
-    Button btnCrearAnuncio;
+    private Button btnCrearAnuncio;
+
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore bbdd;
+    private RecyclerView recyclerViewMisAnuncios;
+    private AnunciosAdapter mAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        anunciosViewModel =
-                ViewModelProviders.of(this).get(AnunciosViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_anuncios, container, false);
+        anunciosViewModel = ViewModelProviders.of(this).get(AnunciosViewModel.class);
+        View view = inflater.inflate(R.layout.fragment_anuncios, container, false);
 
-        btnCrearAnuncio = root.findViewById(R.id.btnAñadirAnuncio);
+        btnCrearAnuncio = view.findViewById(R.id.btnAñadirAnuncio);
+
+        mAuth = FirebaseAuth.getInstance();
 
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,15 +46,34 @@ public class AnunciosFragment extends Fragment {
             }
         });
 
-        /*
-        final TextView textView = root.findViewById(R.id.text_slideshow);
-        favoritosViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
 
-        return root;
+        /*String uid = mAuth.getCurrentUser().getUid();
+
+        recyclerViewMisAnuncios = view.findViewById(R.id.recycler_misAnuncios);
+        recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
+        bbdd = FirebaseFirestore.getInstance();
+
+        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid);
+
+        FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
+                .setQuery(query, Anuncio.class).build();
+
+        mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        recyclerViewMisAnuncios.setAdapter(mAdapter);*/
+
+        return view;
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    public void onStop() {
+
+        super.onStop();
+        mAdapter.stopListening();
+    }*/
 }
