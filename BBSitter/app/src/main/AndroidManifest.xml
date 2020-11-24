@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".OpcionesMenu.Anuncios.CrearAnuncioActivity"></activity>
+        <activity android:name=".OpcionesMenu.Perfil.AnadirHijoActivity"></activity>
+        <activity android:name=".OpcionesMenu.Anuncios.CrearAnuncioActivity" />
         <activity android:name=".Main.MainActivityCanguro" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -34,7 +35,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".Perfiles.PerfilFamiliaActivity" />
         <activity android:name=".Login.CambiarPassActivity" />
         <activity android:name=".Perfiles.CrearPerfilCanguro" />
         <activity android:name=".Perfiles.CrearPerfilFamilia" />

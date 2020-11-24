@@ -25,6 +25,7 @@
         android:background="@color/colorazulcielo">
 
         <com.google.android.material.chip.ChipGroup
+            android:id="@+id/chipGroupInicioCanguro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingHorizontal="10dp"
@@ -37,7 +38,7 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:id="@+id/chip_1"
+                android:id="@+id/chip_Novedades"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
@@ -51,11 +52,11 @@
 
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:id="@+id/chip_2"
+                android:id="@+id/chip_Fines"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Cercanos"
+                android:text="Fines de semana"
                 android:textColor="@android:color/white"
                 app:chipBackgroundColor="@color/colorazulcielo"
                 app:checkedIconTint="@color/colorPrimaryDark"
@@ -64,11 +65,11 @@
                 />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"
-                android:id="@+id/chip_3"
+                android:id="@+id/chip_Diario"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Precio"
+                android:text="Diario"
                 android:textColor="@android:color/white"
                 app:chipBackgroundColor="@color/colorazulcielo"
                 app:checkedIconTint="@color/colorPrimaryDark"
@@ -82,7 +83,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="false"
-                android:text="Edad"
+                android:text="Habitualmente"
                 android:textColor="@android:color/white"
                 app:chipBackgroundColor="@color/colorazulcielo"
                 app:checkedIconTint="@color/colorPrimaryDark"
@@ -103,7 +104,13 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_ListaAnuncios"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorgris"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_ListaDiario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/colorgris"/>
 
     </LinearLayout>

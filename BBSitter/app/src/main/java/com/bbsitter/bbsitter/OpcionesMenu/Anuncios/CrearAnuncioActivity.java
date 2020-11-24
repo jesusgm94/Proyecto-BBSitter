@@ -121,6 +121,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
                         .document(uid)
                         .set(mapUser);
 
+
                 finish();
 
 

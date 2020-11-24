@@ -4,27 +4,22 @@ package com.bbsitter.bbsitter.Adaptadores;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
-import com.bbsitter.bbsitter.OpcionesMenu.Inicio.ListaCangurosFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.squareup.picasso.Picasso;
 
-
 import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import es.dmoral.toasty.Toasty;
 
 public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAdapter.ViewHolder> {
 
@@ -51,6 +46,7 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
         holder.nombre.setText(canguro.getNombre());
         holder.edad.setText(String.valueOf(canguro.getEdad()));
         holder.precioHora.setText(canguro.getPrecioHora() + " €");
+
         holder.ratingBar.setRating(randomStars.nextInt(6)+1);
         // Calcular la distancia
         holder.distancia.setText(dist + " kms");
@@ -69,18 +65,17 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
+        // Card View para poder pinchar sobre el item del Recycler
+        CardView cardViewCanguro;
+
         CircleImageView img;
         TextView nombre, edad, distancia, precioHora;
         RatingBar ratingBar;
-
-        // Card View para poder pinchar sobre el item del Recycler
-        CardView cardViewCanguro;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
 
-            cardViewCanguro = itemView.findViewById(R.id.cardViewCanguro);
 
             img = itemView.findViewById(R.id.itemImagenCanguro);
             nombre = itemView.findViewById(R.id.itemNombreCanguro);
@@ -88,6 +83,56 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
             distancia = itemView.findViewById(R.id.itemDistanciaCanguro);
             precioHora = itemView.findViewById(R.id.itemPrecioHoraCanguro);
             ratingBar = itemView.findViewById(R.id.itemRatingBarCanguro);
+
+            cardViewCanguro = itemView.findViewById(R.id.cardViewCanguro);
+        }
+
+        public CircleImageView getImg() {
+            return img;
+        }
+
+        public void setImg(CircleImageView img) {
+            this.img = img;
+        }
+
+        public TextView getNombre() {
+            return nombre;
+        }
+
+        public void setNombre(TextView nombre) {
+            this.nombre = nombre;
+        }
+
+        public TextView getEdad() {
+            return edad;
+        }
+
+        public void setEdad(TextView edad) {
+            this.edad = edad;
+        }
+
+        public TextView getDistancia() {
+            return distancia;
+        }
+
+        public void setDistancia(TextView distancia) {
+            this.distancia = distancia;
+        }
+
+        public TextView getPrecioHora() {
+            return precioHora;
+        }
+
+        public void setPrecioHora(TextView precioHora) {
+            this.precioHora = precioHora;
+        }
+
+        public RatingBar getRatingBar() {
+            return ratingBar;
+        }
+
+        public void setRatingBar(RatingBar ratingBar) {
+            this.ratingBar = ratingBar;
         }
 
         public CardView getCardViewCanguro() {
@@ -99,6 +144,5 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
         }
 
     }
-
 
 }

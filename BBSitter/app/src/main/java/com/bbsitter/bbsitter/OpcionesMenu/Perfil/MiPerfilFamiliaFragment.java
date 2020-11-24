@@ -1,5 +1,6 @@
-package com.bbsitter.bbsitter.OpcionesMenu;
+package com.bbsitter.bbsitter.OpcionesMenu.Perfil;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class MiPerfilFamiliaFragment extends Fragment {
 
     private CircleImageView fotoPerfilFamilia;
     private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
-    private MaterialButton btnDireccionPerfilFamilia;
+    private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo;
 
 
 
@@ -94,7 +95,18 @@ public class MiPerfilFamiliaFragment extends Fragment {
         btnDireccionPerfilFamilia = view.findViewById(R.id.btnDireccionPerfilFamilia);
         tvDescripcionPerfilFamilia = view.findViewById(R.id.tvDescripcionPerfilFamilia);
 
+        btnAnadirHijo = view.findViewById(R.id.btnAnadirHijo);
+
         cargarDatosPerfilFamilia();
+
+
+        btnAnadirHijo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent AnadirHijo = new Intent(getContext(), AnadirHijoActivity.class);
+                startActivity(AnadirHijo);
+            }
+        });
 
         // Inflate the layout for this fragment
         return view;

@@ -3,19 +3,25 @@ package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.AnunciosAdapter;
+import com.bbsitter.bbsitter.Clases.Anuncio;
 import com.bbsitter.bbsitter.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 
 public class AnunciosFragment extends Fragment {
 
@@ -47,7 +53,7 @@ public class AnunciosFragment extends Fragment {
         });
 
 
-        /*String uid = mAuth.getCurrentUser().getUid();
+        String uid = mAuth.getCurrentUser().getUid();
 
         recyclerViewMisAnuncios = view.findViewById(R.id.recycler_misAnuncios);
         recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -60,12 +66,30 @@ public class AnunciosFragment extends Fragment {
 
         mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
         mAdapter.notifyDataSetChanged();
-        recyclerViewMisAnuncios.setAdapter(mAdapter);*/
+        recyclerViewMisAnuncios.setAdapter(mAdapter);
+
+        recyclerViewMisAnuncios.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+                Toast.makeText(getContext(), "Lo has tocado", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
 
         return view;
     }
 
-    /*@Override
+    @Override
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
@@ -75,5 +99,5 @@ public class AnunciosFragment extends Fragment {
 
         super.onStop();
         mAdapter.stopListening();
-    }*/
+    }
 }
