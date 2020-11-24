@@ -47,7 +47,10 @@ public class InicioCanguroFragment extends Fragment {
                 .setQuery(query, Anuncio.class).build();
 
         mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
-        mAdapter.notifyDataSetChanged();
+
+
+         mAdapter.notifyDataSetChanged();
+
         recyclerViewListaAnuncios.setAdapter(mAdapter);
 
         /*mAdapter.setOnClickListener(new View.OnClickListener() {
@@ -71,6 +74,7 @@ public class InicioCanguroFragment extends Fragment {
     public void onStart() {
         super.onStart();
         mAdapter.startListening();
+
     }
 
     public void onStop() {
