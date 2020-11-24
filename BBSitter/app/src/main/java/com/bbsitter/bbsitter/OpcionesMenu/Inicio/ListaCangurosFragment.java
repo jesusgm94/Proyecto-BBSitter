@@ -1,4 +1,4 @@
-package com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio;
+package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

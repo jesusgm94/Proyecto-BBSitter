@@ -31,6 +31,8 @@
         app:iconGravity="textStart"
         />
     </LinearLayout>
+
+
     <!-- recyclerview Anuncios -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_misAnuncios"

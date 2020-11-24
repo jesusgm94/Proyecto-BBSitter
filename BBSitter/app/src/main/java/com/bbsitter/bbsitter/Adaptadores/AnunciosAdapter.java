@@ -47,10 +47,9 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
         holder.descripcion.setText(anuncio.getDescripcion());
         holder.fechaPublicacion.setText("Publicado: " + anuncio.getFechaPublicacion());
 
-        //Ponemos imagen de la familia
+        //Ponemos datos de la familia
         String img = anuncio.getImg();
         Picasso.get().load(img).into(holder.img);
-
         holder.direccion.setText(anuncio.getDireccion());
         holder.nombre.setText(anuncio.getNombre());
     }

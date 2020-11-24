@@ -25,7 +25,7 @@ public class AnunciosFragment extends Fragment {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
-    private RecyclerView recyclerViewListaAnuncios;
+    private RecyclerView recyclerViewMisAnuncios;
     private AnunciosAdapter mAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -49,8 +49,8 @@ public class AnunciosFragment extends Fragment {
 
         /*String uid = mAuth.getCurrentUser().getUid();
 
-        recyclerViewListaAnuncios = view.findViewById(R.id.recycler_misAnuncios);
-        recyclerViewListaAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewMisAnuncios = view.findViewById(R.id.recycler_misAnuncios);
+        recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
         bbdd = FirebaseFirestore.getInstance();
 
         Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid);
@@ -60,8 +60,20 @@ public class AnunciosFragment extends Fragment {
 
         mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
         mAdapter.notifyDataSetChanged();
-        recyclerViewListaAnuncios.setAdapter(mAdapter);*/
+        recyclerViewMisAnuncios.setAdapter(mAdapter);*/
 
         return view;
     }
+
+    /*@Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    public void onStop() {
+
+        super.onStop();
+        mAdapter.stopListening();
+    }*/
 }
