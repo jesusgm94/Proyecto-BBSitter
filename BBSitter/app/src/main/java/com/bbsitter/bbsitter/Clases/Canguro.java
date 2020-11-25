@@ -12,7 +12,7 @@ public class Canguro implements Serializable {
     private String nombre;
     private String apellidos;
     private String fechaNacimiento;
-    private int edad;  //Calculada a traves del String
+    private int edad;
     private String sexo;
 
     // Direccion y fecha nacimiento

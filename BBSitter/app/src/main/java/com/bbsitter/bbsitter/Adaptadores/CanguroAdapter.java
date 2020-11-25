@@ -12,6 +12,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -44,12 +45,13 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
         Picasso.get().load(img).into(holder.img);
 
         holder.nombre.setText(canguro.getNombre());
-        holder.edad.setText(String.valueOf(canguro.getEdad()));
+        holder.edad.setText(String.valueOf(canguro.getEdad()) + " años" );
         holder.precioHora.setText(canguro.getPrecioHora() + " €");
 
         holder.ratingBar.setRating(randomStars.nextInt(6)+1);
         // Calcular la distancia
         holder.distancia.setText(dist + " kms");
+
 
 
     }
@@ -74,8 +76,6 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-
-
 
             img = itemView.findViewById(R.id.itemImagenCanguro);
             nombre = itemView.findViewById(R.id.itemNombreCanguro);

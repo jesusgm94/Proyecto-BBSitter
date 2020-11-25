@@ -105,12 +105,14 @@ public class ListaCangurosFragment extends Fragment {
                 Picasso.get().load(img).into(holder.getImg());
 
                 holder.getNombre().setText(canguro.getNombre());
-                holder.getEdad().setText(String.valueOf(canguro.getEdad()));
+                holder.getEdad().setText(String.valueOf(canguro.getEdad()) + " años");
                 holder.getPrecioHora().setText(canguro.getPrecioHora() + " €");
 
                 holder.getRatingBar().setRating(randomStars.nextInt(6)+1);
                 // Calcular la distancia
                 holder.getDistancia().setText(dist + " kms");
+
+                String uid = canguro.getUid().toString();
 
                 //Canguro canguro1 = new Canguro(getSnapshots().getSnapshot(position).getId(),canguro);
 

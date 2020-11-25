@@ -53,6 +53,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -87,6 +89,8 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private String urlFotoPerfil ="";
 
     private LatLng latLng;
+
+    private int edadCanguro;
 
     private double precioHoraCanguro;
     private RadioGroup radioGroupSexo;
@@ -202,10 +206,10 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             // Si todos los campos estan rellenados correctamente, validación a true
              if(validacionCampos()) {
 
+                 //String fechaCreacionPerfil = ;
 
                  final String uid = mAuth.getCurrentUser().getUid();
                  final String urlFoto = "";
-                 //String fechaCreacionPerfil = ;
                  String nombreCanguro = etNombre.getText().toString().trim();
                  String apellidosCanguro = etApellidos.getText().toString().trim();
                  String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
@@ -215,10 +219,12 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  String experiencia = obtenerExperiencia();
                  double precio = precioHoraCanguro;
 
+
                  // LOCALIZACION
                  // Obtener coordenadas de direccion
                  double longitudLoc = latLng.longitude;
                  double latitudLoc = latLng.latitude;
+
                  // Crear MAPA COORDENADAS para meterlo en la localizacion del Canguro
                  Map<String, Double> mapLoc = new HashMap<>();
                  mapLoc.put("Latitud", latitudLoc);
@@ -227,35 +233,28 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
                  // ListView CHECKBOX PREFERENCIAS
                  Map<String, Boolean> mapPrefEdades = new HashMap<>();
-                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
                  for (int cont = 0; cont < listViewPreferencias.getCount(); cont++) {
                      if (listViewPreferencias.isItemChecked(cont)) {
                          String textoItemSeleccionado = listViewPreferencias.getItemAtPosition(cont).toString();
-                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
                          mapPrefEdades.put(textoItemSeleccionado, true);
                      }
                  }
-                 //Toast.makeText(CrearPerfilCanguro.this,preferenciasSeleccionadas, Toast.LENGTH_LONG).show();
 
 
                  // ListView CHECKBOX PLUSES
                  Map<String, Boolean> mapPluses = new HashMap<>();
-                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
                  for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
                      if (listViewPluses.isItemChecked(cont)) {
                          String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
-                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
                          mapPluses.put(textoItemSeleccionado, true);
                      }
                  }
 
                  // ListView CHECKBOX IDIOMAS
                  Map<String, Boolean> mapIdiomas = new HashMap<>();
-                 //String preferenciasSeleccionadas = "Prefrencias seleccionadas: \n";
                  for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
                      if (listViewIdiomas.isItemChecked(cont)) {
                          String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
-                         //preferenciasSeleccionadas += textoItemSeleccionado + "\n";
                          mapIdiomas.put(textoItemSeleccionado, true);
                      }
                  }
@@ -269,6 +268,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  mapCanguro.put("nombre", nombreCanguro);
                  mapCanguro.put("apellidos", apellidosCanguro);
                  mapCanguro.put("fechaNacimiento", fechaNacimiento);
+                 mapCanguro.put("edad", edadCanguro);
                  mapCanguro.put("sexo", sexo);
                  mapCanguro.put("direccion", direccion);
                  mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
@@ -544,9 +544,17 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                         calendarResultado.set(Calendar.MONTH, month);
                         calendarResultado.set(Calendar.DAY_OF_MONTH, day);
 
+                        // OBTENEMOS EL AÑO DE NACIMIENTO (Recogido del metodo onDateSet) y el año Actual, obtenido de Calendar
+                        int añoNacimiento = year;
+                        int añoActual = calendar.get(Calendar.YEAR);
+
+                        // CALCULAMOS LA EDAD
+                        edadCanguro = añoActual - añoNacimiento;
+
+                        // FORMATEAMOS LA FECHA PARA COLOCAR EN EL EDIT TEXT
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-                        Date date = calendarResultado.getTime();
-                        String fechaNacimiento = simpleDateFormat.format(date);
+                        Date dateFechaNacimiento = calendarResultado.getTime();
+                        String fechaNacimiento = simpleDateFormat.format(dateFechaNacimiento);
 
                         etFechaNacimiento.setText(fechaNacimiento);
                     }
@@ -565,5 +573,4 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         });
          */
     }
-
 }

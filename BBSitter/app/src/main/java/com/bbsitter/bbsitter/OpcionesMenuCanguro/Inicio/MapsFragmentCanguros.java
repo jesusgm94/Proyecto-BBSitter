@@ -1,5 +1,10 @@
 package com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bbsitter.bbsitter.R;
@@ -27,6 +33,7 @@ import es.dmoral.toasty.Toasty;
 
 public class MapsFragmentCanguros extends Fragment {
 
+    private LocationManager ubicacion;
 
     FirebaseFirestore bbdd = FirebaseFirestore.getInstance();
 
@@ -47,10 +54,23 @@ public class MapsFragmentCanguros extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
+            ubicacion = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(), new String[]{
+
+                        Manifest.permission.ACCESS_FINE_LOCATION,
+                        Manifest.permission.ACCESS_COARSE_LOCATION
+
+                },1000);
+            }
+
+            Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
             final GoogleMap miGoogleMap = googleMap;
 
             // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
-            LatLng MIUBICACION = new LatLng(40.48205, -3.35996);
+            LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
 
 
             googleMap.addMarker(new MarkerOptions().position(MIUBICACION).title("Mi ubicacion"));

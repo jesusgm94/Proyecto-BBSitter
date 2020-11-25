@@ -41,7 +41,6 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/botonredondeadowhite"
                         android:orientation="vertical"
                         android:paddingRight="30dp">
 
@@ -83,7 +82,6 @@
                         android:layout_width="149dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:background="@drawable/botonredondeadowhite"
                         android:orientation="vertical"
                         android:paddingLeft="30dp">
 
@@ -121,20 +119,39 @@
                     android:layout_marginRight="50dp"
                     android:background="@android:color/white" />
 
-                <!-- NOMBRE CANGURO -->
-                <TextView
-                    android:id="@+id/tvNombrePerfilFamilia"
-                    android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginHorizontal="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="8dp"
                     android:layout_marginBottom="5dp"
-                    android:text="Nombre Canguro"
-                    android:textAlignment="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="20dp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+
+                        <!-- NOMBRE CANGURO -->
+                        <TextView
+                            android:id="@+id/tvNombrePerfilFamilia"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:text="Nombre Canguro"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="20dp"
+                            android:textStyle="bold" />
+
+                        <!-- EDAD CANGURO -->
+                        <TextView
+                            android:id="@+id/tvEdadCanguro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:paddingTop="7dp"
+                            android:text=" ( 30 años )"
+                            android:textAlignment="center"
+                            android:textColor="@android:color/white"
+                            android:textSize="13dp"
+                             />
+                 </LinearLayout>
 
                 <!-- RATING BAR -->
                 <RatingBar
