@@ -132,26 +132,27 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="90dp"
-                    android:elevation="2dp">
+                    android:gravity="center">
 
                     <!-- BOTON añadir Anuncio -->
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/btnAnadirHijo"
-                        android:layout_width="match_parent"
-                        android:layout_height="70dp"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="200dp"
+                        android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_marginHorizontal="30dp"
-                        android:layout_marginBottom="20dp"
                         android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
                         android:text="Añadir Hijo"
                         android:textColor="@color/colorPrimaryDark"
-                        style="?attr/materialButtonOutlinedStyle"
-                        app:cornerRadius="10dp"
-                        app:strokeColor="@color/colorPrimaryDark"
+                        app:cornerRadius="50dp"
                         app:icon="@drawable/ic_baseline_add_24"
-                        app:iconTint="@color/colorPrimaryDark"
                         app:iconGravity="textStart"
-                        />
+                        app:iconTint="@color/colorPrimaryDark"
+                        app:strokeColor="@color/colorPrimaryDark"
+                        app:strokeWidth="2dp" />
+
                 </LinearLayout>
 
 

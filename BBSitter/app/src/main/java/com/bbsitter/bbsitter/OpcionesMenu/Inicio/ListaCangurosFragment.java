@@ -112,7 +112,7 @@ public class ListaCangurosFragment extends Fragment {
                 // Calcular la distancia
                 holder.getDistancia().setText(dist + " kms");
 
-                String uid = canguro.getUid().toString();
+                String uid = canguro.getUid();
 
                 //Canguro canguro1 = new Canguro(getSnapshots().getSnapshot(position).getId(),canguro);
 

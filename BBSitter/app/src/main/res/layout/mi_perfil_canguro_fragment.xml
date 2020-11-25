@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="198dp"
-            android:background="@android:color/white"
+            android:background="@color/moradooscuro"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="vertical"
-                        android:paddingRight="30dp">
+                        android:paddingRight="20dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -72,7 +72,7 @@
                         android:layout_width="90dp"
                         android:layout_height="90dp"
                         android:layout_gravity="center"
-                        android:elevation="2dp"
+                        android:elevation="3dp"
                         android:src="@drawable/fotoperfil"
                         app:civ_border_color="@android:color/white"
                         app:civ_border_width="2dp" />
@@ -83,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:orientation="vertical"
-                        android:paddingLeft="30dp">
+                        android:paddingLeft="20dp">
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -117,7 +117,7 @@
                     android:layout_gravity="center"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="50dp"
-                    android:background="@android:color/white" />
+                    android:background="@color/moradooscuro"/>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -162,6 +162,7 @@
                     android:layout_marginBottom="10dp"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
+                    android:backgroundTint="@android:color/holo_orange_dark"
                     android:numStars="5"
                     android:rating="4.5"
                     android:stepSize="0.5" />
@@ -201,7 +202,7 @@
                     android:layout_marginHorizontal="25dp"
                     android:gravity="center_horizontal"
                     android:text="Lorem Ipsum is simply of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
-                    android:textColor="@color/colorPrimaryDark"
+                    android:textColor="@android:color/white"
                     android:textSize="14dp" />
 
             </LinearLayout>
@@ -254,7 +255,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Tengo coche"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -265,10 +266,10 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="No fumo"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
+                        app:checkedIconTint="@color/colorPrimary"/>/>
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
@@ -276,10 +277,10 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Tengo primeros auxilios"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
+                        app:checkedIconTint="@color/colorPrimary"/>/>
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -336,7 +337,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Español"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -347,7 +348,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Inglés"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -358,7 +359,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Francés"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -417,7 +418,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Más de 6 meses"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -428,7 +429,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Entre 1 y 2 años"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -439,7 +440,7 @@
                         android:checked="true"
                         android:enabled="false"
                         android:text="Más de 6 años"
-                        app:chipBackgroundColor="@color/colorPrimary"
+                        app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp"
                         app:checkedIconTint="@color/colorPrimary"/>
@@ -456,19 +457,20 @@
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/btnEditarPerfilCanguro"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="110dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"
         android:contentDescription="chat"
         android:gravity="bottom|center|end"
         android:text="EDITAR PERFIL"
+        android:textSize="12dp"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
         app:icon="@android:drawable/ic_menu_edit"

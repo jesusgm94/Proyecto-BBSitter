@@ -31,10 +31,18 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="10dp"
                     android:text="Titulo"
+                    android:textStyle="bold"
                     android:textAppearance="?attr/textAppearanceHeadline6"
                     android:textColor="@color/colorPrimaryDark" />
 
             </LinearLayout>
+
+            <View
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/colorgris" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -94,11 +102,6 @@
 
                 </LinearLayout>
 
-
-
-
-
-
             </LinearLayout>
 
             <LinearLayout
@@ -116,13 +119,12 @@
 
 
             </LinearLayout>
-
             <View
                 android:id="@+id/divider"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/colorgris"
-                android:layout_marginBottom="10dp"/>
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorgris" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -176,7 +178,6 @@
 
 
             </LinearLayout>
-
 
         </LinearLayout>
 
