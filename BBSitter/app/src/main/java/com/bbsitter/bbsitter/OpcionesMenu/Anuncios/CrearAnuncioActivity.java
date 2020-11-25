@@ -19,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -85,7 +84,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
                 obtenerDatos();
 
-                /*Cargamos los datos*/
+                /*//Cargamos los datos
                 String titulo = etTitulo.getText().toString().trim();
                 String descripcion = etDescripcion.getText().toString().trim();
                 String tiempo = obtenerTiempo();
@@ -116,10 +115,10 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
 
 
-                /*Creamos la coleccion Anuncios en la bbdd*/
+                //Creamos la coleccion Anuncios en la bbdd
                 bbdd.collection("anuncios")
                         .document(uid)
-                        .set(mapUser);
+                        .set(mapUser);*/
 
 
                 finish();
@@ -151,15 +150,54 @@ public class CrearAnuncioActivity extends AppCompatActivity {
                                 direccion = document.get("direccion").toString();
 
                             }
+                            /*Cargamos los datos*/
+                            String titulo = etTitulo.getText().toString().trim();
+                            String descripcion = etDescripcion.getText().toString().trim();
+                            String tiempo = obtenerTiempo();
+                            String casa = obtenerCasa();
 
-                            //Creamos un mapa para actualizar el anuncio
+                            // Creamos un objeto Date
+                            Date fechaPublicacion = new Date();
+                            // Especificamos un formato
+                            String DATE_FORMAT = "dd MMM HH:mm";
+                            // Create object of SimpleDateFormat and pass the desired date format.
+                            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+
+                            String fechaHoy = sdf.format(fechaPublicacion);
+
+                            String uid = mAuth.getCurrentUser().getUid();
+
+
+                            Map<String, Object> mapUser = new HashMap<>();
+                            mapUser.put("titulo", titulo);
+                            mapUser.put("descripcion", descripcion);
+                            mapUser.put("fechaPublicacion", fechaHoy);
+                            mapUser.put("casa", casa);
+                            mapUser.put("tiempo", tiempo);
+                            mapUser.put("nombre", nombre);
+                            mapUser.put("img", img);
+                            mapUser.put("direccion", direccion);
+                            mapUser.put("uid", uid);
+
+
+
+                            /*Creamos la coleccion Anuncios en la bbdd*/
+                            bbdd.collection("anuncios")
+                                    .document()
+                                    .set(mapUser);
+
+                            /*//Creamos un mapa para actualizar el anuncio
                             Map<String, Object> userUpdate = new HashMap<>();
                             userUpdate.put("nombre", nombre);
                             userUpdate.put("img", img);
                             userUpdate.put("direccion", direccion);
 
+
                             //Actualizamos el anuncio
-                            bbdd.collection("anuncios").document(uid).set(userUpdate, SetOptions.merge());
+                            bbdd.collection("anuncios")
+                                    .document(uid)
+                                    .set(userUpdate, SetOptions.merge());*/
+
 
                         } else {
                             Toast.makeText(CrearAnuncioActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
