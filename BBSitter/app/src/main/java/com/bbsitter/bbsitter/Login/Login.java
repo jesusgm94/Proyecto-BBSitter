@@ -1,6 +1,7 @@
 package com.bbsitter.bbsitter.Login;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -58,6 +59,7 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         editTextPassword = findViewById(R.id.password_text_input);
         editTextEmail = findViewById(R.id.email_edit_text);
