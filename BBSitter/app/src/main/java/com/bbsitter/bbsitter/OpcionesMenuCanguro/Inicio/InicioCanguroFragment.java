@@ -44,8 +44,7 @@ public class InicioCanguroFragment extends Fragment {
         recyclerViewListaAnuncios = view.findViewById(R.id.recycler_ListaAnuncios);
         recyclerViewListaAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        recyclerViewListaDiario = view.findViewById(R.id.recycler_ListaDiario);
-        recyclerViewListaDiario.setLayoutManager(new LinearLayoutManager(getContext()));
+
 
         bbdd = FirebaseFirestore.getInstance();
 

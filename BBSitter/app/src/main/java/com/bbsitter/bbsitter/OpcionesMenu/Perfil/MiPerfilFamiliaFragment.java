@@ -9,13 +9,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.bbsitter.bbsitter.Adaptadores.HijosAdapter;
+import com.bbsitter.bbsitter.Clases.Hijos;
 import com.bbsitter.bbsitter.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
@@ -42,7 +48,8 @@ public class MiPerfilFamiliaFragment extends Fragment {
     private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
     private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo;
 
-
+    private RecyclerView recyclerViewHijosPerfilFamilia;
+    private HijosAdapter mAdapter;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
@@ -95,6 +102,8 @@ public class MiPerfilFamiliaFragment extends Fragment {
         btnDireccionPerfilFamilia = view.findViewById(R.id.btnDireccionPerfilFamilia);
         tvDescripcionPerfilFamilia = view.findViewById(R.id.tvDescripcionPerfilFamilia);
 
+        recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
+
         btnAnadirHijo = view.findViewById(R.id.btnAnadirHijo);
 
         cargarDatosPerfilFamilia();
@@ -103,12 +112,26 @@ public class MiPerfilFamiliaFragment extends Fragment {
         btnAnadirHijo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent AnadirHijo = new Intent(getContext(), AnadirHijoActivity.class);
-                startActivity(AnadirHijo);
+                Intent anadirHijo = new Intent(getContext(), CrearHijoActivity.class);
+                startActivity(anadirHijo);
             }
         });
 
-        // Inflate the layout for this fragment
+        String uid = mAuth.getCurrentUser().getUid();
+
+        recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
+        recyclerViewHijosPerfilFamilia.setLayoutManager(new LinearLayoutManager(getContext()));
+        bbdd = FirebaseFirestore.getInstance();
+
+        Query query = bbdd.collection("hijos").whereEqualTo("uid", uid);
+
+        FirestoreRecyclerOptions<Hijos> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Hijos>()
+                .setQuery(query, Hijos.class).build();
+
+        mAdapter = new HijosAdapter(firestoreRecyclerOptions);
+        mAdapter.notifyDataSetChanged();
+        recyclerViewHijosPerfilFamilia.setAdapter(mAdapter);
+
         return view;
     }
 
@@ -148,5 +171,17 @@ public class MiPerfilFamiliaFragment extends Fragment {
                     }
                 });
 
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAdapter.startListening();
+    }
+
+    public void onStop() {
+
+        super.onStop();
+        mAdapter.stopListening();
     }
 }

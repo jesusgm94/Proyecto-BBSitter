@@ -4,43 +4,35 @@ import java.io.Serializable;
 
 public class Hijos implements Serializable {
 
-    private String imgHijos;
-    private String nombreHijos;
-    private String edadHijos;
+    private String nombre;
+    private String edad;
     private String otrosDatos;
+
 
     public Hijos() {
     }
 
-    public Hijos(String imgHijos, String nombreHijos, String edadHijos, String otrosDatos) {
-        this.imgHijos = imgHijos;
-        this.nombreHijos = nombreHijos;
-        this.edadHijos = edadHijos;
+    public Hijos( String nombre, String edad, String otrosDatos) {
+        this.nombre = nombre;
+        this.edad = edad;
         this.otrosDatos = otrosDatos;
     }
 
-    public String getImgHijos() {
-        return imgHijos;
+
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setImgHijos(String imgHijos) {
-        this.imgHijos = imgHijos;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getNombreHijos() {
-        return nombreHijos;
+    public String getEdad() {
+        return edad;
     }
 
-    public void setNombreHijos(String nombreHijos) {
-        this.nombreHijos = nombreHijos;
-    }
-
-    public String getEdadHijos() {
-        return edadHijos;
-    }
-
-    public void setEdadHijos(String edadHijos) {
-        this.edadHijos = edadHijos;
+    public void setEdadH(String edad) {
+        this.edad = edad;
     }
 
     public String getOtrosDatos() {

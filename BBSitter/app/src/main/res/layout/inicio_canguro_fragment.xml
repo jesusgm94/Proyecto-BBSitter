@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center_horizontal"
-    android:background="@android:color/white"
+    android:background="@color/colorgris"
     tools:context=".OpcionesMenuCanguro.Inicio.InicioCanguroFragment">
 
     <LinearLayout
@@ -103,12 +103,6 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_ListaAnuncios"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorgris"/>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_ListaDiario"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorgris"/>
