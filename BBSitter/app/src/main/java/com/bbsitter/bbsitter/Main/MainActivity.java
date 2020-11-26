@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity {
         imagenUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.imagenUsuarioMenu);
         tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
         tvEmailUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvEmailUsuarioMenu);
+        tvNombreUsuarioMenu = navigationView.getHeaderView(0).findViewById(R.id.tvNombreUsuarioMenu);
+
         cargarDatosFamilias();
 
         //Cuando pulsamos la imagen vamos al perfil de la familia
@@ -139,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
                                 Picasso.get().load(imagenFamilia).into(imagenUsuarioMenu);
+
 
                                 //Agrega nuevo nombre
                                 tvNombreUsuarioMenu.setText(nombreFamilia);

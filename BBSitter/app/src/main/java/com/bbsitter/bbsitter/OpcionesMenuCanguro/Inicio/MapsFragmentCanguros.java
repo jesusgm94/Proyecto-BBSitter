@@ -1,8 +1,12 @@
 package com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapRegionDecoder;
+import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -14,14 +18,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import com.bbsitter.bbsitter.Clases.Canguro;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -29,7 +37,12 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.List;
+
 import es.dmoral.toasty.Toasty;
+
+import static android.content.Context.LOCATION_SERVICE;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class MapsFragmentCanguros extends Fragment {
 
@@ -54,7 +67,8 @@ public class MapsFragmentCanguros extends Fragment {
         @Override
         public void onMapReady(GoogleMap googleMap) {
 
-            ubicacion = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            final GoogleMap miGoogleMap = googleMap;
+            ubicacion = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -65,15 +79,27 @@ public class MapsFragmentCanguros extends Fragment {
                 },1000);
             }
 
-            Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
-            final GoogleMap miGoogleMap = googleMap;
 
             // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
+
+            // Obtenemos nuestra ubicacion
+            //Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location loc = getLastKnownLocation();
+
             LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
 
+            // Ponemmos un marcador en nuestra ubicacion
+            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
+            Bitmap b = bitmapdraw.getBitmap();
+            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 130, 130, false);
 
-            googleMap.addMarker(new MarkerOptions().position(MIUBICACION).title("Mi ubicacion"));
+
+            Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
+                    .position(MIUBICACION)
+                    .title("Mi ubicación"));
+
+            marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
             googleMap.getUiSettings().setZoomControlsEnabled(true);
@@ -96,14 +122,27 @@ public class MapsFragmentCanguros extends Fragment {
                                     String urlFotoCanguro = document.get("img").toString();
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
+                                    String iudCanguro = document.getString("uid");
 
                                     /*
                                     CircleImageView fotoCanguro = null;
                                     Picasso.get().load(urlFotoCanguro).into(fotoCanguro);
                                     */
 
+                                    BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadorbbsitter);
+                                    Bitmap b = bitmapdraw.getBitmap();
+                                    Bitmap smallMarker = Bitmap.createScaledBitmap(b, 110, 110, false);
+
+
                                     LatLng ubicacionCanguro = new LatLng(Latitud, Longitud);
-                                    miGoogleMap.addMarker(new MarkerOptions().position(ubicacionCanguro).title(nombreCanguro));
+                                    Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
+                                                                            .position(ubicacionCanguro)
+                                                                            .title(nombreCanguro));
+                                    marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+                                    // Metemos dentro del TAG del marcador el iud del canguro para acceder a sus datos (firestore) y mostrarlos cuando hagan click en el marcador
+                                    marcador.setTag(iudCanguro);
+
                                 }
 
                             } else {
@@ -144,4 +183,23 @@ public class MapsFragmentCanguros extends Fragment {
 
         }
     }
+    private Location getLastKnownLocation() {
+        Location l=null;
+        @SuppressLint("RestrictedApi") LocationManager mLocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mLocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            if(ContextCompat.checkSelfPermission(getContext(),Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED) {
+                l = mLocationManager.getLastKnownLocation(provider);
+            }
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
+    }
+
 }

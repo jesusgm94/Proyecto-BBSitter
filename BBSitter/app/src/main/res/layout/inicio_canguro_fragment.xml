@@ -21,18 +21,20 @@
     <!-- GRUPO DE CHIPS -->
     <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
         android:background="@color/colorazulcielo">
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/chipGroupInicioCanguro"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingHorizontal="10dp"
+            android:paddingHorizontal="20dp"
+            android:layout_marginBottom="3dp"
             style="@style/Widget.MaterialComponents.Chip.Action"
             app:singleLine="true"
             app:singleSelection="true"
-            app:chipSpacingHorizontal="15dp">
+            app:chipSpacingHorizontal="10dp">
 
             <!-- Chips can be declared here, or added dynamically. -->
 
@@ -62,6 +64,8 @@
                 app:checkedIconTint="@color/colorPrimaryDark"
                 app:chipStrokeColor="@android:color/white"
                 app:chipStrokeWidth="1dp"
+                android:textColorHint="@color/colorPrimaryDark"
+                android:textColorHighlight="@color/colorPrimaryDark"
                 />
             <com.google.android.material.chip.Chip
                 style="@style/Widget.MaterialComponents.Chip.Filter"

@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        app:cardBackgroundColor="@android:color/white"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
         android:checkable="true"
         app:cardCornerRadius="10dp"
         android:elevation="2dp">
@@ -34,6 +34,8 @@
                     android:layout_marginLeft="10dp"
                     android:elevation="2dp"
                     android:src="@drawable/fotoperfil"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="1dp"
                     />
 
             </LinearLayout>
@@ -55,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="David"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@android:color/white"
                         android:textAppearance="?attr/textAppearanceHeadline6" />
 
                     <TextView
@@ -64,7 +66,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:text="31 años"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@android:color/white"
                         android:textSize="12dp" />
 
                 </LinearLayout>
@@ -83,7 +85,7 @@
                         android:layout_marginTop="8dp"
                         android:text="0,9 kms"
                         android:textAppearance="?attr/textAppearanceBody2"
-                        android:textColor="@color/colorPrimaryDark" />
+                        android:textColor="@android:color/white" />
                     <ImageView
                         android:id="@+id/imageLoc"
                         android:layout_width="20dp"
@@ -101,7 +103,7 @@
             <LinearLayout
                 android:layout_width="113dp"
                 android:layout_height="match_parent"
-                android:background="@drawable/botonredondeadopurpledark"
+                android:background="@color/moradooscuro"
                 android:elevation="2dp"
                 android:gravity="right"
                 android:orientation="vertical"

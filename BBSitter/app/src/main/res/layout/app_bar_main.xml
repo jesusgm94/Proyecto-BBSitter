@@ -8,6 +8,7 @@
 
     <!-- AppBar Layout con TOOLBAR-->
     <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
@@ -15,12 +16,18 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:gravity="right"
-            android:background="@color/colorPrimaryDark"/>
+            android:background="@color/colorPrimaryDark"
+            android:gravity="center_vertical"
+            app:layout_anchor="@+id/appBarLayout"
+            app:layout_anchorGravity="center">
+        </androidx.appcompat.widget.Toolbar>
+
     </com.google.android.material.appbar.AppBarLayout>
 
     <!-- Incluir CONTENEDOR PRINCIPAL-->
     <include layout="@layout/content_main" />
+
+
 
     <!--
     <com.google.android.material.floatingactionbutton.FloatingActionButton
