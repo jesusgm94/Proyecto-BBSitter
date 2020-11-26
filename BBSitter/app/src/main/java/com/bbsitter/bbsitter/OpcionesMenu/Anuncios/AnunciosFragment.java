@@ -57,7 +57,7 @@ public class AnunciosFragment extends Fragment {
         recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
         bbdd = FirebaseFirestore.getInstance();
 
-        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid);
+        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid).orderBy("fechaPublicacion", Query.Direction.DESCENDING);
 
         FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
                 .setQuery(query, Anuncio.class).build();

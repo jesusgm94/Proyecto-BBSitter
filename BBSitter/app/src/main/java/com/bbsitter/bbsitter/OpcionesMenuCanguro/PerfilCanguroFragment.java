@@ -63,6 +63,7 @@ public class PerfilCanguroFragment extends Fragment {
         tvExperienciaPerfilCanguro = view.findViewById(R.id.tvExperienciaPerfilCanguro);
         btnDireccion = view.findViewById(R.id.btnDireccionPerfilCanguro);
 
+        //Recogemos el uid de la familia de ListaCanguroFragment
         Bundle data = this.getArguments();
         if(data != null){
             uid = data.getString("uid");

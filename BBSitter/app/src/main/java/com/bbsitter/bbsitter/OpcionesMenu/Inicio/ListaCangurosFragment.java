@@ -45,7 +45,6 @@ public class ListaCangurosFragment extends Fragment {
     Random randomStars = new Random();
 
 
-
     public ListaCangurosFragment() {
         // Required empty public constructor
     }
@@ -114,13 +113,13 @@ public class ListaCangurosFragment extends Fragment {
 
                 final String uid = canguro.getUid();
 
-                //Canguro canguro1 = new Canguro(getSnapshots().getSnapshot(position).getId(),canguro);
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
                 holder.getCardViewCanguro().setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
 
+                        //Llevamos el uid con un Bundle a PerfilCanguroFragment
                         PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
                         Bundle data = new Bundle();
                         data.putString("uid", uid);
