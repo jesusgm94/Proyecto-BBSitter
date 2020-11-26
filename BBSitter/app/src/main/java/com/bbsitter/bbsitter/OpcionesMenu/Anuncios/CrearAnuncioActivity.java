@@ -2,7 +2,9 @@ package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -43,6 +45,11 @@ public class CrearAnuncioActivity extends AppCompatActivity {
     private String direccion = "";
     private String img = "";
 
+    private ListView listViewPluses, listViewIdiomas;
+    private ArrayAdapter<String> adapterPluses, adapterIdiomas;
+    private String [] arrayPluses = {"Carnet de conducir", "Primeros auxilios", "Cocinar", "Ayuda con los deberes", "Jugar"};
+    String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
+
 
 
     @Override
@@ -72,57 +79,25 @@ public class CrearAnuncioActivity extends AppCompatActivity {
         rbCasaFamilia = findViewById(R.id.radio_button_CasaFamilia);
         rbCasaCanguro = findViewById(R.id.radio_button_CasaCanguro);
 
+        // ListView Checkboxs PLUSES
+        listViewPluses = findViewById(R.id.listViewPluses);
+        adapterPluses = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPluses);
+        listViewPluses.setAdapter(adapterPluses);
+
+        // ListView Checkboxs IDIOMAS
+        listViewIdiomas = findViewById(R.id.listViewIdiomas);
+        adapterIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayIdiomas);
+        listViewIdiomas.setAdapter(adapterIdiomas);
+
         //Boton Crear anuncio
         btnCrearAnuncio = (Button) findViewById(R.id.btnCrearAnuncio);
-
-
-
 
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                obtenerDatos();
-
-                /*//Cargamos los datos
-                String titulo = etTitulo.getText().toString().trim();
-                String descripcion = etDescripcion.getText().toString().trim();
-                String tiempo = obtenerTiempo();
-                String casa = obtenerCasa();
-
-
-                // Creamos un objeto Date
-                Date fechaPublicacion = new Date();
-                // Especificamos un formato
-                String DATE_FORMAT = "dd MMM HH:mm";
-                // Create object of SimpleDateFormat and pass the desired date format.
-                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
-                String fechaHoy = sdf.format(fechaPublicacion);
-
-                String uid = mAuth.getCurrentUser().getUid();
-
-                Map<String, Object> mapUser = new HashMap<>();
-                mapUser.put("titulo", titulo);
-                mapUser.put("descripcion", descripcion);
-                mapUser.put("fechaPublicacion", fechaHoy);
-                mapUser.put("casa", casa);
-                mapUser.put("tiempo", tiempo);
-                mapUser.put("nombre", nombre);
-                mapUser.put("img", img);
-                mapUser.put("direccion", direccion);
-                mapUser.put("uid", uid);
-
-
-
-                //Creamos la coleccion Anuncios en la bbdd
-                bbdd.collection("anuncios")
-                        .document(uid)
-                        .set(mapUser);*/
-
-
+                cargarDatos();
                 finish();
-
 
             }
         });
@@ -130,7 +105,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
     }
 
-    private void obtenerDatos() {
+    private void cargarDatos() {
         final String uid = mAuth.getCurrentUser().getUid();
 
         bbdd.collection("familias")
@@ -165,38 +140,47 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
                             String fechaHoy = sdf.format(fechaPublicacion);
 
+                            // ListView CHECKBOX PLUSES
+                            Map<String, Boolean> mapPluses = new HashMap<>();
+                            for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
+                                if (listViewPluses.isItemChecked(cont)) {
+                                    String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
+                                    mapPluses.put(textoItemSeleccionado, true);
+                                }
+                            }
+
+                            // ListView CHECKBOX IDIOMAS
+                            Map<String, Boolean> mapIdiomas = new HashMap<>();
+                            for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
+                                if (listViewIdiomas.isItemChecked(cont)) {
+                                    String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
+                                    mapIdiomas.put(textoItemSeleccionado, true);
+                                }
+                            }
+
                             String uid = mAuth.getCurrentUser().getUid();
 
 
-                            Map<String, Object> mapUser = new HashMap<>();
-                            mapUser.put("titulo", titulo);
-                            mapUser.put("descripcion", descripcion);
-                            mapUser.put("fechaPublicacion", fechaHoy);
-                            mapUser.put("casa", casa);
-                            mapUser.put("tiempo", tiempo);
-                            mapUser.put("nombre", nombre);
-                            mapUser.put("img", img);
-                            mapUser.put("direccion", direccion);
-                            mapUser.put("uid", uid);
+                            Map<String, Object> mapAnuncio = new HashMap<>();
+                            mapAnuncio.put("titulo", titulo);
+                            mapAnuncio.put("descripcion", descripcion);
+                            mapAnuncio.put("fechaPublicacion", fechaHoy);
+                            mapAnuncio.put("casa", casa);
+                            mapAnuncio.put("tiempo", tiempo);
+                            mapAnuncio.put("nombre", nombre);
+                            mapAnuncio.put("img", img);
+                            mapAnuncio.put("direccion", direccion);
+                            mapAnuncio.put("pluses", mapPluses);
+                            mapAnuncio.put("idiomas", mapIdiomas);
+                            mapAnuncio.put("uid", uid);
 
 
 
                             /*Creamos la coleccion Anuncios en la bbdd*/
                             bbdd.collection("anuncios")
                                     .document()
-                                    .set(mapUser);
+                                    .set(mapAnuncio);
 
-                            /*//Creamos un mapa para actualizar el anuncio
-                            Map<String, Object> userUpdate = new HashMap<>();
-                            userUpdate.put("nombre", nombre);
-                            userUpdate.put("img", img);
-                            userUpdate.put("direccion", direccion);
-
-
-                            //Actualizamos el anuncio
-                            bbdd.collection("anuncios")
-                                    .document(uid)
-                                    .set(userUpdate, SetOptions.merge());*/
 
 
                         } else {

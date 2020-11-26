@@ -12,11 +12,12 @@ public class Anuncio implements Serializable {
     private String img;
     private String nombre;
     private String direccion;
+    private String uid;
 
 
     public Anuncio() {}
 
-    public Anuncio(String titulo, String descripcion, String fechaPublicacion, String tiempo, String casa, String img, String nombre, String direccion) {
+    public Anuncio(String titulo, String descripcion, String fechaPublicacion, String tiempo, String casa, String img, String nombre, String direccion,String uid) {
         this.titulo = titulo;
         this.descripcion = descripcion;
         this.fechaPublicacion = fechaPublicacion;
@@ -25,6 +26,7 @@ public class Anuncio implements Serializable {
         this.img = img;
         this.nombre = nombre;
         this.direccion = direccion;
+        this.uid = uid;
     }
 
     public String getTitulo() {
@@ -89,6 +91,14 @@ public class Anuncio implements Serializable {
 
     public void setDireccion(String direccion) {
         this.direccion = direccion;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 }
 

@@ -267,6 +267,72 @@
                 </RadioGroup>
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Que habilidades necesitas?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <ListView
+                    android:id="@+id/listViewPluses"
+                    android:layout_width="281dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice"
+                    android:background="@color/colorPrimaryDark"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Idiomas?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <ListView
+                    android:id="@+id/listViewIdiomas"
+                    android:layout_width="281dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice"
+                    android:background="@color/colorPrimaryDark"/>
+
+            </LinearLayout>
+
             <!-- Boton crear familia -->
 
             <Button

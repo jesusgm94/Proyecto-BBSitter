@@ -6,45 +6,89 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.AnunciosAdapter;
 import com.bbsitter.bbsitter.Clases.Anuncio;
+import com.bbsitter.bbsitter.OpcionesMenu.Anuncios.DetalleAnuncioFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.SetOptions;
+import com.squareup.picasso.Picasso;
 
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link InicioCanguroFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
 public class InicioCanguroFragment extends Fragment {
 
-    private InicioCanguroViewModel mViewModel;
+    // TODO: Rename parameter arguments, choose names that match
+    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM1 = "param1";
+    private static final String ARG_PARAM2 = "param2";
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
+
+
     private FirebaseFirestore bbdd;
-    private RecyclerView recyclerViewListaAnuncios, recyclerViewListaDiario;
-    private AnunciosAdapter mAdapter, mAdapterDiario;
+    private RecyclerView recyclerViewListaAnuncios;
+    private AnunciosAdapter mAdapter;
 
 
     private Chip chipNovedades, chipFines, chipDiario;
 
-    public static InicioCanguroFragment newInstance() {
-        return new InicioCanguroFragment();
+    public InicioCanguroFragment() {
+        // Required empty public constructor
+    }
+
+    /**
+     * Use this factory method to create a new instance of
+     * this fragment using the provided parameters.
+     *
+     * @param param1 Parameter 1.
+     * @param param2 Parameter 2.
+     * @return A new instance of fragment InicioCanguroFragment.
+     */
+    // TODO: Rename and change types and number of parameters
+    public static InicioCanguroFragment newInstance(String param1, String param2) {
+        InicioCanguroFragment fragment = new InicioCanguroFragment();
+        Bundle args = new Bundle();
+        args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_PARAM1);
+            mParam2 = getArguments().getString(ARG_PARAM2);
+        }
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.inicio_canguro_fragment, container, false);
 
 
         recyclerViewListaAnuncios = view.findViewById(R.id.recycler_ListaAnuncios);
         recyclerViewListaAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
-
-
 
         bbdd = FirebaseFirestore.getInstance();
 
@@ -59,67 +103,62 @@ public class InicioCanguroFragment extends Fragment {
 
         FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
                 .setQuery(query, Anuncio.class).build();
-        mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
+        //mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
+
+        mAdapter = new AnunciosAdapter(firestoreRecyclerOptions) {
+            @Override
+            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Anuncio anuncio) {
+
+                // Poner FOTO
+                String img = anuncio.getImg();
+                Picasso.get().load(img).into(holder.getImg());
+
+                holder.getTitulo().setText(anuncio.getTitulo());
+                holder.getDireccion().setText(anuncio.getDireccion());
+                holder.getTiempo().setText(anuncio.getTiempo());
+                holder.getDescripcion().setText(anuncio.getDescripcion());
+                holder.getFechaPublicacion().setText(anuncio.getFechaPublicacion());
+                holder.getNombre().setText(anuncio.getNombre());
+
+
+                //Cogemos el id del anuncio
+                final String idAnuncio = mAdapter.getSnapshots().getSnapshot(position).getId();
+
+                /*Creamos un mapa para actualizar el perifl del usuario*/
+                Map<String, Object> userUpdate = new HashMap<>();
+                userUpdate.put("idAnuncio", idAnuncio);
+
+                /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                bbdd.collection("anuncios").document(idAnuncio)
+                        .set(userUpdate, SetOptions.merge());
+
+                // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
+                holder.getCardViewAnuncio().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        //Llevamos el idAnuncio a DetalleAnunciosFragment
+                        DetalleAnuncioFragment detalleAnuncioFragment = new DetalleAnuncioFragment();
+                        Bundle data = new Bundle();
+                        data.putString("idAnuncio", idAnuncio);
+                        detalleAnuncioFragment.setArguments(data);
+
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment_canguro, detalleAnuncioFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                });
+
+            }
+        };
+
         mAdapter.notifyDataSetChanged();
         recyclerViewListaAnuncios.setAdapter(mAdapter);
 
 
-        /*//Chip Novedades
-        chipNovedades.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chipNovedades.isChecked())
-                {
-                    Toast.makeText(getContext(), "chip Novedades", Toast.LENGTH_SHORT).show();
-
-                    Query queryNovedades = bbdd.collection("anuncios").orderBy("fechaPublicacion", Query.Direction.DESCENDING);
-                    FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
-                            .setQuery(queryNovedades, Anuncio.class).build();
-                    mAdapter = new AnunciosAdapter(firestoreRecyclerOptions);
-                    mAdapter.notifyDataSetChanged();
-                    recyclerViewListaAnuncios.setAdapter(mAdapter);
-                }
-
-            }
-        });
-
-        chipDiario.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(chipDiario.isChecked())
-                {
-                    Toast.makeText(getContext(), "chip Diario", Toast.LENGTH_SHORT).show();
-
-                    Query queryDiario = bbdd.collection("anuncios")
-                            .whereEqualTo("tiempo", "Días de diario");
-
-                    FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptionsDiario = new FirestoreRecyclerOptions.Builder<Anuncio>()
-                            .setQuery(queryDiario, Anuncio.class).build();
-
-                    mAdapterDiario = new AnunciosAdapter(firestoreRecyclerOptionsDiario);
-                    mAdapterDiario.notifyDataSetChanged();
-                    recyclerViewListaDiario.setAdapter(mAdapterDiario);
-
-                }
-
-            }
-        });*/
-
-        /*mAdapter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getContext(), "Le has dado a un item", Toast.LENGTH_SHORT).show();
-            }
-        });*/
-
         return view;
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(InicioCanguroViewModel.class);
-        // TODO: Use the ViewModel
     }
 
     @Override
@@ -134,5 +173,4 @@ public class InicioCanguroFragment extends Fragment {
         super.onStop();
         mAdapter.stopListening();
     }
-
 }
