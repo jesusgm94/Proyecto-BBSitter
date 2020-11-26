@@ -131,8 +131,9 @@
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="90dp"
-                    android:gravity="center">
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
 
                     <!-- BOTON añadir Anuncio -->
                     <com.google.android.material.button.MaterialButton
@@ -151,6 +152,27 @@
                         app:iconGravity="textStart"
                         app:iconTint="@color/colorPrimaryDark"
                         app:strokeColor="@color/colorPrimaryDark"
+                        app:strokeWidth="2dp" />
+
+
+                    <!-- BOTON añadir Anuncio -->
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEliminarUsuario"
+                        style="?attr/materialButtonOutlinedStyle"
+                        android:layout_width="200dp"
+                        android:layout_height="60dp"
+                        android:layout_gravity="center"
+                        android:layout_marginHorizontal="30dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="20dp"
+                        android:text="Eliminar usuario"
+                        android:textColor="@android:color/holo_red_dark"
+                        app:cornerRadius="50dp"
+                        app:icon="@drawable/eliminar"
+                        app:iconSize="20dp"
+                        app:iconGravity="textStart"
+                        app:iconTint="@android:color/holo_red_dark"
+                        app:strokeColor="@android:color/holo_red_dark"
                         app:strokeWidth="2dp" />
 
                 </LinearLayout>

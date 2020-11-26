@@ -112,7 +112,7 @@ public class ListaCangurosFragment extends Fragment {
                 holder.getDistancia().setText(dist + " kms");
 
                 final String uid = canguro.getUid();
-
+                
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
                 holder.getCardViewCanguro().setOnClickListener(new View.OnClickListener() {

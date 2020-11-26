@@ -81,4 +81,5 @@ public class AnunciosFragment extends Fragment {
         super.onStop();
         mAdapter.stopListening();
     }
+
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,7 +47,7 @@ public class MiPerfilFamiliaFragment extends Fragment {
 
     private CircleImageView fotoPerfilFamilia;
     private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
-    private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo;
+    private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo, btnEliminarUsuario;
 
     private RecyclerView recyclerViewHijosPerfilFamilia;
     private HijosAdapter mAdapter;
@@ -105,9 +106,12 @@ public class MiPerfilFamiliaFragment extends Fragment {
         recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
 
         btnAnadirHijo = view.findViewById(R.id.btnAnadirHijo);
+        btnEliminarUsuario = view.findViewById(R.id.btnEliminarUsuario);
 
         cargarDatosPerfilFamilia();
 
+
+        final String uid = mAuth.getCurrentUser().getUid();
 
         btnAnadirHijo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,7 +121,16 @@ public class MiPerfilFamiliaFragment extends Fragment {
             }
         });
 
-        String uid = mAuth.getCurrentUser().getUid();
+        btnEliminarUsuario.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Eliminamos usuario", Toast.LENGTH_SHORT).show();
+
+                //AQUI BORRAMOS USUARIOS
+                //mAuth.getCurrentUser().delete();
+                //bbdd.collection("usuarios").whereEqualTo("uid", uid);
+            }
+        });
 
         recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
         recyclerViewHijosPerfilFamilia.setLayoutManager(new LinearLayoutManager(getContext()));
