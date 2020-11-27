@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,94 +8,6 @@
     android:gravity="center_horizontal"
     android:background="@android:color/white"
     tools:context=".OpcionesMenu.Inicio.InicioFragment">
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:background="@color/colorPrimaryDark"
-        android:orientation="vertical">
-
-        </LinearLayout>
-
-        <!-- GRUPO DE CHIPS -->
-        <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="@color/colorPrimaryDark">
-
-            <com.google.android.material.chip.ChipGroup
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingHorizontal="10dp"
-                style="@style/Widget.MaterialComponents.Chip.Action"
-                app:singleLine="true"
-                app:singleSelection="true"
-                app:chipSpacingHorizontal="15dp">
-
-                <!-- Chips can be declared here, or added dynamically. -->
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:id="@+id/chip_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="true"
-                    android:text="Cercanos"
-                    android:textColor="@android:color/white"
-                    app:chipBackgroundColor="@color/colorAccent2"
-                    app:checkedIconTint="@color/colorPrimary"
-                    />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:id="@+id/chip_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Valoración"
-                    android:textColor="@android:color/white"
-                    app:chipBackgroundColor="@color/colorAccent2"
-                    app:checkedIconTint="@color/colorPrimary"
-                    />
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:id="@+id/chip_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Precio"
-                    android:textColor="@android:color/white"
-                    app:chipBackgroundColor="@color/colorAccent2"
-                    app:checkedIconTint="@color/colorPrimary"
-                    />
-
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:id="@+id/chip_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Edad"
-                    android:textColor="@android:color/white"
-                    app:chipBackgroundColor="@color/colorAccent2"
-                    app:checkedIconTint="@color/colorPrimary"
-                    />
-                <com.google.android.material.chip.Chip
-                    style="@style/Widget.MaterialComponents.Chip.Filter"
-                    android:id="@+id/chip_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:text="Cercanos"
-                    android:textColor="@android:color/white"
-                    app:chipBackgroundColor="@color/colorAccent2"
-                    app:checkedIconTint="@color/colorPrimary"
-                    />
-
-            </com.google.android.material.chip.ChipGroup>
-
-    </HorizontalScrollView>
 
         <!-- BARRA TABS -->
     <LinearLayout
@@ -107,35 +19,44 @@
                 android:id="@+id/tabLayoutCanguros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:tabMode="fixed"
+                app:tabMode="scrollable"
                 app:tabIndicatorHeight="4dp"
-                app:tabBackground="@color/colorPrimary"
+                app:tabIndicatorColor="@color/colorPrimary"
+                app:tabSelectedTextColor="@color/colorPrimary"
+                app:tabTextColor="@android:color/darker_gray"
+                app:tabBackground="@color/moradooscuro"
                 />
 
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerTab"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
-                    <!--
-
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tab_list"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_baseline_format_list_bulleted_24"
-                        android:text="lista"
-                        />
-
-                    <com.google.android.material.tabs.TabItem
-                        android:id="@+id/tab_map"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:icon="@drawable/ic_baseline_add_location_24"
-                        android:text="mapa"
-                        />
-                -->
-
 
     </LinearLayout>
 
-</LinearLayout>
+    <!-- BUTTON EDITAR PERFIL-->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnMostrarMapa"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="mapa"
+        android:gravity="bottom|center|end"
+        android:text="Mostrar en mapa"
+        android:textSize="12dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:icon="@drawable/marcadorbbsitter"
+        app:iconTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
+        />
+
+</RelativeLayout>

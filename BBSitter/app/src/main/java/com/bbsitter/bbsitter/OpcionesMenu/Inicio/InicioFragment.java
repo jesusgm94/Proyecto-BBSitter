@@ -7,12 +7,17 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio.MapsFragmentCanguros;
 import com.bbsitter.bbsitter.PagerAdapter;
 import com.bbsitter.bbsitter.R;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,6 +32,8 @@ public class InicioFragment extends Fragment {
     private TabLayout tabLayout;
     TabLayoutMediator tabLayoutMediator;
 
+    private ExtendedFloatingActionButton btnMostrarMapa;
+
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
 
@@ -37,6 +44,17 @@ public class InicioFragment extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_home, container, false);
+
+        btnMostrarMapa = view.findViewById(R.id.btnMostrarMapa);
+
+        btnMostrarMapa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                cargarFragment(new RoomChatFamiliaFragment());
+
+            }
+        });
 
         viewPager2 = view.findViewById(R.id.viewPagerTab);
 
@@ -49,15 +67,21 @@ public class InicioFragment extends Fragment {
             public void onConfigureTab(@NonNull TabLayout.Tab tab, int position) {
                 switch (position){
                     case 0: {
-                        tab.setText("Lista");
-                        tab.setIcon(R.drawable.ic_baseline_filter_list_24);
+                        tab.setText("Novedades");
+                        //tab.setIcon(R.drawable.ic_baseline_filter_list_24);
                         break;
                     }
                     case 1: {
-                        tab.setText("Mapa");
-                        tab.setIcon(R.drawable.ic_baseline_add_location_24);
+                        tab.setText("Los más cercanos");
+                        //tab.setIcon(R.drawable.ic_baseline_add_location_24);
                         break;
                     }
+                    case 2: {
+                        tab.setText("Los más valiosos");
+                        //tab.setIcon(R.drawable.ic_baseline_add_location_24);
+                        break;
+                    }
+
                 }
             }
         });
@@ -66,4 +90,11 @@ public class InicioFragment extends Fragment {
 
         return view;
     }
+    private void cargarFragment(Fragment fragment){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fm.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+        fragmentTransaction.commit();
+    }
+
 }

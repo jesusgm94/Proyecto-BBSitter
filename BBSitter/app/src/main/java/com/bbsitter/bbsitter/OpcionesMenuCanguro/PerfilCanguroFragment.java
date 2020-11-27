@@ -12,10 +12,14 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats.ChatsCanguroFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio.MapsFragmentCanguros;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -38,7 +42,7 @@ public class PerfilCanguroFragment extends Fragment {
     private MaterialButton btnDireccion;
     private String uid;
 
-
+    private ExtendedFloatingActionButton btnChat;
 
 
     public PerfilCanguroFragment() {}
@@ -71,6 +75,19 @@ public class PerfilCanguroFragment extends Fragment {
 
         cargarDatosCanguro();
 
+        btnChat = view.findViewById(R.id.btnChat);
+
+        btnChat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, new RoomChatFamiliaFragment())
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
 
         return view;
 

@@ -20,7 +20,9 @@ public class PagerAdapter  extends FragmentStateAdapter {
             case 0:
                 return new ListaCangurosFragment();
             case 1:
-                return new MapsFragmentCanguros();
+                return new ListaCangurosFragment();
+            case 2:
+                return new ListaCangurosFragment();
             default:
                 return new ListaCangurosFragment();
         }
@@ -28,6 +30,6 @@ public class PagerAdapter  extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

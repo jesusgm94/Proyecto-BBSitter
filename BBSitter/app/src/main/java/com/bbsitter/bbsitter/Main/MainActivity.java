@@ -1,10 +1,15 @@
 package com.bbsitter.bbsitter.Main;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +28,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bbsitter.bbsitter.Login.ElegirquePerfilCrear;
 import com.bbsitter.bbsitter.OpcionesMenu.Perfil.MiPerfilFamiliaFragment;
 import com.bbsitter.bbsitter.R;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     private CircleImageView imagenUsuarioMenu;
     private TextView tvNombreUsuarioMenu, tvEmailUsuarioMenu;
+
 
     /*Movidas de Firebase*/
     private FirebaseAuth mAuth;
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             },1000);
 
         }
+
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 

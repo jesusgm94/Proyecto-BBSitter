@@ -455,7 +455,7 @@
 
     <!-- BUTTON EDITAR PERFIL-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btnEditarPerfilCanguro"
+        android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
