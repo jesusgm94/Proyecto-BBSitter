@@ -1,17 +1,22 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,7 +32,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CrearAnuncioActivity extends AppCompatActivity {
+public class CrearAnuncioFragment extends Fragment {
+
+    private CrearAnuncioViewModel mViewModel;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
@@ -50,59 +57,87 @@ public class CrearAnuncioActivity extends AppCompatActivity {
     private String [] arrayPluses = {"Carnet de conducir", "Primeros auxilios", "Cocinar", "Ayuda con los deberes", "Jugar"};
     String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
 
-
+    public static CrearAnuncioFragment newInstance() {
+        return new CrearAnuncioFragment();
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_crear_anuncio);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.crear_anuncio_fragment, container, false);
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
         //EditText
-        titulo = findViewById(R.id.tituloFamilia_edit_text);
-        descripcion = findViewById(R.id.descripcionAnuncio_edit_text);
-        etTitulo = findViewById(R.id.etTituloAnuncio);
-        etDescripcion = findViewById(R.id.etDescripcionAnuncio);
+        titulo = view.findViewById(R.id.tituloFamilia_edit_text);
+        descripcion = view.findViewById(R.id.descripcionAnuncio_edit_text);
+        etTitulo = view.findViewById(R.id.etTituloAnuncio);
+        etDescripcion = view.findViewById(R.id.etDescripcionAnuncio);
 
         //CheckBox Tiempo
-        radioGroupTiempo = findViewById(R.id.radioGroupTiempo);
-        rbFines = findViewById(R.id.radio_button_Fines);
-        rbDiario = findViewById(R.id.radio_button_Diario);
-        rbDiasSueltos = findViewById(R.id.radio_button_diasSueltos);
-        rbHabitualmente = findViewById(R.id.radio_button_Habitualmente);
+        radioGroupTiempo = view.findViewById(R.id.radioGroupTiempo);
+        rbFines = view.findViewById(R.id.radio_button_Fines);
+        rbDiario = view.findViewById(R.id.radio_button_Diario);
+        rbDiasSueltos = view.findViewById(R.id.radio_button_diasSueltos);
+        rbHabitualmente = view.findViewById(R.id.radio_button_Habitualmente);
 
         //CheckBox Casa
-        radioGroupCasa = findViewById(R.id.radioGroupCasa);
-        rbCasaFamilia = findViewById(R.id.radio_button_CasaFamilia);
-        rbCasaCanguro = findViewById(R.id.radio_button_CasaCanguro);
+        radioGroupCasa = view.findViewById(R.id.radioGroupCasa);
+        rbCasaFamilia = view.findViewById(R.id.radio_button_CasaFamilia);
+        rbCasaCanguro = view.findViewById(R.id.radio_button_CasaCanguro);
 
         // ListView Checkboxs PLUSES
-        listViewPluses = findViewById(R.id.listViewPluses);
-        adapterPluses = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayPluses);
+        listViewPluses = view.findViewById(R.id.listViewPluses);
+        adapterPluses = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice, arrayPluses);
         listViewPluses.setAdapter(adapterPluses);
 
         // ListView Checkboxs IDIOMAS
-        listViewIdiomas = findViewById(R.id.listViewIdiomas);
-        adapterIdiomas = new ArrayAdapter<>(this, android.R.layout.simple_list_item_multiple_choice, arrayIdiomas);
+        listViewIdiomas = view.findViewById(R.id.listViewIdiomas);
+        adapterIdiomas = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_multiple_choice, arrayIdiomas);
         listViewIdiomas.setAdapter(adapterIdiomas);
 
         //Boton Crear anuncio
-        btnCrearAnuncio = (Button) findViewById(R.id.btnCrearAnuncio);
+        btnCrearAnuncio = (Button) view.findViewById(R.id.btnCrearAnuncio);
+
+        final ProgressBarCargando progressBarCargando = new ProgressBarCargando(getActivity());
 
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 cargarDatos();
-                finish();
+
+                progressBarCargando.StarProgressBar();
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        progressBarCargando.finishProgressBar();
+
+                        AnunciosFragment anunciosFragment = new AnunciosFragment();
+                        getActivity().getSupportFragmentManager().beginTransaction()
+                                .replace(R.id.nav_host_fragment, anunciosFragment)
+                                .addToBackStack(null)
+                                .commit();
+
+                    }
+                }, 2000);
 
             }
         });
 
 
+
+        return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(CrearAnuncioViewModel.class);
+        // TODO: Use the ViewModel
     }
 
     private void cargarDatos() {
@@ -184,7 +219,7 @@ public class CrearAnuncioActivity extends AppCompatActivity {
 
 
                         } else {
-                            Toast.makeText(CrearAnuncioActivity.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
+
                         }
                     }
                 });

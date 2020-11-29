@@ -1,6 +1,5 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Perfil;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -116,8 +115,12 @@ public class MiPerfilFamiliaFragment extends Fragment {
         btnAnadirHijo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent anadirHijo = new Intent(getContext(), CrearHijoActivity.class);
-                startActivity(anadirHijo);
+
+                CrearHijoFragment crearHijoFragment = new CrearHijoFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, crearHijoFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
