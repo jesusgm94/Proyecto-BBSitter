@@ -3,6 +3,7 @@
     android:id="@+id/layout_item_canguro"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
@@ -103,7 +104,7 @@
             <LinearLayout
                 android:layout_width="113dp"
                 android:layout_height="match_parent"
-                android:background="@color/moradooscuro"
+                android:background="@drawable/fondocabecerafamilia"
                 android:elevation="2dp"
                 android:gravity="right"
                 android:orientation="vertical"

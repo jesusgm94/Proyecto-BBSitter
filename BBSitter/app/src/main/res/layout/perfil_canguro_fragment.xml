@@ -455,7 +455,7 @@
 
     <!-- BUTTON EDITAR PERFIL-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btnEditarPerfilCanguro"
+        android:id="@+id/btnChat"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
@@ -473,7 +473,7 @@
         android:textSize="12dp"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:icon="@android:drawable/ic_menu_edit"
+        app:icon="@drawable/ic_mensaje"
         app:iconTint="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         />

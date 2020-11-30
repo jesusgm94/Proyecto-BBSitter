@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/fondo_mensaje_derecha"
+    android:gravity="right"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/mensaje_derecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hola, soy un nuevo canguro"
+        android:textColor="@android:color/white"
+        android:textSize="18dp" android:layout_alignParentRight="true"
+        android:padding="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="5dp"/>
+
+    <TextView
+        android:id="@+id/hora_mensaje_derecha"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Hora"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="10dp" android:layout_alignParentRight="true"
+        android:padding="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="70dp"
+        android:layout_marginBottom="5dp"/>
+
+
+</RelativeLayout>

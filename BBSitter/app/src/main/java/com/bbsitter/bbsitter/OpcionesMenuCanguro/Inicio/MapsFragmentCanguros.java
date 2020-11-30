@@ -2,7 +2,10 @@ package com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapRegionDecoder;
@@ -10,6 +13,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +50,7 @@ import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
 public class MapsFragmentCanguros extends Fragment {
 
-    private LocationManager ubicacion;
+    private LocationManager locationManager;
 
     FirebaseFirestore bbdd = FirebaseFirestore.getInstance();
 
@@ -68,7 +72,21 @@ public class MapsFragmentCanguros extends Fragment {
         public void onMapReady(GoogleMap googleMap) {
 
             final GoogleMap miGoogleMap = googleMap;
-            ubicacion = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+            // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
+
+            // Obtenemos nuestra ubicacion
+            // Usamo un try por si no tenemos activado el GPS
+            /*
+            try {
+                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            }
+            catch(Exception e){
+                alertDialogActivarGPS();
+            }
+            */
 
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -80,14 +98,16 @@ public class MapsFragmentCanguros extends Fragment {
             }
 
 
-            // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
+            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    showAlert();
+            }
 
-            // Obtenemos nuestra ubicacion
-            //Location loc = ubicacion.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            Location loc = getLastKnownLocation();
-
+            // Obtener nuestra ubicacion
+            /*
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
-
+            */
+            LatLng MIUBICACION = new LatLng(40.459, -3.1646);
             // Ponemmos un marcador en nuestra ubicacion
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
             Bitmap b = bitmapdraw.getBitmap();
@@ -154,6 +174,7 @@ public class MapsFragmentCanguros extends Fragment {
 
         }
     };
+    
 
     @Nullable
     @Override
@@ -200,6 +221,28 @@ public class MapsFragmentCanguros extends Fragment {
             }
         }
         return bestLocation;
+    }
+
+
+
+    private void showAlert() {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+        dialog.setTitle("Enable Location")
+                .setMessage("Su ubicación esta desactivada.\npor favor active su ubicación " +
+                        "usa esta app")
+                .setPositiveButton("Configuración de ubicación", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                })
+                .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                    }
+                });
+        dialog.show();
     }
 
 }

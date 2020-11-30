@@ -26,6 +26,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,6 +50,7 @@ public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
+    FirebaseUser firebaseUser;
 
     private GoogleSignInClient mGoogleSingInClient;
 
@@ -73,7 +75,7 @@ public class Login extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
-
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
@@ -296,7 +298,5 @@ public class Login extends AppCompatActivity {
             }
         }
     }
-
-
 
 }
