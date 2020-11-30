@@ -75,43 +75,46 @@ public class CrearHijoFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                comprobarDatos();
-
                 //Cargamos los datos
                 String nombre = etNombreHijo.getText().toString().trim();
                 String edad = etEdadHijo.getText().toString().trim();
                 String otrosDatos = etOtrosDatosHijo.getText().toString().trim();
                 final String uid = mAuth.getCurrentUser().getUid();
 
+                if(nombre.isEmpty() || edad.isEmpty() || otrosDatos.isEmpty())
+                {
+                    comprobarDatos();
+                }
+                else
+                {
+                    /// Insertamos los datos en el mapa
+                    Map<String, String> mapHijo = new HashMap<>();
+                    mapHijo.put("nombre", nombre);
+                    mapHijo.put("edad", edad);
+                    mapHijo.put("otrosDatos", otrosDatos);
+                    mapHijo.put("uid", uid);
 
-                /// Insertamos los datos en el mapa
-                Map<String, String> mapHijo = new HashMap<>();
-                mapHijo.put("nombre", nombre);
-                mapHijo.put("edad", edad);
-                mapHijo.put("otrosDatos", otrosDatos);
-                mapHijo.put("uid", uid);
+                    //Creamos la coleccion Hijos con nuestro mapa
+                    bbdd.collection("hijos")
+                            .document()
+                            .set(mapHijo, SetOptions.merge());
 
-                //Creamos la coleccion Hijos con nuestro mapa
-                bbdd.collection("hijos")
-                        .document()
-                        .set(mapHijo, SetOptions.merge());
+                    progressBarCargando.StarProgressBar();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBarCargando.finishProgressBar();
 
-                progressBarCargando.StarProgressBar();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBarCargando.finishProgressBar();
+                            MiPerfilFamiliaFragment miPerfilFamiliaFragment = new MiPerfilFamiliaFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, miPerfilFamiliaFragment)
+                                    .addToBackStack(null)
+                                    .commit();
 
-                        MiPerfilFamiliaFragment miPerfilFamiliaFragment = new MiPerfilFamiliaFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, miPerfilFamiliaFragment)
-                                .addToBackStack(null)
-                                .commit();
-
-                    }
-                }, 2000);
-
+                        }
+                    }, 2000);
+                }
 
 
             }
