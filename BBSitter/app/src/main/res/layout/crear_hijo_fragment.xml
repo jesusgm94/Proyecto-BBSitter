@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:gravity="center_horizontal"
+android:background="@android:color/white"
+tools:context=".OpcionesMenu.Perfil.CrearHijoFragment">
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent">
+
+    <!-- Dentro del ScrollView debe haber un LinearLayout que englobe a todo-->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <!-- Añadir foto -->
+
+        <!-- Layout Datos: Nombre, descripcion y direccion -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:text="Dinos el nombre de tu hijo"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/marcoblancobutton"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="10dp">
+
+            <!-- NOMBRE EditText de Material Design -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nombreHijo_edit_text"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@android:color/transparent"
+                android:hint="Nombre de tu hijo/a"
+                android:textColorHint="@android:color/darker_gray"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:errorIconDrawable="@android:drawable/stat_notify_error"
+                app:errorIconTint="@android:color/holo_red_dark"
+                app:placeholderTextColor="@color/colorPrimaryDark"
+                app:startIconTint="@color/colorPrimaryDark">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etNombreHijo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@android:color/darker_gray" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+
+        <!-- EditText Direccion -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:text="¿Cuál es su edad?"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/marcoblancobutton"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="10dp">
+
+            <!-- Direccion EditText de Material Design -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/edadHijo_edit_text"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:background="@android:color/transparent"
+                android:hint="Edad de tu hijo/a"
+                android:textColorHint="@android:color/darker_gray"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/colorPrimaryDark"
+                app:errorIconDrawable="@android:drawable/stat_notify_error"
+                app:errorIconTint="@android:color/holo_red_dark"
+                app:placeholderTextColor="@color/colorPrimaryDark"
+                app:startIconTint="@color/colorPrimaryDark">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etEdadHijo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@android:color/darker_gray" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+
+
+
+
+        <!-- Layout Descripccion -->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="15dp"
+            android:text="Datos a tener en cuenta"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginVertical="10dp"
+            android:background="@drawable/marcoblancobutton"
+            android:elevation="2dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingVertical="10dp">
+
+            <!-- Direccion EditText de Material Design -->
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/otrosDatosHijo_edit_text"
+                android:layout_width="300dp"
+                android:layout_height="160dp"
+                android:layout_margin="4dp"
+                android:background="@android:color/transparent"
+                android:hint="Alergias, enfermedades, otro datos,..."
+                android:textColorHint="@android:color/darker_gray"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@android:color/darker_gray"
+                app:counterTextColor="@android:color/darker_gray"
+                app:errorIconDrawable="@android:drawable/stat_notify_error"
+                app:errorIconTint="@android:color/holo_red_dark">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/etOtrosDatosHijo"
+                    android:layout_width="300dp"
+                    android:layout_height="130dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textColorHint="@android:color/darker_gray" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </LinearLayout>
+
+        <!-- Boton crear familia -->
+
+        <Button
+            android:id="@+id/btnCrearHijo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="30dp"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/botonredondeadowhite"
+            android:text="Crear hijo"
+            android:textAllCaps="true"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</ScrollView>
+</LinearLayout>

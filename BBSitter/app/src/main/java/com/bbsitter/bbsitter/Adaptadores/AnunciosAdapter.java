@@ -74,6 +74,7 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
     }
 
 
+
     /*public void setOnClickListener (View.OnClickListener listener)
     {
         this.listener = listener;

@@ -1,6 +1,5 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,8 +44,12 @@ public class AnunciosFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                Intent crearAnuncio = new Intent(getContext(), CrearAnuncioActivity.class);
-                startActivity(crearAnuncio);
+
+                CrearAnuncioFragment crearAnunciosFragment = new CrearAnuncioFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, crearAnunciosFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
 
@@ -57,7 +60,9 @@ public class AnunciosFragment extends Fragment {
         recyclerViewMisAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
         bbdd = FirebaseFirestore.getInstance();
 
-        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid).orderBy("fechaPublicacion", Query.Direction.DESCENDING);
+
+        Query query = bbdd.collection("anuncios").whereEqualTo("uid", uid);
+
 
         FirestoreRecyclerOptions<Anuncio> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Anuncio>()
                 .setQuery(query, Anuncio.class).build();
@@ -81,4 +86,5 @@ public class AnunciosFragment extends Fragment {
         super.onStop();
         mAdapter.stopListening();
     }
+
 }
