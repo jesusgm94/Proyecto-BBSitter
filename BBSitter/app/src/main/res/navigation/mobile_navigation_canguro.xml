@@ -14,12 +14,18 @@
         android:id="@+id/miPerfilCanguroFragment"
         android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment"
         android:label="Mi perfil"
-        tools:layout="@layout/perfil_canguro_fragment" />
+        tools:layout="@layout/perfil_canguro_fragment" >
+    </fragment>
     <fragment
         android:id="@+id/chatsCanguroFragment"
         android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats.ChatsCanguroFragment"
         android:label="Chats"
         tools:layout="@layout/chats_canguro_fragment" />
+    <fragment
+        android:id="@+id/roomChatFamiliaFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment"
+        android:label="fragment_room_chat_familia"
+        tools:layout="@layout/fragment_room_chat_familia" />
 
 
 </navigation>

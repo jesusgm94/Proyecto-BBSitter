@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
@@ -40,7 +43,7 @@ public class PerfilCanguroFragment extends Fragment {
     private FirebaseFirestore bbdd;
 
     private MaterialButton btnDireccion;
-    private String uid;
+    private String uidCanguro;
 
     private ExtendedFloatingActionButton btnChat;
 
@@ -70,7 +73,7 @@ public class PerfilCanguroFragment extends Fragment {
         //Recogemos el uid de la familia de ListaCanguroFragment
         Bundle data = this.getArguments();
         if(data != null){
-            uid = data.getString("uid");
+            uidCanguro = data.getString("uid");
         }
 
         cargarDatosCanguro();
@@ -81,8 +84,14 @@ public class PerfilCanguroFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
+                //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
+                Bundle data = new Bundle();
+                data.putString("uid", uidCanguro);
+                roomChatFamiliaFragment.setArguments(data);
+
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, new RoomChatFamiliaFragment())
+                        .replace(R.id.nav_host_fragment, roomChatFamiliaFragment)
                         .addToBackStack(null)
                         .commit();
 
@@ -104,7 +113,7 @@ public class PerfilCanguroFragment extends Fragment {
     {
 
         bbdd.collection("canguros")
-                .whereEqualTo("uid", uid)
+                .whereEqualTo("uid", uidCanguro)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -140,6 +149,13 @@ public class PerfilCanguroFragment extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void cargarFragment(Fragment fragment){
+        FragmentManager fm = getActivity().getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction=fm.beginTransaction();
+        fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+        fragmentTransaction.commit();
     }
 
 }

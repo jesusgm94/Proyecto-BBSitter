@@ -4,39 +4,49 @@ import java.io.Serializable;
 
 public class RoomChat implements Serializable {
 
-    private String Emisor;
-    private String Receptor;
-    private String Mensaje;
+    private String emisor;
+    private String receptor;
+    private String mensaje;
+    private String fecha;
 
     public RoomChat(){}
 
-    public RoomChat(String emisor, String receptor, String mensaje) {
-        Emisor = emisor;
-        Receptor = receptor;
-        Mensaje = mensaje;
+    public RoomChat(String emisor, String receptor, String mensaje, String fecha) {
+        this.emisor = emisor;
+        this.receptor = receptor;
+        this.mensaje = mensaje;
+        this.fecha = fecha;
     }
 
     public String getEmisor() {
-        return Emisor;
+        return emisor;
     }
 
     public void setEmisor(String emisor) {
-        Emisor = emisor;
+        this.emisor = emisor;
     }
 
     public String getReceptor() {
-        return Receptor;
+        return receptor;
     }
 
     public void setReceptor(String receptor) {
-        Receptor = receptor;
+        this.receptor = receptor;
     }
 
     public String getMensaje() {
-        return Mensaje;
+        return mensaje;
     }
 
     public void setMensaje(String mensaje) {
-        Mensaje = mensaje;
+        this.mensaje = mensaje;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }

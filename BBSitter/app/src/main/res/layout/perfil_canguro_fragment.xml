@@ -473,7 +473,7 @@
         android:textSize="12dp"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:icon="@android:drawable/ic_menu_edit"
+        app:icon="@drawable/ic_mensaje"
         app:iconTint="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         />

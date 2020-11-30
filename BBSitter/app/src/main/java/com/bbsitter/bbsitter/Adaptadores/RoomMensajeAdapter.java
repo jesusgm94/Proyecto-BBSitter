@@ -39,96 +39,48 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
     @Override
     public RoomMensajeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_canguro, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
         return new  ViewHolder(view);
 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RoomChat model) {
+    protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RoomChat roomChat) {
 
-
+        holder.mensaje.setText(roomChat.getMensaje());
+        holder.horaMensaje.setText(roomChat.getFecha());
 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        // Card View para poder pinchar sobre el item del Recycler
-        CardView cardViewCanguro;
 
-        CircleImageView img;
-        TextView nombre, edad, distancia, precioHora;
-        RatingBar ratingBar;
+        TextView mensaje, horaMensaje;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            img = itemView.findViewById(R.id.itemImagenCanguro);
-            nombre = itemView.findViewById(R.id.itemNombreCanguro);
-            edad = itemView.findViewById(R.id.itemEdadCanguro);
-            distancia = itemView.findViewById(R.id.itemDistanciaCanguro);
-            precioHora = itemView.findViewById(R.id.itemPrecioHoraCanguro);
-            ratingBar = itemView.findViewById(R.id.itemRatingBarCanguro);
+            mensaje = itemView.findViewById(R.id.mensaje_derecha);
+            horaMensaje = itemView.findViewById(R.id.hora_mensaje_derecha);
 
-            cardViewCanguro = itemView.findViewById(R.id.cardViewCanguro);
         }
 
-        public CircleImageView getImg() {
-            return img;
+        public TextView getMensaje() {
+            return mensaje;
         }
 
-        public void setImg(CircleImageView img) {
-            this.img = img;
+        public void setMensaje(TextView mensaje) {
+            this.mensaje = mensaje;
         }
 
-        public TextView getNombre() {
-            return nombre;
+        public TextView getHoraMensaje() {
+            return horaMensaje;
         }
 
-        public void setNombre(TextView nombre) {
-            this.nombre = nombre;
+        public void setHoraMensaje(TextView horaMensaje) {
+            this.horaMensaje = horaMensaje;
         }
-
-        public TextView getEdad() {
-            return edad;
-        }
-
-        public void setEdad(TextView edad) {
-            this.edad = edad;
-        }
-
-        public TextView getDistancia() {
-            return distancia;
-        }
-
-        public void setDistancia(TextView distancia) {
-            this.distancia = distancia;
-        }
-
-        public TextView getPrecioHora() {
-            return precioHora;
-        }
-
-        public void setPrecioHora(TextView precioHora) {
-            this.precioHora = precioHora;
-        }
-
-        public RatingBar getRatingBar() {
-            return ratingBar;
-        }
-
-        public void setRatingBar(RatingBar ratingBar) {
-            this.ratingBar = ratingBar;
-        }
-
-        public CardView getCardViewCanguro() {
-            return cardViewCanguro;
-        }
-
-        public void setCardViewCanguro(CardView cardViewCanguro) {
-            this.cardViewCanguro = cardViewCanguro;
-        }
-
     }
 
 }

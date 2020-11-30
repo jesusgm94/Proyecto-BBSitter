@@ -121,7 +121,6 @@ public class ListaCangurosFragment extends Fragment {
         bbdd = FirebaseFirestore.getInstance();
 
 
-
         Query query = bbdd.collection("canguros");
 
         FirestoreRecyclerOptions<Canguro> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Canguro>()

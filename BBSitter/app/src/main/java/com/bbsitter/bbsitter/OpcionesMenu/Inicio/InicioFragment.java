@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
@@ -51,7 +50,7 @@ public class InicioFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                cargarFragment(new RoomChatFamiliaFragment());
+                cargarFragment(new MapsFragmentCanguros());
 
             }
         });
