@@ -1,6 +1,7 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +13,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbsitter.bbsitter.Login.ProgressBarRegistro;
+import com.bbsitter.bbsitter.Login.RegistroUsuarioActivity;
+import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -32,6 +37,9 @@ public class DetalleAnuncioFragment extends Fragment {
 
     private FirebaseFirestore bbdd;
 
+
+
+
     public static DetalleAnuncioFragment newInstance() {
         return new DetalleAnuncioFragment();
     }
@@ -40,6 +48,19 @@ public class DetalleAnuncioFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.detalle_anuncio_fragment, container, false);
+        final ProgressBarCargando progressBarCargando = new ProgressBarCargando(getActivity());
+
+
+        progressBarCargando.StarProgressBar();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBarCargando.finishProgressBar();
+
+
+            }
+        }, 2000);
 
         bbdd = FirebaseFirestore.getInstance();
         //Recogemos el uid de la familia de InicioCanguroFragment
