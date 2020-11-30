@@ -13,12 +13,11 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.bbsitter.bbsitter.Login.ProgressBarRegistro;
-import com.bbsitter.bbsitter.Login.RegistroUsuarioActivity;
 import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -31,7 +30,8 @@ public class DetalleAnuncioFragment extends Fragment {
     private DetalleAnuncioViewModel mViewModel;
 
     private CircleImageView imagenPerfilDetalleAnuncio;
-    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio;
+    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvCasaDetalleAnuncio, tvFrecuenciaDetalleAnuncio;
+    private MaterialButton btnDireccionDetalleAnuncio;
 
     private String idAnuncio;
 
@@ -60,7 +60,7 @@ public class DetalleAnuncioFragment extends Fragment {
 
 
             }
-        }, 2000);
+        }, 1000);
 
         bbdd = FirebaseFirestore.getInstance();
         //Recogemos el uid de la familia de InicioCanguroFragment
@@ -69,9 +69,12 @@ public class DetalleAnuncioFragment extends Fragment {
             idAnuncio = data.getString("idAnuncio");
         }
 
-        imagenPerfilDetalleAnuncio = view.findViewById(R.id.itemImagenPerfilAnuncio);
+        imagenPerfilDetalleAnuncio = view.findViewById(R.id.imagenFamiliaDetallesAnuncios);
         tvTituloDetalleAnuncio = view.findViewById(R.id.tvTituloDetalleAnuncio);
         tvDescripcionDetalleAnuncio = view.findViewById(R.id.tvDescripcionDetalleAnuncio);
+        tvCasaDetalleAnuncio = view.findViewById(R.id.tvCasaDetalleAnuncio);
+        tvFrecuenciaDetalleAnuncio = view.findViewById(R.id.tvFrecuenciaDetalleAnuncio);
+        btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
 
         cargarDatosAnuncio();
         return view;
@@ -99,16 +102,22 @@ public class DetalleAnuncioFragment extends Fragment {
                                 //Recogemos los datos de la base de datos
                                 String tituloAnuncio =  document.get("titulo").toString();
                                 String descripcionAnuncio = document.get("descripcion").toString();
-                                //String imagenFamiliaAnuncio = document.get("img").toString();
+                                String casaAnuncio = document.get("casa").toString();
+                                String frecuenciaAnuncio = document.get("tiempo").toString();
+                                String direccionAnuncio = document.get("direccion").toString();
+                                String imagenFamiliaAnuncio = document.get("img").toString();
 
 
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
-                                //Picasso.get().load(imagenFamiliaAnuncio).into(imagenPerfilDetalleAnuncio);
+                                Picasso.get().load(imagenFamiliaAnuncio).into(imagenPerfilDetalleAnuncio);
 
                                 //Agrega nuevo nombre
                                 tvTituloDetalleAnuncio.setText(tituloAnuncio);
                                 tvDescripcionDetalleAnuncio.setText(descripcionAnuncio);
+                                tvCasaDetalleAnuncio.setText(casaAnuncio);
+                                tvFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
+                                btnDireccionDetalleAnuncio.setText(direccionAnuncio);
 
 
 
