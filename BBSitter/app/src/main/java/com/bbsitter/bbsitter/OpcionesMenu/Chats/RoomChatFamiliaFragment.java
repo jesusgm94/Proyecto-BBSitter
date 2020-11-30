@@ -138,7 +138,7 @@ public class RoomChatFamiliaFragment extends Fragment {
         // recyclerViewListaMensajes.
 
 
-        // BOTON MENSAJE ENVIAR
+        // BOTON MENSAJE ENVIAR ***
         btnEnviar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
