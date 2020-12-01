@@ -20,6 +20,33 @@
             android:gravity="center"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottieFavorito"
+                android:layout_width="70dp"
+                android:layout_height="60dp"
+                android:layout_marginRight="0dp"
+                app:lottie_autoPlay="false"
+                app:lottie_rawRes="@raw/favorite"/>
+
+            <ImageButton
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="20dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_share"
+                android:layout_marginTop="15dp"
+                android:alpha="0.7"
+                />
+
+        </LinearLayout>
+
+
             <!-- CABECERA PRECIO, IMAGEN Y EXPERIENCIA -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -135,8 +162,8 @@
                         android:layout_gravity="center_horizontal"
                         android:text="Nombre Canguro"
                         android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="20dp"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="22dp"
                         android:textStyle="bold" />
 
                     <!-- EDAD CANGURO -->
@@ -148,8 +175,8 @@
                         android:paddingTop="7dp"
                         android:text=""
                         android:textAlignment="center"
-                        android:textColor="@android:color/white"
-                        android:textSize="13dp"
+                        android:textColor="@android:color/holo_orange_light"
+                        android:textSize="14dp"
                         />
                 </LinearLayout>
 
@@ -238,6 +265,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupPluses"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -245,40 +273,6 @@
                     app:singleLine="false"
                     app:singleSelection="false"
                     app:chipSpacingHorizontal="15dp">
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Tengo coche"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="No fumo"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Tengo primeros auxilios"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>/>
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -320,6 +314,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupIdiomas"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -327,41 +322,6 @@
                     app:singleLine="false"
                     app:singleSelection="false"
                     app:chipSpacingHorizontal="15dp">
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Español"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Inglés"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Francés"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -401,6 +361,7 @@
                 android:padding="10dp">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupPrefEdades"
                     style="@style/Widget.MaterialComponents.Chip.Entry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -409,6 +370,7 @@
                     app:singleLine="false"
                     app:singleSelection="false">
 
+                    <!--
                     <com.google.android.material.chip.Chip
                         style="@style/Widget.MaterialComponents.Chip.Filter"
                         android:layout_width="wrap_content"
@@ -420,31 +382,7 @@
                         app:chipBackgroundColor="@color/moradooscuro"
                         app:chipStrokeColor="@color/colorPrimaryDark"
                         app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Entre 1 y 2 años"
-                        app:checkedIconTint="@color/colorPrimary"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp" />
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Más de 6 años"
-                        app:checkedIconTint="@color/colorPrimary"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp" />
-
+                        -->
 
                 </com.google.android.material.chip.ChipGroup>
 

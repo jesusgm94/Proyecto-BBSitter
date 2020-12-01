@@ -54,6 +54,7 @@ public class ListaCangurosFragment extends Fragment {
     private CanguroAdapter mAdapter;
 
     String dist = "0";
+
     Random randomStars = new Random();
 
 

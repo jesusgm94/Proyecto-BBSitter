@@ -1,5 +1,7 @@
 package com.bbsitter.bbsitter.OpcionesMenuCanguro;
 
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats.ChatsCanguroFragment;
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio.MapsFragmentCanguros;
@@ -22,12 +25,19 @@ import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -45,7 +55,11 @@ public class PerfilCanguroFragment extends Fragment {
     private MaterialButton btnDireccion;
     private String uidCanguro;
 
+    private LottieAnimationView lottieFav;
+    private ChipGroup chipGroupPluses, chipGroupIdiomas, chipGroupPreferencias;
+
     private ExtendedFloatingActionButton btnChat;
+
 
 
     public PerfilCanguroFragment() {}
@@ -69,6 +83,20 @@ public class PerfilCanguroFragment extends Fragment {
         tvPrecioHoraPerfilCanguro = view.findViewById(R.id.tvPrecioHoraPerfilCanguro);
         tvExperienciaPerfilCanguro = view.findViewById(R.id.tvExperienciaPerfilCanguro);
         btnDireccion = view.findViewById(R.id.btnDireccionPerfilCanguro);
+
+        lottieFav = view.findViewById(R.id.lottieFavorito);
+        lottieFav.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                lottieFav.playAnimation();
+            }
+        });
+
+
+        // Chips Groups
+        chipGroupPluses = view.findViewById(R.id.chipgroupPluses);
+        chipGroupIdiomas = view.findViewById(R.id.chipgroupIdiomas);
+        chipGroupPreferencias = view.findViewById(R.id.chipgroupPrefEdades);
 
         //Recogemos el uid de la familia de ListaCanguroFragment
         Bundle data = this.getArguments();
@@ -122,6 +150,7 @@ public class PerfilCanguroFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
+
                                 //Recogemos los datos de la base de datos
                                 String nombreCanguro =  document.get("nombre").toString() + " " + document.get("apellidos").toString();
                                 String descripcionCanguro = document.get("descripcion").toString();
@@ -130,6 +159,42 @@ public class PerfilCanguroFragment extends Fragment {
                                 String experienciaCanguro = document.get("experiencia").toString();
                                 String precioHora = document.get("precioHora").toString() + "€";
                                 String imagenCanguro = document.get("img").toString();
+
+                                // Añadir Chips Pluses
+                                HashMap<String, Boolean> pluses = (HashMap<String, Boolean>) document.get("pluses");
+                                Set<String> listaKeysPluses = pluses.keySet();
+
+                                for(String plus : listaKeysPluses){
+                                    Chip chipPlus = new Chip(getContext());
+                                    chipPlus.setText(plus.toString());
+                                    chipPlus.setTextColor(Color.WHITE);
+                                    chipPlus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipGroupPluses.addView(chipPlus);
+                                }
+
+                                // Añadir Chips Idiomas
+                                HashMap<String, Boolean> idiomas = (HashMap<String, Boolean>) document.get("idiomas");
+                                Set<String> listaKeysIdiomas = idiomas.keySet();
+
+                                for(String idioma : listaKeysIdiomas){
+                                    Chip chipIdioma = new Chip(getContext());
+                                    chipIdioma.setText(idioma.toString());
+                                    chipIdioma.setTextColor(Color.WHITE);
+                                    chipIdioma.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipGroupIdiomas.addView(chipIdioma);
+                                }
+
+                                // Añadir Chips Preferencia Edades
+                                HashMap<String, Boolean> prefEdades = (HashMap<String, Boolean>) document.get("preferenciaEdades");
+                                Set<String> listaKeysprefEdades= prefEdades.keySet();
+
+                                for(String pref : listaKeysprefEdades){
+                                    Chip chipPrefEdades = new Chip(getContext());
+                                    chipPrefEdades.setText(pref.toString());
+                                    chipPrefEdades.setTextColor(Color.WHITE);
+                                    chipPrefEdades.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipGroupPreferencias.addView(chipPrefEdades);
+                                }
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
                                 Picasso.get().load(imagenCanguro).into(imagenPerfilCanguro);
@@ -141,6 +206,9 @@ public class PerfilCanguroFragment extends Fragment {
                                 tvEdadCanguro.setText(edadCanguro);
                                 tvExperienciaPerfilCanguro.setText(experienciaCanguro);
                                 tvPrecioHoraPerfilCanguro.setText(precioHora);
+
+
+
 
 
                             }

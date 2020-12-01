@@ -122,11 +122,21 @@ public class RoomChatFamiliaFragment extends Fragment {
 
         //mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
         mAdapter = new RoomMensajeAdapter(firestoreRecyclerOptions) {
+
+
+
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RoomChat roomChat) {
-
                 holder.getMensaje().setText(roomChat.getMensaje());
                 holder.getHoraMensaje().setText(roomChat.getFecha().toString());
+
+
+            }
+            @Override
+            public RoomMensajeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
+                return new  ViewHolder(view);
 
             }
         };
