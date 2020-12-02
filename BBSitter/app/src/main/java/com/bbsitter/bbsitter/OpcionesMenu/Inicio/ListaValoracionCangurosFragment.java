@@ -1,15 +1,14 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.bbsitter.bbsitter.Adaptadores.CanguroAdapter;
 import com.bbsitter.bbsitter.Clases.Canguro;
@@ -33,7 +32,7 @@ public class ListaValoracionCangurosFragment extends Fragment {
     LatLng MIUBICACION;
 
     private FirebaseFirestore bbdd;
-    private RecyclerView recyclerViewListaCanguros;
+    private RecyclerView recyclerViewListaValoracionCanguros;
     private CanguroAdapter mAdapter;
 
     String dist = "0";
@@ -60,11 +59,11 @@ public class ListaValoracionCangurosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_lista_canguros, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_valoracion_canguros, container, false);
 
         // RECYCLER VIEW ****************
-        recyclerViewListaCanguros = view.findViewById(R.id.recycler_ListaValoracionCanguros);
-        recyclerViewListaCanguros.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewListaValoracionCanguros = view.findViewById(R.id.recycler_ListaValoracionCanguros);
+        recyclerViewListaValoracionCanguros.setLayoutManager(new LinearLayoutManager(getContext()));
         bbdd = FirebaseFirestore.getInstance();
 
 
@@ -115,7 +114,7 @@ public class ListaValoracionCangurosFragment extends Fragment {
         };
 
         mAdapter.notifyDataSetChanged();
-        recyclerViewListaCanguros.setAdapter(mAdapter);
+        recyclerViewListaValoracionCanguros.setAdapter(mAdapter);
 
 
 
