@@ -18,11 +18,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.SetOptions;
 import com.squareup.picasso.Picasso;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,13 +120,6 @@ public class InicioCanguroFragment extends Fragment {
                 //Cogemos el id del anuncio
                 final String idAnuncio = mAdapter.getSnapshots().getSnapshot(position).getId();
 
-                /*Creamos un mapa para actualizar el perifl del usuario*/
-                Map<String, Object> userUpdate = new HashMap<>();
-                userUpdate.put("idAnuncio", idAnuncio);
-
-                /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
-                bbdd.collection("anuncios").document(idAnuncio)
-                        .set(userUpdate, SetOptions.merge());
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
                 holder.getCardViewAnuncio().setOnClickListener(new View.OnClickListener() {

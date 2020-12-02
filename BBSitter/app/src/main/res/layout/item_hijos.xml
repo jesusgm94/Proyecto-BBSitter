@@ -34,26 +34,36 @@
                     android:elevation="2dp"
                     android:src="@drawable/fotoperfil" />
 
-                <TextView
-                    android:id="@+id/itemNombreHijo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nombre"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginBottom="5dp"
-                    android:layout_marginTop="6dp"
-                    android:textAppearance="?attr/textAppearanceHeadline6"
-                    android:textColor="@color/colorazulcielo" />
 
-                <TextView
-                    android:id="@+id/itemEdadHijo"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="edad"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:textColor="@color/colorazulcielo"
-                    android:textSize="12dp" />
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/itemNombreHijo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Nombre"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="6dp"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        android:textColor="@color/colorazulcielo" />
+
+                    <TextView
+                        android:id="@+id/itemEdadHijo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="edad"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="5dp"
+                        android:textColor="@color/colorazulcielo"
+                        android:textSize="12dp" />
+
+
+                </LinearLayout>
+
 
 
             </LinearLayout>

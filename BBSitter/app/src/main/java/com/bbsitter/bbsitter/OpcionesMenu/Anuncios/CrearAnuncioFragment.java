@@ -20,12 +20,14 @@ import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -64,7 +66,7 @@ public class CrearAnuncioFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.crear_anuncio_fragment, container, false);
+        final View view = inflater.inflate(R.layout.crear_anuncio_fragment, container, false);
 
         //Firebase
         mAuth = FirebaseAuth.getInstance();
@@ -107,28 +109,38 @@ public class CrearAnuncioFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                cargarDatos();
+                String titulo = etTitulo.getText().toString().trim();
+                String descripcion = etDescripcion.getText().toString().trim();
 
-                progressBarCargando.StarProgressBar();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        progressBarCargando.finishProgressBar();
 
-                        AnunciosFragment anunciosFragment = new AnunciosFragment();
-                        getActivity().getSupportFragmentManager().beginTransaction()
-                                .replace(R.id.nav_host_fragment, anunciosFragment)
-                                .addToBackStack(null)
-                                .commit();
+                if(titulo.isEmpty() || descripcion.isEmpty())
+                {
+                    comprobarDatos();
+                    Snackbar.make(view, "Debes rellenar todos los datos", Snackbar.LENGTH_LONG)
+                            .setAction("Debes rellenar todos los datos", null).show();
+                }
+                else
+                {
+                    cargarDatos();
+                    progressBarCargando.StarProgressBar();
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            progressBarCargando.finishProgressBar();
 
-                    }
-                }, 2000);
+                            AnunciosFragment anunciosFragment = new AnunciosFragment();
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, anunciosFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+
+                        }
+                    }, 2000);
+                }
 
             }
         });
-
-
 
         return view;
     }
@@ -141,88 +153,122 @@ public class CrearAnuncioFragment extends Fragment {
     }
 
     private void cargarDatos() {
+
         final String uid = mAuth.getCurrentUser().getUid();
 
-        bbdd.collection("familias")
-                .whereEqualTo("uid", uid)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+            bbdd.collection("familias")
+                    .whereEqualTo("uid", uid)
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                        if (task.isSuccessful()) {
+                            if (task.isSuccessful()) {
 
-                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                nombre = "Familia " + document.get("nombre").toString();
-                                img = document.get("img").toString();
-                                direccion = document.get("direccion").toString();
+                                    //Recogemos los datos de la base de datos
+                                    nombre = "Familia " + document.get("nombre").toString();
+                                    img = document.get("img").toString();
+                                    direccion = document.get("direccion").toString();
 
-                            }
-                            /*Cargamos los datos*/
-                            String titulo = etTitulo.getText().toString().trim();
-                            String descripcion = etDescripcion.getText().toString().trim();
-                            String tiempo = obtenerTiempo();
-                            String casa = obtenerCasa();
-
-                            // Creamos un objeto Date
-                            Date fechaPublicacion = new Date();
-                            // Especificamos un formato
-                            String DATE_FORMAT = "dd MMM HH:mm";
-                            // Create object of SimpleDateFormat and pass the desired date format.
-                            SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
-                            String fechaHoy = sdf.format(fechaPublicacion);
-
-                            // ListView CHECKBOX PLUSES
-                            Map<String, Boolean> mapPluses = new HashMap<>();
-                            for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
-                                if (listViewPluses.isItemChecked(cont)) {
-                                    String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
-                                    mapPluses.put(textoItemSeleccionado, true);
                                 }
-                            }
+                                /*Cargamos los datos*/
+                                String titulo = etTitulo.getText().toString().trim();
+                                String descripcion = etDescripcion.getText().toString().trim();
+                                String tiempo = obtenerTiempo();
+                                String casa = obtenerCasa();
 
-                            // ListView CHECKBOX IDIOMAS
-                            Map<String, Boolean> mapIdiomas = new HashMap<>();
-                            for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
-                                if (listViewIdiomas.isItemChecked(cont)) {
-                                    String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
-                                    mapIdiomas.put(textoItemSeleccionado, true);
+                                // Creamos un objeto Date
+                                Date fechaPublicacion = new Date();
+                                // Especificamos un formato
+                                String DATE_FORMAT = "dd MMM HH:mm";
+                                // Create object of SimpleDateFormat and pass the desired date format.
+                                SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+
+                                String fechaHoy = sdf.format(fechaPublicacion);
+
+                                // ListView CHECKBOX PLUSES
+                                Map<String, Boolean> mapPluses = new HashMap<>();
+                                for (int cont = 0; cont < listViewPluses.getCount(); cont++) {
+                                    if (listViewPluses.isItemChecked(cont)) {
+                                        String textoItemSeleccionado = listViewPluses.getItemAtPosition(cont).toString();
+                                        mapPluses.put(textoItemSeleccionado, true);
+                                    }
                                 }
+
+                                // ListView CHECKBOX IDIOMAS
+                                Map<String, Boolean> mapIdiomas = new HashMap<>();
+                                for (int cont = 0; cont < listViewIdiomas.getCount(); cont++) {
+                                    if (listViewIdiomas.isItemChecked(cont)) {
+                                        String textoItemSeleccionado = listViewIdiomas.getItemAtPosition(cont).toString();
+                                        mapIdiomas.put(textoItemSeleccionado, true);
+                                    }
+                                }
+
+                                String uid = mAuth.getCurrentUser().getUid();
+
+
+                                Map<String, Object> mapAnuncio = new HashMap<>();
+                                mapAnuncio.put("titulo", titulo);
+                                mapAnuncio.put("descripcion", descripcion);
+                                mapAnuncio.put("fechaPublicacion", fechaHoy);
+                                mapAnuncio.put("casa", casa);
+                                mapAnuncio.put("tiempo", tiempo);
+                                mapAnuncio.put("nombre", nombre);
+                                mapAnuncio.put("img", img);
+                                mapAnuncio.put("direccion", direccion);
+                                mapAnuncio.put("pluses", mapPluses);
+                                mapAnuncio.put("idiomas", mapIdiomas);
+                                mapAnuncio.put("uid", uid);
+
+
+
+                                /*Creamos la coleccion Anuncios en la bbdd*/
+                                bbdd.collection("anuncios")
+                                        .document()
+                                        .set(mapAnuncio);
+
+
+
+                                bbdd.collection("anuncios")
+                                        .whereEqualTo("uid", uid)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                                if (task.isSuccessful()) {
+
+                                                    String idAnuncio = "";
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                                        //Recogemos los datos de la base de datos
+                                                        idAnuncio = document.getId();
+
+                                                    }
+
+                                                    /*Creamos un mapa para actualizar la imagen del perfil*/
+                                                    Map<String, Object> userUpdateidAnuncio = new HashMap<>();
+                                                    userUpdateidAnuncio.put("idAnuncio", idAnuncio);
+
+                                                    bbdd.collection("anuncios").document(idAnuncio)
+                                                            .set(userUpdateidAnuncio, SetOptions.merge());
+
+
+                                                } else {
+
+                                                }
+                                            }
+                                        });
+
+
+
+                            } else {
+
                             }
-
-                            String uid = mAuth.getCurrentUser().getUid();
-
-
-                            Map<String, Object> mapAnuncio = new HashMap<>();
-                            mapAnuncio.put("titulo", titulo);
-                            mapAnuncio.put("descripcion", descripcion);
-                            mapAnuncio.put("fechaPublicacion", fechaHoy);
-                            mapAnuncio.put("casa", casa);
-                            mapAnuncio.put("tiempo", tiempo);
-                            mapAnuncio.put("nombre", nombre);
-                            mapAnuncio.put("img", img);
-                            mapAnuncio.put("direccion", direccion);
-                            mapAnuncio.put("pluses", mapPluses);
-                            mapAnuncio.put("idiomas", mapIdiomas);
-                            mapAnuncio.put("uid", uid);
-
-
-
-                            /*Creamos la coleccion Anuncios en la bbdd*/
-                            bbdd.collection("anuncios")
-                                    .document()
-                                    .set(mapAnuncio);
-
-
-
-                        } else {
-
                         }
-                    }
-                });
+                    });
 
 
     }
@@ -265,5 +311,36 @@ public class CrearAnuncioFragment extends Fragment {
         return casa;
     }
 
+    private boolean comprobarDatos() {
+        Boolean validar = true;
+
+        String tituloAnuncio = etTitulo.getText().toString().trim();
+        String descripcionAnuncio = etDescripcion.getText().toString().trim();
+
+
+        if(tituloAnuncio.isEmpty()){
+            titulo.setError("Debes rellenar el campo");
+
+            validar = false;
+        }
+        if(descripcionAnuncio.isEmpty())
+        {
+            descripcion.setError("Debes rellenar el campo");
+            validar = false;
+        }
+
+
+        if(!tituloAnuncio.isEmpty())
+        {
+            titulo.setError(null);
+        }
+        if(!descripcionAnuncio.isEmpty())
+        {
+            descripcion.setError(null);
+        }
+
+
+        return validar;
+    }
 
 }

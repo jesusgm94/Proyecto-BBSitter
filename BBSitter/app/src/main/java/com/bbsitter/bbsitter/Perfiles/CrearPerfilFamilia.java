@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -168,6 +169,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                                     bbdd.collection("familias").document(uid)
                                             .set(userUpdateImg, SetOptions.merge());
+
+
 
                                 }
                             } ).addOnFailureListener( new OnFailureListener() {
@@ -337,8 +340,12 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                 foto.setImageURI(uri);
 
+                Log.i("BBSitter", uri.toString());
+
 
             } else if(resultCode == RESULT_CANCELED){
+
+                Toast.makeText(this, "Aqui está petando", Toast.LENGTH_SHORT).show();
             }
         }
     }

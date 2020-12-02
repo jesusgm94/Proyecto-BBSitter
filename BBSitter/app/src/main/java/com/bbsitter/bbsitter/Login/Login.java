@@ -217,13 +217,11 @@ public class Login extends AppCompatActivity {
                                                                     //Aqui abrimos la actividad main
                                                                     Intent main = new Intent(getApplicationContext(), MainActivity.class);
                                                                     startActivity(main);
-                                                                    finish();
                                                                 }
                                                                 else if (tipo.equals("canguro"))
                                                                 {
                                                                     Intent maincanguro = new Intent(getApplicationContext(), MainActivityCanguro.class);
                                                                     startActivity(maincanguro);
-                                                                    finish();
                                                                 }
 
 
