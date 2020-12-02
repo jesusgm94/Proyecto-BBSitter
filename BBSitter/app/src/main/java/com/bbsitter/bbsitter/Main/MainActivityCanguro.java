@@ -1,7 +1,13 @@
 package com.bbsitter.bbsitter.Main;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,19 +27,11 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import android.Manifest;
-import android.content.pm.PackageManager;
-import android.os.Build;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.MiPerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -58,7 +56,6 @@ public class MainActivityCanguro extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_canguro);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-
 
         // ACTION BAR
         Toolbar toolbar = findViewById(R.id.toolbarCanguro);
@@ -150,12 +147,38 @@ public class MainActivityCanguro extends AppCompatActivity {
 
 
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
-    }*/
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_cerrarSesion:
+                MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(MainActivityCanguro.this, R.style.MyMaterialAlertDialog);
+                builder.setTitle("Cerrar sesión");
+                builder.setMessage("¿Quieres cerrar sesión?");
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+                });
+                builder.show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     @Override
     public boolean onSupportNavigateUp() {

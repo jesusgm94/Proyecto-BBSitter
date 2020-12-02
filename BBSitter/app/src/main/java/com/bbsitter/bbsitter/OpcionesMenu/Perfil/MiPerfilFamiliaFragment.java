@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -46,7 +45,7 @@ public class MiPerfilFamiliaFragment extends Fragment {
 
     private CircleImageView fotoPerfilFamilia;
     private TextView tvNombrePerfilFamilia, tvDescripcionPerfilFamilia;
-    private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo, btnEliminarUsuario;
+    private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo, btnEditarPerfil;
 
     private RecyclerView recyclerViewHijosPerfilFamilia;
     private HijosAdapter mAdapter;
@@ -105,7 +104,7 @@ public class MiPerfilFamiliaFragment extends Fragment {
         recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
 
         btnAnadirHijo = view.findViewById(R.id.btnAnadirHijo);
-        btnEliminarUsuario = view.findViewById(R.id.btnEliminarUsuario);
+        btnEditarPerfil = view.findViewById(R.id.btnEditarPerfilFamilia);
 
         cargarDatosPerfilFamilia();
 
@@ -124,16 +123,19 @@ public class MiPerfilFamiliaFragment extends Fragment {
             }
         });
 
-        btnEliminarUsuario.setOnClickListener(new View.OnClickListener() {
+        btnEditarPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Eliminamos usuario", Toast.LENGTH_SHORT).show();
 
-                //AQUI BORRAMOS USUARIOS
-                //mAuth.getCurrentUser().delete();
-                //bbdd.collection("usuarios").whereEqualTo("uid", uid);
+                EditarPerfilFragment editarPerfilFragment = new EditarPerfilFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment, editarPerfilFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
+
+
 
         recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
         recyclerViewHijosPerfilFamilia.setLayoutManager(new LinearLayoutManager(getContext()));

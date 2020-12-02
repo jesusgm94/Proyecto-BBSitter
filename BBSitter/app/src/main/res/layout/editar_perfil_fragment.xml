@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        <!-- Dentro del ScrollView debe haber un LinearLayout que englobe a todo-->
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+
+            <!-- Añadir foto -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:background="@drawable/fotoperfilcanguro"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingVertical="10dp"
+                android:layout_marginTop="20dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageEditarPerfilFamilia"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="10dp"
+                    android:elevation="2dp"
+                    android:src="@drawable/fotoperfil"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Añade tu foto de perfil"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            <!-- Layout Datos: Nombre, descripcion y direccion -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Dinos el nombre de tu familia"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- NOMBRE EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nombreEditarFamilia_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Nombre de la familia"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:placeholderTextColor="@color/colorPrimaryDark"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombreEditarPerfilFamilia"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+            </LinearLayout>
+
+
+            <!-- EditText Direccion -->
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuál es tu dirección?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- Direccion EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/direccionEditarFamilia_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Introduce tu dirección"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_location_on_36"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDireccionEditarPerfilFamilia"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+
+            <!-- Layout Descripccion -->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Escribe una pequeña presentación tuya"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                <!-- Direccion EditText de Material Design -->
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descripcionEditarFamilia_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Escribe tu descripción"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:counterEnabled="true"
+                    app:counterMaxLength="140"
+                    app:counterTextColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcionEditarPerfilFamilia"
+                        android:layout_width="300dp"
+                        android:layout_height="130dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <!-- Boton Modificar familia -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp">
+
+                <Button
+                    android:id="@+id/btnModificarPerfilFamilia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/botonredondeadopurpledark"
+                    android:text="Modificar perfil"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/btnEliminarPerfilFamilia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/botonredondeadopurpledark"
+                    android:text="Eliminar mi cuenta"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
