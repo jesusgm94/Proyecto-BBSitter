@@ -124,17 +124,24 @@ public class MainActivityCanguro extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                String nombre =  document.get("nombre").toString();
-                                String imagen = document.get("img").toString();
-                                String email = mAuth.getCurrentUser().getEmail();
+                                try {
+                                    //Recogemos los datos de la base de datos
+                                    String nombre =  document.get("nombre").toString();
+                                    String imagen = document.get("img").toString();
+                                    String email = mAuth.getCurrentUser().getEmail();
 
-                                //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagen).into(imagenUsuarioMenu);
+                                    //Agrega una nueva imagen desde una url usando Picasso.
+                                    Picasso.get().load(imagen).into(imagenUsuarioMenu);
 
-                                //Agrega nuevo nombre
-                                tvNombreUsuarioMenu.setText(nombre);
-                                tvEmailUsuarioMenu.setText(email);
+                                    //Agrega nuevo nombre
+                                    tvNombreUsuarioMenu.setText(nombre);
+                                    tvEmailUsuarioMenu.setText(email);
+                                }
+                                catch(Exception e)
+                                {
+
+                                }
+
 
 
                             }
