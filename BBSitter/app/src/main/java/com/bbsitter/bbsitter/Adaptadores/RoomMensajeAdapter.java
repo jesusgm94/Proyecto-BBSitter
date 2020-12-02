@@ -66,6 +66,7 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
 
         }
 
+
         public TextView getMensaje() {
             return mensaje;
         }
@@ -81,6 +82,9 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
         public void setHoraMensaje(TextView horaMensaje) {
             this.horaMensaje = horaMensaje;
         }
+
+
     }
+
 
 }

@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -194,6 +195,9 @@ public class CrearPerfilCanguro extends AppCompatActivity {
              if(validacionCampos()) {
 
                  //String fechaCreacionPerfil = ;
+                 Random randomRating = new Random();
+                 int rating  = randomRating.nextInt(6)+1;
+
 
                  final String uid = mAuth.getCurrentUser().getUid();
                  final String urlFoto = "";
@@ -267,6 +271,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  mapCanguro.put("preferenciaEdades", mapPrefEdades);  // Mapa Prefrencia Edades Canguro
                  mapCanguro.put("pluses", mapPluses);  // Mapa Pluses Canguro
                  mapCanguro.put("idiomas", mapIdiomas);  // Mapa Idiomas Canguro
+                 mapCanguro.put("rating", rating);
 
                  /*Introducimos el canguro nuevo dentro de la BBDD*/
                  bbdd.collection("canguros")

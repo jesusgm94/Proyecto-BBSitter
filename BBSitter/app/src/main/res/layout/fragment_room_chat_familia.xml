@@ -7,12 +7,13 @@
     android:orientation="vertical"
     tools:context=".OpcionesMenu.Chats.RoomChatFamiliaFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerListaMensajes"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/fondochat" />
+        android:background="@drawable/fondochat"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="60dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"

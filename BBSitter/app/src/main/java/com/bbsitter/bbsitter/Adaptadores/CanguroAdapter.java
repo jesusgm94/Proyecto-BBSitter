@@ -47,8 +47,8 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
         holder.nombre.setText(canguro.getNombre());
         holder.edad.setText(String.valueOf(canguro.getEdad()) + " años" );
         holder.precioHora.setText(canguro.getPrecioHora() + " €");
-
-        holder.ratingBar.setRating(randomStars.nextInt(6)+1);
+        holder.ratingBar.setRating(canguro.getRating());
+        
         // Calcular la distancia
         holder.distancia.setText(dist + " kms");
 

@@ -71,12 +71,12 @@ public class InicioFragment extends Fragment {
                         break;
                     }
                     case 1: {
-                        tab.setText("Los más cercanos");
+                        tab.setText("Los más valorados");
                         //tab.setIcon(R.drawable.ic_baseline_add_location_24);
                         break;
                     }
                     case 2: {
-                        tab.setText("Los más valiosos");
+                        tab.setText("Los más baratos");
                         //tab.setIcon(R.drawable.ic_baseline_add_location_24);
                         break;
                     }
