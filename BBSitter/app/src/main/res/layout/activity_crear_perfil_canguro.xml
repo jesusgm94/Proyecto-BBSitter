@@ -349,9 +349,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="10dp"
-                    android:stepSize="0.5"
-                    android:valueFrom="0.0"
-                    android:valueTo="40.0" />
+                    android:stepSize="0.50"
+                    android:valueFrom="5.00"
+                    android:valueTo="25.00" />
 
             </LinearLayout>
 
