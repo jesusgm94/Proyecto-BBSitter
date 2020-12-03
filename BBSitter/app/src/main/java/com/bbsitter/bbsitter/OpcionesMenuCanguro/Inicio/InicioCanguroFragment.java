@@ -15,7 +15,6 @@ import com.bbsitter.bbsitter.Clases.Anuncio;
 import com.bbsitter.bbsitter.OpcionesMenu.Anuncios.DetalleAnuncioFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.material.chip.Chip;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
@@ -41,8 +40,6 @@ public class InicioCanguroFragment extends Fragment {
     private RecyclerView recyclerViewListaAnuncios;
     private AnunciosAdapter mAdapter;
 
-
-    private Chip chipNovedades, chipFines, chipDiario;
 
     public InicioCanguroFragment() {
         // Required empty public constructor
@@ -87,11 +84,6 @@ public class InicioCanguroFragment extends Fragment {
         recyclerViewListaAnuncios.setLayoutManager(new LinearLayoutManager(getContext()));
 
         bbdd = FirebaseFirestore.getInstance();
-
-        chipNovedades = view.findViewById(R.id.chip_Novedades);
-        chipDiario = view.findViewById(R.id.chip_Diario);
-        chipFines = view.findViewById(R.id.chip_Fines);
-
 
         //POR DEFECTO SALE ESTA PANTALLA
         Query query = bbdd.collection("anuncios")

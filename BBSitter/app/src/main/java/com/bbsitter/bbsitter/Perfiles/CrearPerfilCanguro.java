@@ -340,7 +340,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                          startActivity(main);
                          finish();
                      }
-                 }, 2000);
+                 }, 4000);
 
              }else{
                  Toasty.error(CrearPerfilCanguro.this,"Revisa los campos  rellenar", Toast.LENGTH_LONG).show();
@@ -474,7 +474,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
                 // Instanciamos un PLACE, el cual lo obtendremos del autocomplete
                 Place place = Autocomplete.getPlaceFromIntent(data);
-                Toast.makeText(CrearPerfilCanguro.this,"latlong: " + place.getLatLng(), Toast.LENGTH_LONG).show();
 
                 String address = place.getAddress();
                 etDireccion. setText(address);

@@ -107,24 +107,52 @@ public class MapsFragmentCanguros extends Fragment {
             Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
             */
-            LatLng MIUBICACION = new LatLng(40.490797, -3.341996);
+            try{
 
-            // MARCADOR PERSONALIZADO con una imagen nuestra
-            BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
-            Bitmap b = bitmapdraw.getBitmap();
-            Bitmap smallMarker = Bitmap.createScaledBitmap(b, 130, 130, false);
+                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                Toast.makeText(getContext(), loc.getLatitude() + ", " + loc.getLongitude(), Toast.LENGTH_SHORT).show();
+                LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
 
 
-            Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
-                    .position(MIUBICACION)
-                    .title("Mi ubicación"));
+                // Ponemmos un marcador en nuestra ubicacion
+                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 130, 130, false);
 
-            marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
-            googleMap.getUiSettings().setZoomControlsEnabled(true);
+                Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
+                        .position(MIUBICACION)
+                        .title("Mi ubicación"));
 
+                marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
+
+
+            }catch (Exception e)
+            {
+
+                Toast.makeText(getContext(), "Peta", Toast.LENGTH_SHORT).show();
+                /*LatLng MIUBICACION = new LatLng(40.490797, -3.341996);
+
+                // Ponemmos un marcador en nuestra ubicacion
+                BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
+                Bitmap b = bitmapdraw.getBitmap();
+                Bitmap smallMarker = Bitmap.createScaledBitmap(b, 130, 130, false);
+
+
+                Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
+                        .position(MIUBICACION)
+                        .title("Mi ubicación"));
+
+                marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+
+                googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
+                googleMap.getUiSettings().setZoomControlsEnabled(true);*/
+            }
 
             // Lo segundo será recorrrer nuetro canguros y pintar cada uno, con su marcador, en el mapa.
 
@@ -202,7 +230,6 @@ public class MapsFragmentCanguros extends Fragment {
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
-            
 
         }
     }

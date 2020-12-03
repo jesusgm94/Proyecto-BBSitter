@@ -140,18 +140,25 @@ public class MainActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
-                                String imagenFamilia = document.get("img").toString();
-                                String emailFamilia = mAuth.getCurrentUser().getEmail();
+                                try {
+                                    //Recogemos los datos de la base de datos
+                                    String nombreFamilia =  "Familia " + document.get("nombre").toString();
+                                    String imagenFamilia = document.get("img").toString();
+                                    String emailFamilia = mAuth.getCurrentUser().getEmail();
 
-                                //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagenFamilia).into(imagenUsuarioMenu);
+                                    //Agrega una nueva imagen desde una url usando Picasso.
+                                    Picasso.get().load(imagenFamilia).into(imagenUsuarioMenu);
 
 
-                                //Agrega nuevo nombre
-                                tvNombreUsuarioMenu.setText(nombreFamilia);
-                                tvEmailUsuarioMenu.setText(emailFamilia);
+                                    //Agrega nuevo nombre
+                                    tvNombreUsuarioMenu.setText(nombreFamilia);
+                                    tvEmailUsuarioMenu.setText(emailFamilia);
+                                }
+                                catch (Exception e)
+                                {
+
+                                }
+
 
 
                             }

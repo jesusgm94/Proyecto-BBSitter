@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -18,10 +19,15 @@ import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Set;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -30,10 +36,14 @@ public class DetalleAnuncioFragment extends Fragment {
     private DetalleAnuncioViewModel mViewModel;
 
     private CircleImageView imagenPerfilDetalleAnuncio;
-    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvCasaDetalleAnuncio, tvFrecuenciaDetalleAnuncio;
+    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion, tvVerPerfilDetalle;
     private MaterialButton btnDireccionDetalleAnuncio;
 
     private String idAnuncio;
+
+    private Chip chipCasaDetalleAnuncio, chipFrecuenciaDetalleAnuncio;
+
+    private ChipGroup chipGroupDetalleAnuncioPluses, chipGroupDetalleAnuncioIdiomas;
 
     private FirebaseFirestore bbdd;
 
@@ -72,11 +82,26 @@ public class DetalleAnuncioFragment extends Fragment {
         imagenPerfilDetalleAnuncio = view.findViewById(R.id.imagenFamiliaDetallesAnuncios);
         tvTituloDetalleAnuncio = view.findViewById(R.id.tvTituloDetalleAnuncio);
         tvDescripcionDetalleAnuncio = view.findViewById(R.id.tvDescripcionDetalleAnuncio);
-        tvCasaDetalleAnuncio = view.findViewById(R.id.tvCasaDetalleAnuncio);
-        tvFrecuenciaDetalleAnuncio = view.findViewById(R.id.tvFrecuenciaDetalleAnuncio);
+        tvNombreFamiliaDetalleAnuncio = view.findViewById(R.id.tvNombreFamiliaDetalleAnuncio);
         btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
+        tvDetalleAnuncioFechaPublicacion = view.findViewById(R.id.tvDetalleAnuncioFechaPublicacion);
+        tvVerPerfilDetalle = view.findViewById(R.id.tvVerPerfilDetalle);
+
+        //CHIP
+        chipCasaDetalleAnuncio = view.findViewById(R.id.chipDetallesAnuncioLugar);
+        chipFrecuenciaDetalleAnuncio = view.findViewById(R.id.chipDetallesAnuncioFrecuencia);
+
+        //CHIP GRUOP
+        chipGroupDetalleAnuncioPluses = view.findViewById(R.id.chipgroupDetallesAnuncioPluses);
+        chipGroupDetalleAnuncioIdiomas = view.findViewById(R.id.chipgroupDetallesAnuncioIdiomas);
 
         cargarDatosAnuncio();
+        tvVerPerfilDetalle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Has pulsado", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -106,17 +131,49 @@ public class DetalleAnuncioFragment extends Fragment {
                                 String frecuenciaAnuncio = document.get("tiempo").toString();
                                 String direccionAnuncio = document.get("direccion").toString();
                                 String imagenFamiliaAnuncio = document.get("img").toString();
+                                String nombreFamiliaAnuncio = document.get("nombre").toString();
+                                String fechaPublicacion = document.get("fechaPublicacion").toString();
 
+
+                                // Añadir Chips Pluses
+                                HashMap<String, Boolean> pluses = (HashMap<String, Boolean>) document.get("pluses");
+                                Set<String> listaKeysPluses = pluses.keySet();
+
+                                for(String plus : listaKeysPluses){
+                                    Chip chipPlus = new Chip(getContext());
+                                    chipPlus.setText(plus.toString());
+                                    chipPlus.setTextColor(Color.BLACK);
+                                    chipPlus.setChipBackgroundColorResource(R.color.colorgris);
+                                    chipGroupDetalleAnuncioPluses.addView(chipPlus);
+                                }
+
+                                // Añadir Chips Idiomas
+                                HashMap<String, Boolean> idiomas = (HashMap<String, Boolean>) document.get("idiomas");
+                                Set<String> listaKeysIdiomas = idiomas.keySet();
+
+                                for(String idioma : listaKeysIdiomas){
+                                    Chip chipIdioma = new Chip(getContext());
+                                    chipIdioma.setText(idioma.toString());
+                                    chipIdioma.setTextColor(Color.BLACK);
+                                    chipIdioma.setChipBackgroundColorResource(R.color.colorgris);
+                                    chipGroupDetalleAnuncioIdiomas.addView(chipIdioma);
+                                }
 
 
                                 //Agrega una nueva imagen desde una url usando Picasso.
                                 Picasso.get().load(imagenFamiliaAnuncio).into(imagenPerfilDetalleAnuncio);
 
                                 //Agrega nuevo nombre
+                                tvNombreFamiliaDetalleAnuncio.setText(nombreFamiliaAnuncio);
                                 tvTituloDetalleAnuncio.setText(tituloAnuncio);
                                 tvDescripcionDetalleAnuncio.setText(descripcionAnuncio);
-                                tvCasaDetalleAnuncio.setText(casaAnuncio);
-                                tvFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
+                                tvDetalleAnuncioFechaPublicacion.setText(fechaPublicacion);
+                                chipCasaDetalleAnuncio.setText(casaAnuncio);
+                                chipCasaDetalleAnuncio.setTextColor(Color.BLACK);
+                                chipFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
+                                chipFrecuenciaDetalleAnuncio.setTextColor(Color.BLACK);
+                                //tvCasaDetalleAnuncio.setText(casaAnuncio);
+                                //tvFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
                                 btnDireccionDetalleAnuncio.setText(direccionAnuncio);
 
 
@@ -128,5 +185,6 @@ public class DetalleAnuncioFragment extends Fragment {
                     }
                 });
     }
+
 
 }

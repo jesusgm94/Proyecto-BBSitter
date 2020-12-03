@@ -8,6 +8,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bbsitter.bbsitter.Clases.Hijos;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -44,6 +45,7 @@ public class HijosAdapter extends FirestoreRecyclerAdapter<Hijos, HijosAdapter.V
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView nombre, edad, otrosDatos;
+        LottieAnimationView btnBorrarHijo;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -51,8 +53,40 @@ public class HijosAdapter extends FirestoreRecyclerAdapter<Hijos, HijosAdapter.V
             nombre = itemView.findViewById(R.id.itemNombreHijo);
             edad = itemView.findViewById(R.id.itemEdadHijo);
             otrosDatos = itemView.findViewById(R.id.itemDatosInteresHijo);
+            btnBorrarHijo = itemView.findViewById(R.id.lottieBorrarHijo);
         }
 
+        public TextView getNombre() {
+            return nombre;
+        }
 
+        public void setNombre(TextView nombre) {
+            this.nombre = nombre;
+        }
+
+        public TextView getEdad() {
+            return edad;
+        }
+
+        public void setEdad(TextView edad) {
+            this.edad = edad;
+        }
+
+        public TextView getOtrosDatos() {
+            return otrosDatos;
+        }
+
+        public void setOtrosDatos(TextView otrosDatos) {
+            this.otrosDatos = otrosDatos;
+        }
+
+        public LottieAnimationView getBtnBorrarHijo() {
+            return btnBorrarHijo;
+        }
+
+        public void setBtnBorrarHijo(LottieAnimationView btnBorrarHijo) {
+            this.btnBorrarHijo = btnBorrarHijo;
+        }
     }
+
 }

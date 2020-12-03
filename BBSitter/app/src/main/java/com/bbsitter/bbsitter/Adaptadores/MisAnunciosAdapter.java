@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.airbnb.lottie.LottieAnimationView;
 import com.bbsitter.bbsitter.Clases.Anuncio;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -20,8 +21,8 @@ import com.squareup.picasso.Picasso;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosAdapter.ViewHolder>
-                            /*implements View.OnClickListener*/{
+public class MisAnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, MisAnunciosAdapter.ViewHolder>
+        /*implements View.OnClickListener*/{
 
 
     private FirebaseAuth mAuth;
@@ -35,7 +36,7 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
      *
      * @param options
      */
-    public AnunciosAdapter(@NonNull FirestoreRecyclerOptions<Anuncio> options) {
+    public MisAnunciosAdapter(@NonNull FirestoreRecyclerOptions<Anuncio> options) {
         super(options);
     }
 
@@ -66,11 +67,11 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_anuncios, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_misanuncios, viewGroup, false);
 
         //view.setOnClickListener(this);
 
-        return new AnunciosAdapter.ViewHolder(view);
+        return new MisAnunciosAdapter.ViewHolder(view);
     }
 
 
@@ -82,6 +83,7 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
 
         TextView titulo, descripcion, tiempo, fechaPublicacion, direccion, nombre;
         CircleImageView img;
+        LottieAnimationView btnBorrarAnuncio;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,9 +97,13 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
             direccion = itemView.findViewById(R.id.itemCiudadAnuncio);
             nombre = itemView.findViewById(R.id.itemNombreAnuncio);
 
+            btnBorrarAnuncio = itemView.findViewById(R.id.lottieBorrarAnuncio);
+
             cardViewAnuncio = itemView.findViewById(R.id.cardViewAnuncio);
 
         }
+
+
 
         public TextView getTitulo() {
             return titulo;
@@ -162,6 +168,15 @@ public class AnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, AnunciosA
         public void setCardViewAnuncio(CardView cardViewAnuncio) {
             this.cardViewAnuncio = cardViewAnuncio;
         }
+
+        public LottieAnimationView getBtnBorrarAnuncio() {
+            return btnBorrarAnuncio;
+        }
+
+        public void setBtnBorrarAnuncio(LottieAnimationView btnBorrarAnuncio) {
+            this.btnBorrarAnuncio = btnBorrarAnuncio;
+        }
     }
 
 }
+
