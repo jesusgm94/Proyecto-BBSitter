@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bbsitter.bbsitter.Adaptadores.HijosAdapter;
+import com.bbsitter.bbsitter.Adaptadores.MisHijosAdapter;
 import com.bbsitter.bbsitter.Clases.Hijos;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -50,7 +50,7 @@ public class MiPerfilFamiliaFragment extends Fragment {
     private MaterialButton btnDireccionPerfilFamilia, btnAnadirHijo, btnEditarPerfil;
 
     private RecyclerView recyclerViewHijosPerfilFamilia;
-    private HijosAdapter mAdapter;
+    private MisHijosAdapter mAdapter;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
@@ -103,7 +103,6 @@ public class MiPerfilFamiliaFragment extends Fragment {
         btnDireccionPerfilFamilia = view.findViewById(R.id.btnDireccionPerfilFamilia);
         tvDescripcionPerfilFamilia = view.findViewById(R.id.tvDescripcionPerfilFamilia);
 
-        recyclerViewHijosPerfilFamilia = view.findViewById(R.id.recyclerViewHijosPerfilFamilia);
 
         btnAnadirHijo = view.findViewById(R.id.btnAnadirHijo);
         btnEditarPerfil = view.findViewById(R.id.btnEditarPerfilFamilia);
@@ -150,10 +149,10 @@ public class MiPerfilFamiliaFragment extends Fragment {
 
 
         //mAdapter = new HijosAdapter(firestoreRecyclerOptions);
-        mAdapter = new HijosAdapter(firestoreRecyclerOptions)
+        mAdapter = new MisHijosAdapter(firestoreRecyclerOptions)
         {
             @Override
-            protected void onBindViewHolder(@NonNull final HijosAdapter.ViewHolder holder, int position, @NonNull Hijos hijos) {
+            protected void onBindViewHolder(@NonNull final MisHijosAdapter.ViewHolder holder, int position, @NonNull Hijos hijos) {
 
                 holder.getNombre().setText(hijos.getNombre());
                 holder.getEdad().setText(hijos.getEdad() + " años");
@@ -214,20 +213,25 @@ public class MiPerfilFamiliaFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
-                                String imagenFamilia = document.get("img").toString();
-                                String direccionFamilia = document.get("direccion").toString();
-                                String descripcionFamilia = document.get("descripcion").toString();
+                                try {
+                                    //Recogemos los datos de la base de datos
+                                    String nombreFamilia =  "Familia " + document.get("nombre").toString();
+                                    String imagenFamilia = document.get("img").toString();
+                                    String direccionFamilia = document.get("direccion").toString();
+                                    String descripcionFamilia = document.get("descripcion").toString();
 
-                                //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);
+                                    //Agrega una nueva imagen desde una url usando Picasso.
+                                    Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);
 
-                                //Agrega nuevo nombre
-                                tvNombrePerfilFamilia.setText(nombreFamilia);
-                                btnDireccionPerfilFamilia.setText(direccionFamilia);
-                                tvDescripcionPerfilFamilia.setText(descripcionFamilia);
+                                    //Agrega nuevo nombre
+                                    tvNombrePerfilFamilia.setText(nombreFamilia);
+                                    btnDireccionPerfilFamilia.setText(direccionFamilia);
+                                    tvDescripcionPerfilFamilia.setText(descripcionFamilia);
+                                }
+                                catch(Exception e)
+                                {
 
+                                }
                             }
                         } else {
 

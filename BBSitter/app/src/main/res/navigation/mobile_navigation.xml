@@ -32,7 +32,7 @@
 
     <fragment
         android:id="@+id/perfilCanguroFragment"
-        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment"
+        android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.PerfilCanguroFragment"
         android:label="perfil_canguro_fragment"
         tools:layout="@layout/perfil_canguro_fragment" />
 

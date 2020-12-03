@@ -59,6 +59,8 @@ public class CrearAnuncioFragment extends Fragment {
     private String [] arrayPluses = {"Carnet de conducir", "Primeros auxilios", "Cocinar", "Ayuda con los deberes", "Jugar"};
     String [] arrayIdiomas = {"Español", "Inglés", "Francés","Alemán", "Otros"};
 
+    private ProgressBarCargando progressBarCargando;
+
     public static CrearAnuncioFragment newInstance() {
         return new CrearAnuncioFragment();
     }
@@ -103,7 +105,7 @@ public class CrearAnuncioFragment extends Fragment {
         //Boton Crear anuncio
         btnCrearAnuncio = (Button) view.findViewById(R.id.btnCrearAnuncio);
 
-        final ProgressBarCargando progressBarCargando = new ProgressBarCargando(getActivity());
+        progressBarCargando = new ProgressBarCargando(getActivity());
 
         btnCrearAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,6 +233,7 @@ public class CrearAnuncioFragment extends Fragment {
 
 
 
+
                                 bbdd.collection("anuncios")
                                         .whereEqualTo("uid", uid)
                                         .get()
@@ -238,17 +241,22 @@ public class CrearAnuncioFragment extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
+
                                                 if (task.isSuccessful()) {
 
                                                     String idAnuncio = "";
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                                        //Recogemos el ID
-                                                        idAnuncio = document.getId();
+                                                        String id = document.get("idAnuncio").toString();
+                                                        if(id.equals(""))
+                                                        {
+                                                            //Recogemos los datos de la base de datos
+                                                            idAnuncio = document.getId();
+                                                        }
 
                                                     }
 
-                                                    // mapa para actualizar el anuncio
+                                                    /*Creamos un mapa para actualizar el idAnuncio del anuncio*/
                                                     Map<String, Object> userUpdateidAnuncio = new HashMap<>();
                                                     userUpdateidAnuncio.put("idAnuncio", idAnuncio);
 
@@ -262,6 +270,8 @@ public class CrearAnuncioFragment extends Fragment {
                                                 }
                                             }
                                         });
+
+
 
                             } else {
 

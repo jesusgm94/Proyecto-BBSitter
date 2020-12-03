@@ -94,7 +94,6 @@ public class EditarPerfilFragment extends Fragment {
         storageRef = FirebaseStorage.getInstance().getReference();
 
 
-
         nombre = view.findViewById(R.id.nombreEditarFamilia_edit_text);
         descripcion = view.findViewById(R.id.descripcionEditarFamilia_edit_text);
         direccion = view.findViewById(R.id.direccionEditarFamilia_edit_text);
@@ -134,11 +133,10 @@ public class EditarPerfilFragment extends Fragment {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
 
-                            MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
+                            MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
                             builder.setTitle("Eliminar mi cuenta");
                             builder.setMessage("Atención: Esta acción es irreversible. ¿Estás seguro/a de que quieres eliminar tu cuenta?");
-                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
-                            {
+                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
 
@@ -230,89 +228,114 @@ public class EditarPerfilFragment extends Fragment {
                     mapUser.put("uid", uid);
 
 
-                    /* LOCALIZACION*/
-                    // Obtener coordenadas de direccion
-                    double longitudLoc = latLng.longitude;
-                    double latitudLoc = latLng.latitude;
 
-                    // Crear MAPA COORDENADAS para meterlo en la localizacion
-                    Map<String, Double> mapLoc = new HashMap<>();
-                    mapLoc.put("Latitud", latitudLoc);
-                    mapLoc.put("Longitud", longitudLoc);
+                    try {
+                        /* LOCALIZACION*/
+                        // Obtener coordenadas de direccion
+                        double longitudLoc = latLng.longitude;
+                        double latitudLoc = latLng.latitude;
 
-                    /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
-                    mapUser.put("localizacion", mapLoc);
+
+                        // Crear MAPA COORDENADAS para meterlo en la localizacion
+                        Map<String, Double> mapLoc = new HashMap<>();
+                        mapLoc.put("Latitud", latitudLoc);
+                        mapLoc.put("Longitud", longitudLoc);
+
+                        /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
+                        mapUser.put("localizacion", mapLoc);
+
+                    }catch (Exception e)
+                    {
+                        // Crear MAPA COORDENADAS para meterlo en la localizacion
+                        Map<String, Double> mapLoc = new HashMap<>();
+                        mapLoc.put("Latitud", 40.44);
+                        mapLoc.put("Longitud", 3.46);
+
+                        /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
+                        mapUser.put("localizacion", mapLoc);
+                    }
+
+
+
 
                     /*Creamos la coleccion Familias en la bbdd*/
                     bbdd.collection("familias")
                             .document(uid)
                             .set(mapUser);
 
-                    /*Metemos la foto en Storage*/
-                    storageRef.putFile(uri).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    final Uri downloadUrl = uri;
-                                    urlFoto = downloadUrl.toString();
+                    if (uri != null) {
 
-                                    /*Creamos un mapa para actualizar la imagen del perfil*/
-                                    Map<String, Object> userUpdateImg = new HashMap<>();
-                                    userUpdateImg.put("img", urlFoto);
+                        /*Metemos la foto en Storage*/
+                        storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        final Uri downloadUrl = uri;
+                                        urlFoto = downloadUrl.toString();
 
-                                    bbdd.collection("familias").document(uid)
-                                            .set(userUpdateImg, SetOptions.merge());
+                                        /*Creamos un mapa para actualizar la imagen del perfil*/
+                                        Map<String, Object> userUpdateImg = new HashMap<>();
+                                        userUpdateImg.put("img", urlFoto);
 
-                                    bbdd.collection("anuncios")
-                                            .whereEqualTo("uid", mAuth.getCurrentUser().getUid())
-                                            .get()
-                                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        bbdd.collection("familias").document(uid)
+                                                .set(userUpdateImg, SetOptions.merge());
 
-                                                    if (task.isSuccessful()) {
+                                        bbdd.collection("anuncios")
+                                                .whereEqualTo("uid", mAuth.getCurrentUser().getUid())
+                                                .get()
+                                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
-                                                        String idAnuncio = "";
-                                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        if (task.isSuccessful()) {
 
-                                                            //Recogemos los datos de la base de datos
-                                                            idAnuncio = document.get("idAnuncio").toString();
+                                                            String idAnuncio = "";
+                                                            for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                                                //Recogemos los datos de la base de datos
+                                                                idAnuncio = document.get("idAnuncio").toString();
+
+                                                            }
+
+
+                                                            /*Creamos un mapa para actualizar la imagen del perfil*/
+                                                            Map<String, Object> userUpdateImg = new HashMap<>();
+                                                            userUpdateImg.put("img", urlFoto);
+
+                                                            bbdd.collection("anuncios").document(idAnuncio)
+                                                                    .set(userUpdateImg, SetOptions.merge());
+
+
+                                                        } else {
 
                                                         }
-
-
-                                                        /*Creamos un mapa para actualizar la imagen del perfil*/
-                                                        Map<String, Object> userUpdateImg = new HashMap<>();
-                                                        userUpdateImg.put("img", urlFoto);
-
-                                                        bbdd.collection("anuncios").document(idAnuncio)
-                                                                .set(userUpdateImg, SetOptions.merge());
-
-
-                                                    } else {
-
                                                     }
-                                                }
-                                            });
+                                                });
 
 
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
 
-                                }
-                            } ).addOnFailureListener( new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-
-                                }
-                            } );
-
-
-                        }
-                    } );
+                                    }
+                                });
 
 
-                    
+                            }
+                        });
+
+                    } else {
+                        //Creamos un mapa para actualizar la imagen del perfil
+                        Map<String, Object> userUpdateImg = new HashMap<>();
+                        userUpdateImg.put("img", "https://firebasestorage.googleapis.com/v0/b/bbsitter-61bd3.appspot.com/o/img_BBSitter%2Ffotoperfil.jpg?alt=media&token=a76cfc60-0edb-480c-953d-f0925fab2941");
+
+                        bbdd.collection("familias").document(uid)
+                                .set(userUpdateImg, SetOptions.merge());
+                    }
+
 
                     progressBarCargando.StarProgressBar();
                     Handler handler = new Handler();
@@ -330,18 +353,12 @@ public class EditarPerfilFragment extends Fragment {
                         }
                     }, 2000);
 
-                }
-                catch(Exception e)
-                {
-                    Toast.makeText(getContext(), e.toString(), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
                     comprobarDatos();
                 }
 
-
-
             }
         });
-
 
 
         return view;
@@ -354,10 +371,7 @@ public class EditarPerfilFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-
-
-    private void cargarDatosPerfilFamilia()
-    {
+    private void cargarDatosPerfilFamilia() {
         uid = mAuth.getCurrentUser().getUid();
 
         bbdd.collection("familias")
@@ -370,19 +384,24 @@ public class EditarPerfilFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
-                                String imagenFamilia = document.get("img").toString();
-                                String direccionFamilia = document.get("direccion").toString();
-                                String descripcionFamilia = document.get("descripcion").toString();
+                                try {
+                                    //Recogemos los datos de la base de datos
+                                    String nombreFamilia = document.get("nombre").toString();
+                                    String imagenFamilia = document.get("img").toString();
+                                    String direccionFamilia = document.get("direccion").toString();
+                                    String descripcionFamilia = document.get("descripcion").toString();
 
-                                //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagenFamilia).into(imageEditarPerfilFamilia);
+                                    //Agrega una nueva imagen desde una url usando Picasso.
+                                    Picasso.get().load(imagenFamilia).into(imageEditarPerfilFamilia);
 
-                                //Agrega nuevo nombre
-                                etNombre.setText(nombreFamilia);
-                                etDireccion.setText(direccionFamilia);
-                                etDescripcion.setText(descripcionFamilia);
+                                    //Agrega nuevo nombre
+                                    etNombre.setText(nombreFamilia);
+                                    etDireccion.setText(direccionFamilia);
+                                    etDescripcion.setText(descripcionFamilia);
+                                } catch (Exception e) {
+
+                                }
+
 
                             }
                         } else {
@@ -393,8 +412,7 @@ public class EditarPerfilFragment extends Fragment {
 
     }
 
-    private boolean comprobarDatos()
-    {
+    private boolean comprobarDatos() {
         Boolean validar = true;
 
         //String fotoFamilia = urlFotoPerfil.toString();
@@ -403,32 +421,27 @@ public class EditarPerfilFragment extends Fragment {
         String descripcionFamilia = etDescripcion.getText().toString().trim();
 
 
-        if(nombreFamilia.isEmpty()  ){
+        if (nombreFamilia.isEmpty()) {
             nombre.setError("Debes rellenar el campo");
 
             validar = false;
         }
-        if(direccionFamilia.isEmpty())
-        {
+        if (direccionFamilia.isEmpty()) {
             direccion.setError("Debes rellenar el campo");
             validar = false;
         }
-        if(descripcionFamilia.isEmpty())
-        {
+        if (descripcionFamilia.isEmpty()) {
             descripcion.setError("Debes rellenar el campo");
             validar = false;
         }
 
-        if(!nombreFamilia.isEmpty())
-        {
+        if (!nombreFamilia.isEmpty()) {
             nombre.setError(null);
         }
-        if(!direccionFamilia.isEmpty())
-        {
+        if (!direccionFamilia.isEmpty()) {
             direccion.setError(null);
         }
-        if(!descripcionFamilia.isEmpty())
-        {
+        if (!descripcionFamilia.isEmpty()) {
             descripcion.setError(null);
         }
 
@@ -442,8 +455,7 @@ public class EditarPerfilFragment extends Fragment {
 
         intentCargarFoto.setType("image/");
 
-        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
-
+        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"), 200);
 
 
     }
@@ -491,9 +503,7 @@ public class EditarPerfilFragment extends Fragment {
 
                     etDireccion.setText(address);
                     latLng = place.getLatLng();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     Toasty.error(getContext(), "Debes rellenar la dirección", Toasty.LENGTH_LONG).show();
                 }
 
@@ -509,7 +519,7 @@ public class EditarPerfilFragment extends Fragment {
         }
 
         // Resultado de obtener foto del movil
-        else if (requestCode == 200){
+        else if (requestCode == 200) {
             if (resultCode == RESULT_OK) {
 
                 uri = data.getData();
@@ -517,7 +527,7 @@ public class EditarPerfilFragment extends Fragment {
                 imageEditarPerfilFamilia.setImageURI(uri);
 
 
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
             }
         }
     }

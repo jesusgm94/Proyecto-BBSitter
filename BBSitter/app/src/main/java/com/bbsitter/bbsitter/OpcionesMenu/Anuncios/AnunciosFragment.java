@@ -99,38 +99,48 @@ public class AnunciosFragment extends Fragment {
 
                 final String idAnuncio = anuncio.getIdAnuncio();
 
-                // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
-                holder.getBtnBorrarAnuncio().setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
+
+                    // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
+                    holder.getBtnBorrarAnuncio().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
 
 
-                        holder.getBtnBorrarAnuncio().playAnimation();
+                            holder.getBtnBorrarAnuncio().playAnimation();
 
-                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
-                        builder.setTitle("Eliminar mi anuncio");
-                        builder.setMessage("¿Estás seguro/a de que quieres eliminar tu anuncio?");
-                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
-                        {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                            MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
+                            builder.setTitle("Eliminar mi anuncio");
+                            builder.setMessage("¿Estás seguro/a de que quieres eliminar tu anuncio?");
+                            builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                            }
-                        });
-                        builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
+                                }
+                            });
+                            builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                //ELIMINAMOS ANUNCIO
-                                bbdd.collection("anuncios")
-                                        .document(idAnuncio)
-                                        .delete();
-                            }
-                        });
-                        builder.show();
+                                    try {
+                                        //ELIMINAMOS ANUNCIO
+                                        bbdd.collection("anuncios")
+                                                .document(idAnuncio)
+                                                .delete();
+                                    }
+                                    catch (Exception e)
+                                    {
+                                        
+                                    }
 
-                    }
-                });
+                                }
+                            });
+                            builder.show();
+
+                        }
+                    });
+
+
 
             }
         };

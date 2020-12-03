@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbsitter.bbsitter.OpcionesMenu.Perfil.PerfilFamiliaFragment;
 import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -39,7 +40,7 @@ public class DetalleAnuncioFragment extends Fragment {
     private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion, tvVerPerfilDetalle;
     private MaterialButton btnDireccionDetalleAnuncio;
 
-    private String idAnuncio;
+    private String idAnuncio, uid;
 
     private Chip chipCasaDetalleAnuncio, chipFrecuenciaDetalleAnuncio;
 
@@ -99,7 +100,17 @@ public class DetalleAnuncioFragment extends Fragment {
         tvVerPerfilDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getContext(), "Has pulsado", Toast.LENGTH_SHORT).show();
+
+
+                PerfilFamiliaFragment perfilFamiliaFragment = new PerfilFamiliaFragment();
+                Bundle data = new Bundle();
+                data.putString("uid", uid);
+                perfilFamiliaFragment.setArguments(data);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_canguro, perfilFamiliaFragment)
+                        .addToBackStack(null)
+                        .commit();
             }
         });
         return view;
@@ -133,6 +144,7 @@ public class DetalleAnuncioFragment extends Fragment {
                                 String imagenFamiliaAnuncio = document.get("img").toString();
                                 String nombreFamiliaAnuncio = document.get("nombre").toString();
                                 String fechaPublicacion = document.get("fechaPublicacion").toString();
+                                uid = document.get("uid").toString();
 
 
                                 // Añadir Chips Pluses
@@ -185,6 +197,7 @@ public class DetalleAnuncioFragment extends Fragment {
                     }
                 });
     }
+
 
 
 }
