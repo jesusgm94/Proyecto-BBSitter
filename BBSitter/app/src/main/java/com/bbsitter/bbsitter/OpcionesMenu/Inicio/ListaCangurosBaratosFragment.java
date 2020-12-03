@@ -25,10 +25,10 @@ import java.util.Random;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ListaValoracionCangurosFragment#newInstance} factory method to
+ * Use the {@link ListaCangurosBaratosFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListaValoracionCangurosFragment extends Fragment {
+public class ListaCangurosBaratosFragment extends Fragment {
 
     LatLng MIUBICACION;
 
@@ -40,7 +40,7 @@ public class ListaValoracionCangurosFragment extends Fragment {
     Random distancia = new Random();
 
 
-    public ListaValoracionCangurosFragment() {
+    public ListaCangurosBaratosFragment() {
         // Required empty public constructor
     }
 
@@ -60,15 +60,15 @@ public class ListaValoracionCangurosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_lista_valoracion_canguros, container, false);
+        View view = inflater.inflate(R.layout.fragment_lista_canguros_baratos, container, false);
 
         // RECYCLER VIEW ****************
-        recyclerViewListaCanguros = view.findViewById(R.id.recycler_ListaValoracionCanguros);
+        recyclerViewListaCanguros = view.findViewById(R.id.recycler_ListaCangurosBaratos);
         recyclerViewListaCanguros.setLayoutManager(new LinearLayoutManager(getContext()));
         bbdd = FirebaseFirestore.getInstance();
 
 
-        Query query = bbdd.collection("canguros").orderBy("rating", Query.Direction.DESCENDING);
+        Query query = bbdd.collection("canguros").orderBy("precioHora", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<Canguro> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Canguro>()
                 .setQuery(query, Canguro.class).build();
@@ -116,8 +116,6 @@ public class ListaValoracionCangurosFragment extends Fragment {
 
         mAdapter.notifyDataSetChanged();
         recyclerViewListaCanguros.setAdapter(mAdapter);
-
-
 
         return view;
     }

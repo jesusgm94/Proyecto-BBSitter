@@ -160,6 +160,7 @@ public class PerfilCanguroFragment extends Fragment {
                                 String precioHora = document.get("precioHora").toString() + "€";
                                 String imagenCanguro = document.get("img").toString();
 
+
                                 // Añadir Chips Pluses
                                 HashMap<String, Boolean> pluses = (HashMap<String, Boolean>) document.get("pluses");
                                 Set<String> listaKeysPluses = pluses.keySet();

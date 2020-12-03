@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
+import com.bbsitter.bbsitter.OpcionesMenu.Inicio.ListaCangurosBaratosFragment;
 import com.bbsitter.bbsitter.OpcionesMenu.Inicio.ListaCangurosFragment;
 import com.bbsitter.bbsitter.OpcionesMenu.Inicio.ListaValoracionCangurosFragment;
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Inicio.MapsFragmentCanguros;
@@ -23,7 +24,8 @@ public class PagerAdapter  extends FragmentStateAdapter {
             case 1:
                 return new ListaValoracionCangurosFragment();
             case 2:
-                return new ListaCangurosFragment();
+                return new ListaCangurosBaratosFragment();
+
             default:
                 return new ListaCangurosFragment();
         }

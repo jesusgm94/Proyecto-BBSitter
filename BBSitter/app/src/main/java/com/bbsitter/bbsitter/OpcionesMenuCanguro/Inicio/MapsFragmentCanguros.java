@@ -107,8 +107,9 @@ public class MapsFragmentCanguros extends Fragment {
             Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
             */
-            LatLng MIUBICACION = new LatLng(40.459, -3.1646);
-            // Ponemmos un marcador en nuestra ubicacion
+            LatLng MIUBICACION = new LatLng(40.490797, -3.341996);
+
+            // MARCADOR PERSONALIZADO con una imagen nuestra
             BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
             Bitmap b = bitmapdraw.getBitmap();
             Bitmap smallMarker = Bitmap.createScaledBitmap(b, 130, 130, false);
@@ -201,6 +202,7 @@ public class MapsFragmentCanguros extends Fragment {
 
         if (mapFragment != null) {
             mapFragment.getMapAsync(callback);
+            
 
         }
     }
