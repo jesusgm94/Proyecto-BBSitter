@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
@@ -28,6 +30,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -59,7 +62,9 @@ public class PerfilCanguroFragment extends Fragment {
     private ChipGroup chipGroupPluses, chipGroupIdiomas, chipGroupPreferencias;
 
     private ExtendedFloatingActionButton btnChat;
+    ImageButton btnCompartir;
 
+    private RatingBar ratingBar;
 
 
     public PerfilCanguroFragment() {}
@@ -83,6 +88,7 @@ public class PerfilCanguroFragment extends Fragment {
         tvPrecioHoraPerfilCanguro = view.findViewById(R.id.tvPrecioHoraPerfilCanguro);
         tvExperienciaPerfilCanguro = view.findViewById(R.id.tvExperienciaPerfilCanguro);
         btnDireccion = view.findViewById(R.id.btnDireccionPerfilCanguro);
+        btnCompartir = view.findViewById(R.id.btnCompartir);
 
         lottieFav = view.findViewById(R.id.lottieFavorito);
         lottieFav.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +98,7 @@ public class PerfilCanguroFragment extends Fragment {
             }
         });
 
+        ratingBar = view.findViewById(R.id.itemRatingBarCanguroPerfil);
 
         // Chips Groups
         chipGroupPluses = view.findViewById(R.id.chipgroupPluses);
@@ -107,6 +114,14 @@ public class PerfilCanguroFragment extends Fragment {
         cargarDatosCanguro();
 
         btnChat = view.findViewById(R.id.btnChat);
+
+        btnCompartir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Ya programarás esto algún dia", Snackbar.LENGTH_LONG)
+                        .setAction("Dont worry", null).show();
+            }
+        });
 
         btnChat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -160,6 +175,9 @@ public class PerfilCanguroFragment extends Fragment {
                                 String precioHora = document.get("precioHora").toString() + "€";
                                 String imagenCanguro = document.get("img").toString();
 
+                                String ratingCang = document.get("rating").toString();
+                                int ratingCanguroInt = Integer.parseInt(ratingCang);
+
 
                                 // Añadir Chips Pluses
                                 HashMap<String, Boolean> pluses = (HashMap<String, Boolean>) document.get("pluses");
@@ -168,8 +186,10 @@ public class PerfilCanguroFragment extends Fragment {
                                 for(String plus : listaKeysPluses){
                                     Chip chipPlus = new Chip(getContext());
                                     chipPlus.setText(plus.toString());
-                                    chipPlus.setTextColor(Color.WHITE);
-                                    chipPlus.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipPlus.setTextColor(Color.GRAY);
+                                    chipPlus.setChipBackgroundColorResource(R.color.moradooscuro);
+                                    chipPlus.setChipStrokeColorResource(R.color.colorPrimaryDark);
+                                    chipPlus.setChipStrokeWidth(3);
                                     chipGroupPluses.addView(chipPlus);
                                 }
 
@@ -180,8 +200,10 @@ public class PerfilCanguroFragment extends Fragment {
                                 for(String idioma : listaKeysIdiomas){
                                     Chip chipIdioma = new Chip(getContext());
                                     chipIdioma.setText(idioma.toString());
-                                    chipIdioma.setTextColor(Color.WHITE);
-                                    chipIdioma.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipIdioma.setTextColor(Color.GRAY);
+                                    chipIdioma.setChipBackgroundColorResource(R.color.moradooscuro);
+                                    chipIdioma.setChipStrokeColorResource(R.color.colorPrimaryDark);
+                                    chipIdioma.setChipStrokeWidth(3);
                                     chipGroupIdiomas.addView(chipIdioma);
                                 }
 
@@ -192,8 +214,10 @@ public class PerfilCanguroFragment extends Fragment {
                                 for(String pref : listaKeysprefEdades){
                                     Chip chipPrefEdades = new Chip(getContext());
                                     chipPrefEdades.setText(pref.toString());
-                                    chipPrefEdades.setTextColor(Color.WHITE);
-                                    chipPrefEdades.setBackgroundColor(getResources().getColor(R.color.colorPrimaryDark));
+                                    chipPrefEdades.setTextColor(Color.GRAY);
+                                    chipPrefEdades.setChipBackgroundColorResource(R.color.moradooscuro);
+                                    chipPrefEdades.setChipStrokeColorResource(R.color.colorPrimaryDark);
+                                    chipPrefEdades.setChipStrokeWidth(3);
                                     chipGroupPreferencias.addView(chipPrefEdades);
                                 }
 
@@ -208,9 +232,7 @@ public class PerfilCanguroFragment extends Fragment {
                                 tvExperienciaPerfilCanguro.setText(experienciaCanguro);
                                 tvPrecioHoraPerfilCanguro.setText(precioHora);
 
-
-
-
+                                ratingBar.setNumStars(ratingCanguroInt);
 
                             }
                         } else {

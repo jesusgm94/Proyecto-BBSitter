@@ -354,6 +354,8 @@ public class EditarPerfilFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+
+
     private void cargarDatosPerfilFamilia()
     {
         uid = mAuth.getCurrentUser().getUid();

@@ -156,8 +156,8 @@
                 <RatingBar
                     android:id="@+id/itemRatingBarMiPerfilCanguro"
                     style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="80dp"
+                    android:layout_height="20dp"
                     android:layout_marginBottom="10dp"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
@@ -239,6 +239,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupPlusesMiPerfilCanguro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -247,39 +248,6 @@
                     app:singleSelection="false"
                     app:chipSpacingHorizontal="15dp">
 
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Tengo coche"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="No fumo"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Tengo primeros auxilios"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>/>
 
 
                 </com.google.android.material.chip.ChipGroup>
@@ -321,6 +289,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupIdiomasMiPerfilCanguro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -328,41 +297,6 @@
                     app:singleLine="false"
                     app:singleSelection="false"
                     app:chipSpacingHorizontal="15dp">
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Español"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Inglés"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Francés"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-
 
                 </com.google.android.material.chip.ChipGroup>
 
@@ -402,6 +336,7 @@
                 android:orientation="vertical">
 
                 <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/chipgroupPrefedadesMiPerfilCanguro"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingHorizontal="5dp"
@@ -409,41 +344,6 @@
                     app:singleLine="false"
                     app:singleSelection="false"
                     app:chipSpacingHorizontal="15dp">
-
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Más de 6 meses"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Entre 1 y 2 años"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-                    <com.google.android.material.chip.Chip
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:enabled="false"
-                        android:text="Más de 6 años"
-                        app:chipBackgroundColor="@color/moradooscuro"
-                        app:chipStrokeColor="@color/colorPrimaryDark"
-                        app:chipStrokeWidth="2dp"
-                        app:checkedIconTint="@color/colorPrimary"/>
-
 
                 </com.google.android.material.chip.ChipGroup>
 

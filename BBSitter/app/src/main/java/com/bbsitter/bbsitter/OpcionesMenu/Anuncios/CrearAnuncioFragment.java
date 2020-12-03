@@ -243,15 +243,16 @@ public class CrearAnuncioFragment extends Fragment {
                                                     String idAnuncio = "";
                                                     for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                                        //Recogemos los datos de la base de datos
+                                                        //Recogemos el ID
                                                         idAnuncio = document.getId();
 
                                                     }
 
-                                                    /*Creamos un mapa para actualizar la imagen del perfil*/
+                                                    // mapa para actualizar el anuncio
                                                     Map<String, Object> userUpdateidAnuncio = new HashMap<>();
                                                     userUpdateidAnuncio.put("idAnuncio", idAnuncio);
 
+                                                    // Actualizamos el anuncio, introduciendo su ID
                                                     bbdd.collection("anuncios").document(idAnuncio)
                                                             .set(userUpdateidAnuncio, SetOptions.merge());
 
@@ -261,8 +262,6 @@ public class CrearAnuncioFragment extends Fragment {
                                                 }
                                             }
                                         });
-
-
 
                             } else {
 

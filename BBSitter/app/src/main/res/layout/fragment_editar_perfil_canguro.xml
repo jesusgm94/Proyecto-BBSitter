@@ -1,0 +1,646 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+    android:background="@android:color/white"
+    >
+
+    // Titulo:Estas creando...
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:paddingTop="10dp"
+        android:background="@drawable/cabeceracrearperfilcanguro"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:text="Estas editando tu perfil de canguro"
+            android:textAlignment="center"
+            android:textColor="@android:color/white"
+            android:textSize="14dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent">
+
+        // Dentro del ScrollView debe haber un LinearLayout que englobe a todo
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:orientation="vertical">
+
+            // Añadir foto
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:background="@drawable/fondocabecerafamilia"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:layout_marginTop="20dp"
+                android:layout_marginHorizontal="25dp"
+                android:paddingVertical="10dp">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/imageEditarCanguro"
+                    android:layout_width="110dp"
+                    android:layout_height="110dp"
+                    android:layout_marginTop="15dp"
+                    android:elevation="2dp"
+                    android:src="@drawable/fotoperfil"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="2dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginHorizontal="50dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:text="Añade tu foto de perfil"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorPrimary"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
+            // Layout Datos Personales: Nombre, apellidos, fecha de Nacimiento y Sexo
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Datos personales"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                // NOMBRE EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/nombreEditarCanguro_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Nombre"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@color/colorPrimaryDark"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:placeholderTextColor="@color/colorPrimaryDark"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etNombreEditarCanguro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                // apellidos EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/apellidosEditarCanguro_edit_text"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Apellidos"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etApellidosEditarCanguro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                // Fecha EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/FechaNacimientoEditarCanguro_edit_textEditar"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Fecha de Nacimiento"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_calendar_today_36"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etFechaNacimientoEditarCanguro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:maxLines="1"
+                        android:paddingBottom="20dp"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                // Radio buttons SEXO
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/marcoblancobutton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:paddingTop="12dp"
+                        android:text="Sexo"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupSexoEditarCanguro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:checkedButton="@+id/radio_button_1"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/radio_button_MasculinoEditarCanguro"
+                            android:layout_width="119dp"
+                            android:layout_height="match_parent"
+                            android:text="Femenino"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_FemeninoEditarCanguro"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="Masculino"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            // Layout Direccion
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuál es tu dirección?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                // Direccion EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/direccion_edit_textEditarCanguro"
+                    android:layout_width="300dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Introduce tu dirección"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark"
+                    app:startIconDrawable="@drawable/ic_baseline_location_on_36"
+                    app:startIconTint="@color/colorPrimaryDark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDireccionEditarCanguro"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            // Layout Precio/hora
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuánto cobrarias por hora?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingHorizontal="20dp">
+
+                <LinearLayout
+                    android:layout_width="351dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="10dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:text="Precio/hora"
+                        android:textColor="@android:color/darker_gray"
+                        android:textSize="16dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/textViewEditarCanguroPrecioHora"
+                        android:layout_width="94dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="110dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="end"
+                        android:text="0€"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="32dp"
+                        android:textStyle="bold" />
+
+                </LinearLayout>
+
+                // Slider Material Design Precio hora
+
+                <com.google.android.material.slider.Slider
+                    android:id="@+id/slider_precio_horaEditarCanguro"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="10dp"
+                    android:stepSize="0.50"
+                    android:valueFrom="5.00"
+                    android:valueTo="25.00" />
+
+            </LinearLayout>
+
+            // Radio Buttons EXPERIENCIA
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Cuál es tu experiencia con niños?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginVertical="10dp"
+                    android:background="@drawable/marcoblancobutton"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <RadioGroup
+                        android:id="@+id/radioGroupExperienciaEditarCanguro"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:checkedButton="@+id/radio_button_1"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/radio_button_Menos6mesesEditarCanguro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Menos de 6 meses"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_6a12mesesEditarCanguro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 6 a 12 meses"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_1a2añosEditarCanguro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 1 a 2 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_2a5añosEditarCanguro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="De 2 a 5 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+
+                        <RadioButton
+                            android:id="@+id/radio_button_Mas6añosEditarCanguro"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:text="Más de 6 años"
+                            android:textColor="@android:color/darker_gray"
+                            android:textSize="14dp" />
+                    </RadioGroup>
+                </LinearLayout>
+            </LinearLayout>
+
+            // Checkbox Preferencia edades
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Qué edades prefieres cuidar?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+                <ListView
+                    android:id="@+id/listViewPrefrenciaEdadEditar"
+                    android:layout_width="281dp"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:choiceMode="multipleChoice" />
+
+
+            </LinearLayout>
+
+            // Checkbox Pluses
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Todo canguro tiene sus pluses, ¿Cuales tienes?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+
+                <ListView
+                    android:id="@+id/listViewPlusesEditar"
+                    android:layout_width="281dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:choiceMode="multipleChoice" />
+
+
+            </LinearLayout>
+
+            // Checkbox Idiomas
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="¿Qué idiomas hablas?"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="left"
+                android:orientation="vertical">
+
+
+                <ListView
+                    android:id="@+id/listViewIdiomasEditarCanguro"
+                    android:layout_width="281dp"
+                    android:layout_height="250dp"
+                    android:layout_gravity="center"
+                    android:layout_marginVertical="30dp"
+                    android:choiceMode="multipleChoice"
+                    android:background="@color/colorPrimaryDark"
+                    />
+
+
+            </LinearLayout>
+
+            // Layout Direccion
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginTop="15dp"
+                android:text="Escribe una pequeña presentación tuya"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="10dp"
+                android:background="@drawable/marcoblancobutton"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingVertical="10dp">
+
+                // Direccion EditText de Material Design
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/descripcion_edit_textEditarCanguro"
+                    android:layout_width="300dp"
+                    android:layout_height="160dp"
+                    android:layout_margin="4dp"
+                    android:background="@android:color/transparent"
+                    android:hint="Escribe tu descripción"
+                    android:textColorHint="@android:color/darker_gray"
+                    app:boxBackgroundMode="outline"
+                    app:boxStrokeColor="@android:color/darker_gray"
+                    app:counterTextColor="@android:color/darker_gray"
+                    app:errorIconDrawable="@android:drawable/stat_notify_error"
+                    app:errorIconTint="@android:color/holo_red_dark">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/etDescripcionEditarCanguro"
+                        android:layout_width="300dp"
+                        android:layout_height="130dp"
+                        android:gravity="top"
+                        android:inputType="textMultiLine"
+                        android:maxLines="10"
+                        android:scrollbars="vertical"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textColorHint="@android:color/darker_gray" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+            </LinearLayout>
+
+            <!-- Boton Modificar familia -->
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginBottom="30dp">
+
+                <Button
+                    android:id="@+id/btnModificarPerfilCanguro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/botonredondeadopurpledark"
+                    android:text="Modificar perfil"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+                <Button
+                    android:id="@+id/btnEliminarPerfilCanguro"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@drawable/botonredondeadopurpledark"
+                    android:text="Eliminar mi cuenta"
+                    android:textAllCaps="true"
+                    android:textColor="@android:color/white"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>

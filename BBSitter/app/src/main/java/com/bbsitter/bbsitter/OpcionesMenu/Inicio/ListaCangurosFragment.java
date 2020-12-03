@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -136,6 +137,22 @@ public class ListaCangurosFragment extends Fragment {
                 holder.getDistancia().setText(dist + " kms");
 
                 final String uid = canguro.getUid();
+
+                // Calculamos la distancia entre los dos puntos
+                Location locCanguro= new Location("locCanguro");
+                locCanguro.setLatitude(canguro.getLatitudLoc());
+                locCanguro.setLongitude(canguro.getLongitudLoc());
+
+                Location miLocalizacion = new Location("miLocalizacion");
+                miLocalizacion.setLatitude(90.490797);
+                miLocalizacion.setLongitude(-3.341996);
+
+                // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
+                double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
+
+                // Pasamos los metros obtenidos a Kms
+                double kms = distanciaCalculada / 1000;
+                holder.getDistancia().setText(kms + " kms");
                 
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo

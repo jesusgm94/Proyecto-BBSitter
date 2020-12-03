@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -171,7 +172,7 @@ public class MapsFragmentCanguros extends Fragment {
                                     String urlFotoCanguro = document.get("img").toString();
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
-                                    String iudCanguro = document.getString("uid");
+                                    String uidCanguro = document.getString("uid");
 
                                     /*
                                     CircleImageView fotoCanguro = null;
@@ -190,7 +191,7 @@ public class MapsFragmentCanguros extends Fragment {
                                     marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
                                     // Metemos dentro del TAG del marcador el iud del canguro para acceder a sus datos (firestore) y mostrarlos cuando hagan click en el marcador
-                                    marcador.setTag(iudCanguro);
+                                    marcador.setTag(uidCanguro);
 
                                 }
 
@@ -200,6 +201,14 @@ public class MapsFragmentCanguros extends Fragment {
                             }
                         }
                     });
+
+            miGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    Toasty.error(getContext(), "idmarker" + marker.getTag(), Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
 
         }
     };
