@@ -103,6 +103,8 @@ public class MisAnunciosAdapter extends FirestoreRecyclerAdapter<Anuncio, MisAnu
 
         }
 
+
+
         public TextView getTitulo() {
             return titulo;
         }

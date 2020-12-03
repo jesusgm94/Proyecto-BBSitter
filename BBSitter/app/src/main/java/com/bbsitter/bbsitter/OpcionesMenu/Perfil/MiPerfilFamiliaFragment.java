@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Perfil;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -146,7 +148,51 @@ public class MiPerfilFamiliaFragment extends Fragment {
         FirestoreRecyclerOptions<Hijos> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Hijos>()
                 .setQuery(query, Hijos.class).build();
 
-        mAdapter = new HijosAdapter(firestoreRecyclerOptions);
+
+        //mAdapter = new HijosAdapter(firestoreRecyclerOptions);
+        mAdapter = new HijosAdapter(firestoreRecyclerOptions)
+        {
+            @Override
+            protected void onBindViewHolder(@NonNull final HijosAdapter.ViewHolder holder, int position, @NonNull Hijos hijos) {
+
+                holder.getNombre().setText(hijos.getNombre());
+                holder.getEdad().setText(hijos.getEdad() + " años");
+                holder.getOtrosDatos().setText(hijos.getOtrosDatos());
+
+                final String idHijo = hijos.getIdHijo();
+
+                        holder.getBtnBorrarHijo().setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        holder.getBtnBorrarHijo().playAnimation();
+
+                        MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
+                        builder.setTitle("Eliminar mi hijo/a");
+                        builder.setMessage("¿Estás seguro/a de que quieres eliminar tu hijo/a?");
+                        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                            }
+                        });
+                        builder.setPositiveButton("Eliminar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+                                //ELIMINAMOS ANUNCIO
+                                bbdd.collection("hijos")
+                                        .document(idHijo)
+                                        .delete();
+                            }
+                        });
+                        builder.show();
+
+                    }
+                });
+
+            }
+        };
         mAdapter.notifyDataSetChanged();
         recyclerViewHijosPerfilFamilia.setAdapter(mAdapter);
 

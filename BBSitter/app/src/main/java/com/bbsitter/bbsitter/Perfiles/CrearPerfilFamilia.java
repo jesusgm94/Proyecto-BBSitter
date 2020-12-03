@@ -198,7 +198,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             startActivity(main);
                             finish();
                         }
-                    }, 2000);
+                    }, 4000);
 
 
 

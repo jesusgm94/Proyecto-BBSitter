@@ -14,10 +14,14 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -98,6 +102,38 @@ public class CrearHijoFragment extends Fragment {
                     bbdd.collection("hijos")
                             .document()
                             .set(mapHijo, SetOptions.merge());
+
+
+                    bbdd.collection("hijos")
+                            .whereEqualTo("uid", uid)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                                    if (task.isSuccessful()) {
+
+                                        String idHijo = "";
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+
+                                            //Recogemos los datos de la base de datos
+                                            idHijo = document.getId();
+
+                                        }
+
+                                        /*Creamos un mapa para actualizar la imagen del perfil*/
+                                        Map<String, Object> userUpdateidAnuncio = new HashMap<>();
+                                        userUpdateidAnuncio.put("idHijo", idHijo);
+
+                                        bbdd.collection("hijos").document(idHijo)
+                                                .set(userUpdateidAnuncio, SetOptions.merge());
+
+
+                                    } else {
+
+                                    }
+                                }
+                            });
 
                     progressBarCargando.StarProgressBar();
                     Handler handler = new Handler();

@@ -36,7 +36,7 @@ public class DetalleAnuncioFragment extends Fragment {
     private DetalleAnuncioViewModel mViewModel;
 
     private CircleImageView imagenPerfilDetalleAnuncio;
-    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion;
+    private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion, tvVerPerfilDetalle;
     private MaterialButton btnDireccionDetalleAnuncio;
 
     private String idAnuncio;
@@ -85,6 +85,7 @@ public class DetalleAnuncioFragment extends Fragment {
         tvNombreFamiliaDetalleAnuncio = view.findViewById(R.id.tvNombreFamiliaDetalleAnuncio);
         btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
         tvDetalleAnuncioFechaPublicacion = view.findViewById(R.id.tvDetalleAnuncioFechaPublicacion);
+        tvVerPerfilDetalle = view.findViewById(R.id.tvVerPerfilDetalle);
 
         //CHIP
         chipCasaDetalleAnuncio = view.findViewById(R.id.chipDetallesAnuncioLugar);
@@ -95,6 +96,12 @@ public class DetalleAnuncioFragment extends Fragment {
         chipGroupDetalleAnuncioIdiomas = view.findViewById(R.id.chipgroupDetallesAnuncioIdiomas);
 
         cargarDatosAnuncio();
+        tvVerPerfilDetalle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Has pulsado", Toast.LENGTH_SHORT).show();
+            }
+        });
         return view;
     }
 
@@ -178,5 +185,6 @@ public class DetalleAnuncioFragment extends Fragment {
                     }
                 });
     }
+
 
 }

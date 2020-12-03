@@ -12,7 +12,6 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
-import com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -42,7 +41,13 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
 
         // Poner FOTO
         String img = canguro.getImg();
-        Picasso.get().load(img).into(holder.img);
+
+        if (img.isEmpty()) {
+            Picasso.get().load(R.drawable.fotoperfil).into(holder.img);
+        } else{
+            Picasso.get().load(img).into(holder.img);
+        }
+
 
         holder.nombre.setText(canguro.getNombre());
         holder.edad.setText(String.valueOf(canguro.getEdad()) + " años" );
