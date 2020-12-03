@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.CanguroAdapter;
 import com.bbsitter.bbsitter.Clases.Canguro;
-import com.bbsitter.bbsitter.OpcionesMenuCanguro.PerfilCanguroFragment;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.maps.model.LatLng;

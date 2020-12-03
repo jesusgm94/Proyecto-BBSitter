@@ -213,20 +213,25 @@ public class MiPerfilFamiliaFragment extends Fragment {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                //Recogemos los datos de la base de datos
-                                String nombreFamilia =  "Familia " + document.get("nombre").toString();
-                                String imagenFamilia = document.get("img").toString();
-                                String direccionFamilia = document.get("direccion").toString();
-                                String descripcionFamilia = document.get("descripcion").toString();
+                                try {
+                                    //Recogemos los datos de la base de datos
+                                    String nombreFamilia =  "Familia " + document.get("nombre").toString();
+                                    String imagenFamilia = document.get("img").toString();
+                                    String direccionFamilia = document.get("direccion").toString();
+                                    String descripcionFamilia = document.get("descripcion").toString();
 
-                                //Agrega una nueva imagen desde una url usando Picasso.
-                                Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);
+                                    //Agrega una nueva imagen desde una url usando Picasso.
+                                    Picasso.get().load(imagenFamilia).into(fotoPerfilFamilia);
 
-                                //Agrega nuevo nombre
-                                tvNombrePerfilFamilia.setText(nombreFamilia);
-                                btnDireccionPerfilFamilia.setText(direccionFamilia);
-                                tvDescripcionPerfilFamilia.setText(descripcionFamilia);
+                                    //Agrega nuevo nombre
+                                    tvNombrePerfilFamilia.setText(nombreFamilia);
+                                    btnDireccionPerfilFamilia.setText(direccionFamilia);
+                                    tvDescripcionPerfilFamilia.setText(descripcionFamilia);
+                                }
+                                catch(Exception e)
+                                {
 
+                                }
                             }
                         } else {
 

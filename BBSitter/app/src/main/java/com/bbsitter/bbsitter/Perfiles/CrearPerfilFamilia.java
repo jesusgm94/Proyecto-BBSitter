@@ -64,8 +64,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_perfil_familia);
@@ -102,123 +101,132 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             }
         });
 
-        btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                try {
-                    /*Cargamos los datos*/
-                    String nombre = etNombre.getText().toString().trim();
-                    String descripcion = etDescripcion.getText().toString().trim();
-                    String direccion = etDireccion.getText().toString().trim();
-                    final String uid = mAuth.getCurrentUser().getUid();
-
-                    /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
-                    storageRef = storageRef.child("img_familias").child(uid);
+        try {
+            btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
 
-                    /*Creamos un mapa para meter los datos de las familias*/
-                    Map<String, Object> mapUser = new HashMap<>();
-                    mapUser.put("nombre", nombre);
-                    mapUser.put("descripcion", descripcion);
-                    mapUser.put("direccion", direccion);
-                    mapUser.put("uid", uid);
+                    try {
+                        /*Cargamos los datos*/
+                        String nombre = etNombre.getText().toString().trim();
+                        String descripcion = etDescripcion.getText().toString().trim();
+                        String direccion = etDireccion.getText().toString().trim();
+                        final String uid = mAuth.getCurrentUser().getUid();
+
+                        /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
+                        storageRef = storageRef.child("img_familias").child(uid);
 
 
-                    /* LOCALIZACION*/
-                    // Obtener coordenadas de direccion
-                    double longitudLoc = latLng.longitude;
-                    double latitudLoc = latLng.latitude;
-
-                    // Crear MAPA COORDENADAS para meterlo en la localizacion
-                    Map<String, Double> mapLoc = new HashMap<>();
-                    mapLoc.put("Latitud", latitudLoc);
-                    mapLoc.put("Longitud", longitudLoc);
-
-                    /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
-                    mapUser.put("localizacion", mapLoc);
-
-                    /*Creamos la coleccion Familias en la bbdd*/
-                    bbdd.collection("familias")
-                            .document(uid)
-                            .set(mapUser);
-
-                    /*Creamos un mapa para actualizar el perifl del usuario*/
-                    Map<String, Object> userUpdate = new HashMap<>();
-                    userUpdate.put("perfil", true);
-                    userUpdate.put("tipo", "familia");
-
-                    /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
-                    bbdd.collection("usuarios").document(uid)
-                            .set(userUpdate, SetOptions.merge());
+                        /*Creamos un mapa para meter los datos de las familias*/
+                        Map<String, Object> mapUser = new HashMap<>();
+                        mapUser.put("nombre", nombre);
+                        mapUser.put("descripcion", descripcion);
+                        mapUser.put("direccion", direccion);
+                        mapUser.put("uid", uid);
 
 
-                    /*Metemos la foto en Storage*/
-                    storageRef.putFile(uri).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            storageRef.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                        /* LOCALIZACION*/
+                        // Obtener coordenadas de direccion
+                        double longitudLoc = latLng.longitude;
+                        double latitudLoc = latLng.latitude;
+
+                        // Crear MAPA COORDENADAS para meterlo en la localizacion
+                        Map<String, Double> mapLoc = new HashMap<>();
+                        mapLoc.put("Latitud", latitudLoc);
+                        mapLoc.put("Longitud", longitudLoc);
+
+                        /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
+                        mapUser.put("localizacion", mapLoc);
+
+                        /*Creamos la coleccion Familias en la bbdd*/
+                        bbdd.collection("familias")
+                                .document(uid)
+                                .set(mapUser);
+
+                        /*Creamos un mapa para actualizar el perifl del usuario*/
+                        Map<String, Object> userUpdate = new HashMap<>();
+                        userUpdate.put("perfil", true);
+                        userUpdate.put("tipo", "familia");
+
+                        /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                        bbdd.collection("usuarios").document(uid)
+                                .set(userUpdate, SetOptions.merge());
+
+
+                        if(uri != null)
+                        {
+                            /*Metemos la foto en Storage*/
+                            storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
-                                public void onSuccess(Uri uri) {
-                                    final Uri downloadUrl = uri;
-                                    urlFoto = downloadUrl.toString();
-
-                                    /*Creamos un mapa para actualizar la imagen del perfil*/
-                                    Map<String, Object> userUpdateImg = new HashMap<>();
-                                    userUpdateImg.put("img", urlFoto);
-
-                                    bbdd.collection("familias").document(uid)
-                                            .set(userUpdateImg, SetOptions.merge());
+                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                    storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            final Uri downloadUrl = uri;
+                                            urlFoto = downloadUrl.toString();
 
 
+                                            /*Creamos un mapa para actualizar la imagen del perfil*/
+                                            Map<String, Object> userUpdateImg = new HashMap<>();
+                                            userUpdateImg.put("img", urlFoto);
+
+                                            bbdd.collection("familias").document(uid)
+                                                    .set(userUpdateImg, SetOptions.merge());
+
+
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception exception) {
+
+                                        }
+                                    });
 
                                 }
-                            } ).addOnFailureListener( new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-
-                                }
-                            } );
+                            });
 
                         }
-                    } );
+                        else
+                        {
+                            //Creamos un mapa para actualizar la imagen del perfil
+                            Map<String, Object> userUpdateImg = new HashMap<>();
+                            userUpdateImg.put("img", "https://firebasestorage.googleapis.com/v0/b/bbsitter-61bd3.appspot.com/o/img_BBSitter%2Ffotoperfil.jpg?alt=media&token=a76cfc60-0edb-480c-953d-f0925fab2941");
 
-
-
-                    // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
-                    progressBarCrearFamilia.StarProgressBar();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            progressBarCrearFamilia.finishProgressBar();
-
-                            //Aqui abrimos la actividad main
-                            Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(main);
-                            finish();
+                            bbdd.collection("familias").document(uid)
+                                    .set(userUpdateImg, SetOptions.merge());
                         }
-                    }, 4000);
 
 
+                        // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
+                        progressBarCrearFamilia.StarProgressBar();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBarCrearFamilia.finishProgressBar();
+
+                                //Aqui abrimos la actividad main
+                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(main);
+                                finish();
+                            }
+                        }, 4000);
+                    }catch (Exception e)
+                    {
+                        comprobarDatos();
+                    }
 
 
                 }
-                catch(Exception e)
-                {
-                    Toast.makeText(CrearPerfilFamilia.this, e.toString(), Toast.LENGTH_SHORT).show();
-                    comprobarDatos();
-                }
+            });
 
+        } catch (Exception e) {
 
-
-
-            }
-        });
+        }
     }
 
-    private boolean comprobarDatos()
-    {
+    private boolean comprobarDatos() {
         Boolean validar = true;
 
         //String fotoFamilia = urlFotoPerfil.toString();
@@ -227,32 +235,27 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         String descripcionFamilia = etDescripcion.getText().toString().trim();
 
 
-        if(nombreFamilia.isEmpty()  ){
+        if (nombreFamilia.isEmpty()) {
             nombre.setError("Debes rellenar el campo");
 
             validar = false;
         }
-        if(direccionFamilia.isEmpty())
-        {
+        if (direccionFamilia.isEmpty()) {
             direccion.setError("Debes rellenar el campo");
             validar = false;
         }
-        if(descripcionFamilia.isEmpty())
-        {
+        if (descripcionFamilia.isEmpty()) {
             descripcion.setError("Debes rellenar el campo");
             validar = false;
         }
 
-        if(!nombreFamilia.isEmpty())
-        {
+        if (!nombreFamilia.isEmpty()) {
             nombre.setError(null);
         }
-        if(!direccionFamilia.isEmpty())
-        {
+        if (!direccionFamilia.isEmpty()) {
             direccion.setError(null);
         }
-        if(!descripcionFamilia.isEmpty())
-        {
+        if (!descripcionFamilia.isEmpty()) {
             descripcion.setError(null);
         }
 
@@ -265,8 +268,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
         intentCargarFoto.setType("image/");
 
-        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"),200);
-
+        startActivityForResult(intentCargarFoto.createChooser(intentCargarFoto, "Seleccione una foto"), 200);
 
 
     }
@@ -313,11 +315,9 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
                 try {
 
-                    etDireccion. setText(address);
+                    etDireccion.setText(address);
                     latLng = place.getLatLng();
-                }
-                catch(Exception e)
-                {
+                } catch (Exception e) {
                     Toasty.error(getApplicationContext(), "Debes rellenar la dirección", Toasty.LENGTH_LONG).show();
                 }
 
@@ -333,7 +333,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         }
 
         // Resultado de obtener foto del movil
-        else if (requestCode == 200){
+        else if (requestCode == 200) {
             if (resultCode == RESULT_OK) {
 
                 uri = data.getData();
@@ -343,9 +343,9 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                 Log.i("BBSitter", uri.toString());
 
 
-            } else if(resultCode == RESULT_CANCELED){
+            } else if (resultCode == RESULT_CANCELED) {
 
-               
+
             }
         }
     }
