@@ -345,7 +345,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
             } else if(resultCode == RESULT_CANCELED){
 
-                Toast.makeText(this, "Aqui está petando", Toast.LENGTH_SHORT).show();
+               
             }
         }
     }

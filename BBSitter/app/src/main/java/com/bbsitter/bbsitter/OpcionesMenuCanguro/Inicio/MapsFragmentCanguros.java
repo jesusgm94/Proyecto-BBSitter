@@ -131,8 +131,7 @@ public class MapsFragmentCanguros extends Fragment {
             }catch (Exception e)
             {
 
-                Toast.makeText(getContext(), "Peta", Toast.LENGTH_SHORT).show();
-                /*LatLng MIUBICACION = new LatLng(40.490797, -3.341996);
+                LatLng MIUBICACION = new LatLng(40.490797, -3.341996);
 
                 // Ponemmos un marcador en nuestra ubicacion
                 BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.puntomarcadorubicacion);
@@ -148,7 +147,7 @@ public class MapsFragmentCanguros extends Fragment {
 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
-                googleMap.getUiSettings().setZoomControlsEnabled(true);*/
+                googleMap.getUiSettings().setZoomControlsEnabled(true);
             }
 
             // Lo segundo será recorrrer nuetro canguros y pintar cada uno, con su marcador, en el mapa.

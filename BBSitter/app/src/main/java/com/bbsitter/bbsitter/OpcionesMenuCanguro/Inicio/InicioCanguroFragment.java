@@ -112,7 +112,6 @@ public class InicioCanguroFragment extends Fragment {
                 //Cogemos el id del anuncio
                 final String idAnuncio = mAdapter.getSnapshots().getSnapshot(position).getId();
 
-
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
                 holder.getCardViewAnuncio().setOnClickListener(new View.OnClickListener() {
                     @Override

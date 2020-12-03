@@ -80,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
             },1000);
 
         }
-
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);
@@ -124,6 +122,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cargarDatosFamilias();
+    }
 
     //Cargamos los datos del usuario en el menu deplegable
     private void cargarDatosFamilias()
@@ -158,8 +161,6 @@ public class MainActivity extends AppCompatActivity {
                                 {
 
                                 }
-
-
 
                             }
                         } else {
