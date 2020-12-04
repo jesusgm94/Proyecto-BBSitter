@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bbsitter.bbsitter.Bienvenida.ActivityBienvenida;
 import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
@@ -206,10 +207,11 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             public void run() {
                                 progressBarCrearFamilia.finishProgressBar();
 
-                                //Aqui abrimos la actividad main
-                                Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(main);
+                                //Aqui abrimos la actividad Bienvenida
+                                Intent activityBienvenida = new Intent(getApplicationContext(), ActivityBienvenida.class);
+                                startActivity(activityBienvenida);
                                 finish();
+
                             }
                         }, 4000);
                     }catch (Exception e)
