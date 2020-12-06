@@ -123,7 +123,7 @@ public class CrearAnuncioFragment extends Fragment {
                 }
                 else
                 {
-                    cargarDatos();
+                    grabarAnuncioEnFirebase();
                     progressBarCargando.StarProgressBar();
                     Handler handler = new Handler();
                     handler.postDelayed(new Runnable() {
@@ -154,11 +154,13 @@ public class CrearAnuncioFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-    private void cargarDatos() {
+    private void grabarAnuncioEnFirebase() {
 
         final String uid = mAuth.getCurrentUser().getUid();
 
-            bbdd.collection("familias")
+
+        // OBTENEMOS LOS DATOS DE LA FAMILIA QUE CREA EL ANUNCIO
+        bbdd.collection("familias")
                     .whereEqualTo("uid", uid)
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -166,6 +168,10 @@ public class CrearAnuncioFragment extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
 
                             if (task.isSuccessful()) {
+
+                                // DATOS FAMILIA: OBTENEMOS UID, NOMBRE, IMAGEN Y DIRECCION DE LA FAMILIA QUE CREA EL ANUNCIO
+
+                                String uid = mAuth.getCurrentUser().getUid();
 
                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
@@ -175,7 +181,9 @@ public class CrearAnuncioFragment extends Fragment {
                                     direccion = document.get("direccion").toString();
 
                                 }
-                                /*Cargamos los datos*/
+
+                                // DATOS DEL ANUNCIO: Obtenemos los datos del anuncio a crear
+
                                 String titulo = etTitulo.getText().toString().trim();
                                 String descripcion = etDescripcion.getText().toString().trim();
                                 String tiempo = obtenerTiempo();
@@ -187,7 +195,6 @@ public class CrearAnuncioFragment extends Fragment {
                                 String DATE_FORMAT = "dd MMM HH:mm";
                                 // Create object of SimpleDateFormat and pass the desired date format.
                                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
-
                                 String fechaHoy = sdf.format(fechaPublicacion);
 
                                 // ListView CHECKBOX PLUSES
@@ -208,9 +215,8 @@ public class CrearAnuncioFragment extends Fragment {
                                     }
                                 }
 
-                                String uid = mAuth.getCurrentUser().getUid();
 
-
+                                // CREAMOS EL ANUNCIO  QUE AÑADIREMOS A LA BASE DE DATOS
                                 Map<String, Object> mapAnuncio = new HashMap<>();
                                 mapAnuncio.put("titulo", titulo);
                                 mapAnuncio.put("descripcion", descripcion);
@@ -226,14 +232,13 @@ public class CrearAnuncioFragment extends Fragment {
                                 mapAnuncio.put("idAnuncio", "");
 
 
-
-                                /*Creamos la coleccion Anuncios en la bbdd*/
+                                /* AÑADIMOS EL ANUNCO A FIREBASE */
                                 bbdd.collection("anuncios")
                                         .document()
                                         .set(mapAnuncio);
 
 
-
+                                /* ACTUALIZAMOS EL ANUNCIO PARA AÑADIR EL ID DEL ANUNCIO A SUS DATOS */
 
                                 bbdd.collection("anuncios")
                                         .whereEqualTo("uid", uid)
@@ -270,9 +275,7 @@ public class CrearAnuncioFragment extends Fragment {
                                                 }
                                             }
                                         });
-
-
-
+                                
                             } else {
 
                             }
