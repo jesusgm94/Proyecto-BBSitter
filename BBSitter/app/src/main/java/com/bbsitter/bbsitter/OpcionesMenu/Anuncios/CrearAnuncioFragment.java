@@ -275,7 +275,7 @@ public class CrearAnuncioFragment extends Fragment {
                                                 }
                                             }
                                         });
-                                
+
                             } else {
 
                             }

@@ -12,21 +12,27 @@ import android.graphics.BitmapRegionDecoder;
 import android.graphics.drawable.BitmapDrawable;
 import android.location.Location;
 import android.location.LocationManager;
+import android.media.Rating;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
 import com.bbsitter.bbsitter.Clases.Canguro;
+import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,9 +47,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -55,6 +63,14 @@ public class MapsFragmentCanguros extends Fragment {
 
     FirebaseFirestore bbdd = FirebaseFirestore.getInstance();
 
+    // CardView para mostrar los detales de cada marcador
+    CardView cardviewCanguro;
+    TextView nombreCanguro, edadCanguro, precioCanguro;
+    CircleImageView imagenCanguro;
+    RatingBar ratingBarCanguro;
+    Button btnVerPerfil;
+
+    String uidCAnguro;
 
     // Toca poner los marcadores de los canguros que salgan en la lista
 
@@ -160,8 +176,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
                                     String uidCanguro = document.getString("uid");
-                                    String edad = String.valueOf(document.getDouble("edad"));
-                                    String rating = String.valueOf(document.getDouble("rating"));
+                                    //int edad = Integer.parseInt(document.getString("edad"));
+                                    //String rating = String.valueOf(document.getDouble("rating"));
 
                                     // Icono MARCADOR, construir BitMap
                                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadorbbsitter);
@@ -179,8 +195,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     Canguro canguro = new Canguro();
                                     canguro.setNombre(nombreCanguro);
                                     canguro.setImg(urlFotoCanguro);
-                                    //canguro.setEdad(Integer.parseInt(edad));
-                                    //canguro.setRating(Integer.parseInt(rating));
+                                    //canguro.setEdad(edad);
+                                   // canguro.setRating(Integer.parseInt(rating));
                                     canguro.setUid(uidCanguro);
 
 
@@ -200,7 +216,37 @@ public class MapsFragmentCanguros extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 
+                    cardviewCanguro.setVisibility(View.VISIBLE);
+
                     Canguro canguro = (Canguro) marker.getTag();
+
+                    uidCAnguro = canguro.getUid();
+                    nombreCanguro.setText(canguro.getNombre());
+                    //edadCanguro.setText(canguro.getEdad() + " años");
+                    precioCanguro.setText(canguro.getPrecioHora() + " €");
+                    //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
+
+                    // Poner FOTO
+                    String img = canguro.getImg();
+                    Picasso.get().load(img).into(imagenCanguro);
+
+                    btnVerPerfil.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                            PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
+                            Bundle data = new Bundle();
+                            data.putString("uid", uidCAnguro);
+                            perfilCanguroFragment.setArguments(data);
+
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, perfilCanguroFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+
+                        }
+                    });
 
                     Toasty.info(getContext(), "Id Canguro: " + canguro.getUid(), Toast.LENGTH_SHORT).show();
                     return false;
@@ -219,6 +265,14 @@ public class MapsFragmentCanguros extends Fragment {
 
 
         View view = inflater.inflate(R.layout.fragment_maps_canguros, container, false);
+
+        cardviewCanguro = view.findViewById(R.id.cardViewCanguroMap);
+        nombreCanguro = view.findViewById(R.id.itemNombreCanguroMap);
+        edadCanguro = view.findViewById(R.id.itemEdadCanguroMap);
+        precioCanguro = view.findViewById(R.id.itemPrecioHoraCanguro);
+        btnVerPerfil = view.findViewById(R.id.btnVerPerfil);
+        imagenCanguro = view.findViewById(R.id.itemImagenCanguroMap);
+
 
 
         // ubicacion = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
