@@ -223,6 +223,7 @@ public class CrearAnuncioFragment extends Fragment {
                                 mapAnuncio.put("pluses", mapPluses);
                                 mapAnuncio.put("idiomas", mapIdiomas);
                                 mapAnuncio.put("uid", uid);
+                                mapAnuncio.put("idAnuncio", "");
 
 
 
@@ -240,8 +241,7 @@ public class CrearAnuncioFragment extends Fragment {
                                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                                             @Override
                                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
-
+                                                
                                                 if (task.isSuccessful()) {
 
                                                     String idAnuncio = "";

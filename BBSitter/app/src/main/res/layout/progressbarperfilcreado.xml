@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="400dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="30dp"
+    android:background="@android:color/white">
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/lottieLoad"
+        android:layout_width="300dp"
+        android:layout_height="200dp"
+        app:lottie_autoPlay="true"
+        app:lottie_rawRes="@raw/check" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="¡Perfil Creado!"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_green_dark"
+        android:textSize="30dp"
+        android:textStyle="bold" />
+
+
+</LinearLayout>

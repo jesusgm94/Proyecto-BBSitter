@@ -71,6 +71,7 @@ public class MainActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
 
+        /*
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{
 
@@ -79,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
             },1000);
 
-        }
+        }*/
+
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
 
         navigationView = findViewById(R.id.nav_view);

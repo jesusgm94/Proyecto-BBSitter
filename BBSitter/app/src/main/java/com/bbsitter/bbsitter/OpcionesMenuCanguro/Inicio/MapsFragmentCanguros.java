@@ -74,20 +74,8 @@ public class MapsFragmentCanguros extends Fragment {
 
             final GoogleMap miGoogleMap = googleMap;
 
-            locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
-            // Lo primero será obtener nuestra ubicacion actual y poner nuestro marcador para despues recorrer nuestra base de datos de canguro para que los situe en  el mapa
-
-            // Obtenemos nuestra ubicacion
-            // Usamo un try por si no tenemos activado el GPS
-            /*
-            try {
-                Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            }
-            catch(Exception e){
-                alertDialogActivarGPS();
-            }
-            */
+            // PERMISOS PARA QUE EL USUARIO ACTIVE O NO SU UBICACION
 
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -98,18 +86,18 @@ public class MapsFragmentCanguros extends Fragment {
                 },1000);
             }
 
-
+            /*
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     showAlert();
             }
 
-            // Obtener nuestra ubicacion
-            /*
-            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
-            */
+             */
+
             try{
 
+                locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+                // Obtener nuestra ubicacion
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Toast.makeText(getContext(), loc.getLatitude() + ", " + loc.getLongitude(), Toast.LENGTH_SHORT).show();
                 LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
@@ -151,7 +139,8 @@ public class MapsFragmentCanguros extends Fragment {
 
                 googleMap.moveCamera(CameraUpdateFactory.newLatLng(MIUBICACION));
                 googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MIUBICACION, 15));
-                googleMap.getUiSettings().setZoomControlsEnabled(true);
+                googleMap.getUiSettings().setZoomControlsEnabled(false);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
             }
 
             // Lo segundo será recorrrer nuetro canguros y pintar cada uno, con su marcador, en el mapa.
@@ -165,32 +154,38 @@ public class MapsFragmentCanguros extends Fragment {
 
                                 for (QueryDocumentSnapshot document : task.getResult()) {
 
-                                    // Object localizacionCanguro = document.getData().get("Localizacion");
-
+                                    // Obtener datos del canguro
                                     String nombreCanguro = document.get("nombre").toString();
                                     String urlFotoCanguro = document.get("img").toString();
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
                                     String uidCanguro = document.getString("uid");
+                                    String edad = String.valueOf(document.getDouble("edad"));
+                                    String rating = String.valueOf(document.getDouble("rating"));
 
-                                    /*
-                                    CircleImageView fotoCanguro = null;
-                                    Picasso.get().load(urlFotoCanguro).into(fotoCanguro);
-                                    */
-
+                                    // Icono MARCADOR, construir BitMap
                                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadorbbsitter);
                                     Bitmap b = bitmapdraw.getBitmap();
                                     Bitmap smallMarker = Bitmap.createScaledBitmap(b, 110, 110, false);
 
-
+                                    // Colocar MARCADOR
                                     LatLng ubicacionCanguro = new LatLng(Latitud, Longitud);
                                     Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
                                                                             .position(ubicacionCanguro)
                                                                             .title(nombreCanguro));
                                     marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
-                                    // Metemos dentro del TAG del marcador el iud del canguro para acceder a sus datos (firestore) y mostrarlos cuando hagan click en el marcador
-                                    marcador.setTag(uidCanguro);
+                                    // Crear canguro
+                                    Canguro canguro = new Canguro();
+                                    canguro.setNombre(nombreCanguro);
+                                    canguro.setImg(urlFotoCanguro);
+                                    //canguro.setEdad(Integer.parseInt(edad));
+                                    //canguro.setRating(Integer.parseInt(rating));
+                                    canguro.setUid(uidCanguro);
+
+
+                                    // Metemos dentro del TAG del marcador un OBJETO canguro para mostrar sus datos cuando hagan click en el marcador
+                                    marcador.setTag(canguro);
 
                                 }
 
@@ -204,7 +199,10 @@ public class MapsFragmentCanguros extends Fragment {
             miGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
-                    Toasty.error(getContext(), "idmarker" + marker.getTag(), Toast.LENGTH_SHORT).show();
+
+                    Canguro canguro = (Canguro) marker.getTag();
+
+                    Toasty.info(getContext(), "Id Canguro: " + canguro.getUid(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             });

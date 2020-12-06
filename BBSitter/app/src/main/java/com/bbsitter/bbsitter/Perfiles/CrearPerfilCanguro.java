@@ -25,7 +25,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Bienvenida.ActivityBienvenida;
+import com.bbsitter.bbsitter.Bienvenida.BienvenidaCanguroActivity;
 import com.bbsitter.bbsitter.Main.MainActivityCanguro;
+import com.bbsitter.bbsitter.ProgressBarPerfilCreado;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -160,6 +162,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
         // PROGRESS BAR con animacion Lottie
         final ProgressBarCrearPerfil progressBarCrearPerfil = new ProgressBarCrearPerfil(CrearPerfilCanguro.this);
+        final ProgressBarPerfilCreado progressBarPerfilCreado= new ProgressBarPerfilCreado(CrearPerfilCanguro.this);
 
         // Campo Precio/hora. SLIDER precio de la hora, mostramos el precio que va eligiendo el usuario
         sliderPrecio.addOnChangeListener(new Slider.OnChangeListener() {
@@ -328,7 +331,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                          .document(uid)
                          .set(userUpdate, SetOptions.merge());
 
-                 // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando)
+                 // Creamos PROGGRES BAR para que el usuario sepa que su perfil Canguro se está creando
                  progressBarCrearPerfil.StarProgressBar();
                  Handler handler = new Handler();
                  handler.postDelayed(new Runnable() {
@@ -336,10 +339,22 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                      public void run() {
                          progressBarCrearPerfil.finishProgressBar();
 
-                         //Aqui abrimos la actividad Bienvenida
-                         Intent activityBienvenida = new Intent(getApplicationContext(), ActivityBienvenida.class);
-                         startActivity(activityBienvenida);
-                         finish();
+                         // Creamos PROGRESS BAR para que el usuario sepa que su perfil ha sido creado
+                         progressBarPerfilCreado.StarProgressBar();
+                         Handler handler2 = new Handler();
+                         handler2.postDelayed(new Runnable() {
+                             @Override
+                             public void run() {
+                                 progressBarPerfilCreado.finishProgressBar();
+
+                                 //Aqui abrimos la actividad Bienvenida
+                                 Intent activityBienvenida = new Intent(getApplicationContext(), BienvenidaCanguroActivity.class);
+                                 startActivity(activityBienvenida);
+                                 finish();
+
+                             }
+                         }, 4000);
+
                      }
                  }, 4000);
 

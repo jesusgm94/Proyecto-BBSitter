@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.bbsitter.bbsitter.Bienvenida.ActivityBienvenida;
 import com.bbsitter.bbsitter.Main.MainActivity;
+import com.bbsitter.bbsitter.ProgressBarPerfilCreado;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.maps.model.LatLng;
@@ -93,6 +94,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
 
         establecerAutocompletadoDireccion();
         final ProgressBarCrearPerfil progressBarCrearFamilia = new ProgressBarCrearPerfil(CrearPerfilFamilia.this);
+        final ProgressBarPerfilCreado progressBarPerfilCreado= new ProgressBarPerfilCreado(CrearPerfilFamilia.this);
 
         foto.setOnClickListener(new View.OnClickListener() {
 
@@ -207,13 +209,25 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                             public void run() {
                                 progressBarCrearFamilia.finishProgressBar();
 
-                                //Aqui abrimos la actividad Bienvenida
-                                Intent activityBienvenida = new Intent(getApplicationContext(), ActivityBienvenida.class);
-                                startActivity(activityBienvenida);
-                                finish();
+                                // Creamos PROGRESS BAR para que el usuario sepa que su perfil ha sido creado)
+                                progressBarPerfilCreado.StarProgressBar();
+                                Handler handler2 = new Handler();
+                                handler2.postDelayed(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        progressBarPerfilCreado.finishProgressBar();
 
+                                        //Aqui abrimos la actividad Bienvenida
+                                        Intent activityBienvenida = new Intent(getApplicationContext(), ActivityBienvenida.class);
+                                        startActivity(activityBienvenida);
+                                        finish();
+
+                                    }
+                                }, 4000);
                             }
                         }, 4000);
+
+
                     }catch (Exception e)
                     {
                         comprobarDatos();
