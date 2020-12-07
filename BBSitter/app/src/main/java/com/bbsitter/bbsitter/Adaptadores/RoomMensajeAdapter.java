@@ -14,6 +14,7 @@ import com.bbsitter.bbsitter.Clases.RoomChat;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Random;
 
@@ -24,22 +25,41 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
     public static final int TIPO_MENSAJE_DERECHA = 1;
     public static final int TIPO_MENSAJE_IZQUIERDA = 0;
 
-    /**
-     * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
-     * FirestoreRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    private String emisor = mAuth.getCurrentUser().getUid();
+
     public RoomMensajeAdapter(@NonNull FirestoreRecyclerOptions<RoomChat> options) {
         super(options);
     }
 
+    @Override
+    public int getItemCount() {
+        return super.getItemCount();
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if(getItem(position).getEmisor().equals(emisor))
+            return TIPO_MENSAJE_DERECHA;
+        else
+            return TIPO_MENSAJE_IZQUIERDA;
+    }
 
     @NonNull
     @Override
     public RoomMensajeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
+
+        //View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
+
+        // Depende de quien sea el mensaje irá a un sitio u a otro
+        View view;
+        if(i == TIPO_MENSAJE_DERECHA) {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
+        }
+        else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_izquierda, viewGroup, false);
+        }
         return new  ViewHolder(view);
 
     }
@@ -60,6 +80,7 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
 
             mensaje = itemView.findViewById(R.id.mensaje_derecha);
             horaMensaje = itemView.findViewById(R.id.hora_mensaje_derecha);

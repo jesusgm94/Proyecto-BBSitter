@@ -117,13 +117,23 @@ public class RoomChatFamiliaFragment extends Fragment {
         //mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
         mAdapter = new RoomMensajeAdapter(firestoreRecyclerOptions) {
 
+            public static final int TIPO_MENSAJE_DERECHA = 1;
+            public static final int TIPO_MENSAJE_IZQUIERDA = 0;
 
+
+
+            @Override
+            public int getItemViewType(int position) {
+                if(getItem(position).getEmisor().equals(emisor))
+                    return TIPO_MENSAJE_DERECHA;
+                else
+                    return TIPO_MENSAJE_IZQUIERDA;
+            }
 
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RoomChat roomChat) {
                 holder.getMensaje().setText(roomChat.getMensaje());
                 holder.getHoraMensaje().setText(roomChat.getFecha().toString());
-
 
             }
             @Override
@@ -136,10 +146,16 @@ public class RoomChatFamiliaFragment extends Fragment {
         };
 
         mAdapter.notifyDataSetChanged();
+
+        // Para que nos muestre el ultimo mensaje escrito necesitamos un registerAdapterDataObserver de nuestro adaptador
+        mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onItemRangeInserted(int positionStart, int itemCount) {
+                recyclerViewListaMensajes.scrollToPosition(mAdapter.getItemCount() - 1);  // El recyclerView hara Scroll hasta el último mensaje
+            }
+        });
         recyclerViewListaMensajes.setAdapter(mAdapter);
 
-        // TODO: añade el mensaje al recycler y hace scrool solo para que se vea el ultimo mensaje
-        // recyclerViewListaMensajes.
 
 
         // BOTON MENSAJE ENVIAR ***

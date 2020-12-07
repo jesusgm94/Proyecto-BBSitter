@@ -1,12 +1,16 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,6 +26,8 @@ import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
 
 import java.util.Random;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -90,9 +96,8 @@ public class ListaCangurosFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_lista_canguros, container, false);
 
         // OBETENMOS LA UBICACION PARA CALCULAR LA DISTANCIA DE LOS CANGUROS *************
-/*
-        LocationManager locationManager;
-        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{
@@ -103,9 +108,9 @@ public class ListaCangurosFragment extends Fragment {
             },1000);
         }
 
-        Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        final Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
-*/
+
 
         // RECYCLER VIEW ****************
 
@@ -133,8 +138,6 @@ public class ListaCangurosFragment extends Fragment {
                 holder.getPrecioHora().setText(canguro.getPrecioHora() + " €");
 
                 holder.getRatingBar().setRating(canguro.getRating());
-                // Calcular la distancia
-                holder.getDistancia().setText(dist + " kms");
 
                 final String uid = canguro.getUid();
 
@@ -144,8 +147,8 @@ public class ListaCangurosFragment extends Fragment {
                 locCanguro.setLongitude(canguro.getLongitudLoc());
 
                 Location miLocalizacion = new Location("miLocalizacion");
-                miLocalizacion.setLatitude(90.490797);
-                miLocalizacion.setLongitude(-3.341996);
+                miLocalizacion.setLatitude(loc.getLatitude());
+                miLocalizacion.setLongitude(loc.getLongitude());
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
                 double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);

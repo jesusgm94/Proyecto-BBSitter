@@ -14,6 +14,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
 import com.bbsitter.bbsitter.OpcionesMenu.Perfil.PerfilFamiliaFragment;
 import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
@@ -22,6 +23,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -39,6 +42,8 @@ public class DetalleAnuncioFragment extends Fragment {
     private CircleImageView imagenPerfilDetalleAnuncio;
     private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion, tvVerPerfilDetalle;
     private MaterialButton btnDireccionDetalleAnuncio;
+
+    private ExtendedFloatingActionButton btnChatDetalleAnuncio;
 
     private String idAnuncio, uid;
 
@@ -87,6 +92,7 @@ public class DetalleAnuncioFragment extends Fragment {
         btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
         tvDetalleAnuncioFechaPublicacion = view.findViewById(R.id.tvDetalleAnuncioFechaPublicacion);
         tvVerPerfilDetalle = view.findViewById(R.id.tvVerPerfilDetalle);
+        btnChatDetalleAnuncio = view.findViewById(R.id.btnChatDetalleAnuncio);
 
         //CHIP
         chipCasaDetalleAnuncio = view.findViewById(R.id.chipDetallesAnuncioLugar);
@@ -97,6 +103,8 @@ public class DetalleAnuncioFragment extends Fragment {
         chipGroupDetalleAnuncioIdiomas = view.findViewById(R.id.chipgroupDetallesAnuncioIdiomas);
 
         cargarDatosAnuncio();
+
+        // VER PERFIL FAMILIA del anuncio
         tvVerPerfilDetalle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +121,31 @@ public class DetalleAnuncioFragment extends Fragment {
                         .commit();
             }
         });
+
+        // BOTON CHAT del anuncio
+        btnChatDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
+                Bundle data = new Bundle();
+                data.putString("uid", idAnuncio);
+                roomChatFamiliaFragment.setArguments(data);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_canguro, roomChatFamiliaFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+            }
+        });
+
         return view;
+
+
+
+
     }
 
     @Override

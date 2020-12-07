@@ -23,9 +23,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAdapter.ViewHolder> {
 
-    String dist = "0";
-    Random randomStars = new Random();
-
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -53,10 +50,6 @@ public class CanguroAdapter extends FirestoreRecyclerAdapter<Canguro, CanguroAda
         holder.edad.setText(String.valueOf(canguro.getEdad()) + " años" );
         holder.precioHora.setText(canguro.getPrecioHora() + " €");
         holder.ratingBar.setRating(canguro.getRating());
-        
-        // Calcular la distancia
-        holder.distancia.setText(dist + " kms");
-
 
 
     }
