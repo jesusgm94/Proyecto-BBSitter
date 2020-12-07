@@ -97,6 +97,7 @@ public class ListaCangurosFragment extends Fragment {
 
         // OBETENMOS LA UBICACION PARA CALCULAR LA DISTANCIA DE LOS CANGUROS *************
 
+        /*
         LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -110,6 +111,8 @@ public class ListaCangurosFragment extends Fragment {
 
         final Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
+        */
+
 
 
         // RECYCLER VIEW ****************
@@ -147,8 +150,8 @@ public class ListaCangurosFragment extends Fragment {
                 locCanguro.setLongitude(canguro.getLongitudLoc());
 
                 Location miLocalizacion = new Location("miLocalizacion");
-                miLocalizacion.setLatitude(loc.getLatitude());
-                miLocalizacion.setLongitude(loc.getLongitude());
+                miLocalizacion.setLatitude(40);
+                miLocalizacion.setLongitude(-3);
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
                 double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);

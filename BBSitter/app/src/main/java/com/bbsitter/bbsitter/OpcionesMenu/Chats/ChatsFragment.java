@@ -17,6 +17,7 @@ import com.bbsitter.bbsitter.Adaptadores.CanguroAdapter;
 import com.bbsitter.bbsitter.Adaptadores.ChatsAdapter;
 import com.bbsitter.bbsitter.Adaptadores.RoomMensajeAdapter;
 import com.bbsitter.bbsitter.Clases.Canguro;
+import com.bbsitter.bbsitter.Clases.Chat;
 import com.bbsitter.bbsitter.Clases.RoomChat;
 import com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.PerfilCanguroFragment;
 import com.bbsitter.bbsitter.R;
@@ -25,6 +26,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.squareup.picasso.Picasso;
+
+import java.util.Collections;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import es.dmoral.toasty.Toasty;
@@ -61,21 +64,26 @@ public class ChatsFragment extends Fragment {
         recyclerViewListaChats.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
-
         // CONSULTA para usar en FirestoreRecyclerOptions
-        Query query = bbdd.collection("roomChat");
+        Query query = bbdd.collection("roomChat").whereEqualTo("emisor", usuario);
 
-        FirestoreRecyclerOptions<RoomChat> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<RoomChat>()
-                .setQuery(query, RoomChat.class).build();
+        FirestoreRecyclerOptions<Chat> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Chat>()
+                .setQuery(query, Chat.class).build();
 
         chatsAdapter = new ChatsAdapter(firestoreRecyclerOptions) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull ChatsAdapter.ViewHolder holder, int position, @NonNull Chat chat) {
+
+                holder.getNombreReceptor().setText(chat.getId());
+            }
 
         };
 
         chatsAdapter.notifyDataSetChanged();
         recyclerViewListaChats.setAdapter(chatsAdapter);
 
-        //Toasty.info(getContext(), numeroItems, Toasty.LENGTH_LONG).show();
+        Toasty.info(getContext(), query.toString(), Toasty.LENGTH_LONG).show();
 
         return view;
     }
@@ -83,12 +91,12 @@ public class ChatsFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        //adapterCanguro.startListening();
+        chatsAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        //adapterCanguro.stopListening();
+        chatsAdapter.stopListening();
     }
 }

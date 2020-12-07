@@ -9,6 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bbsitter.bbsitter.Clases.Chat;
 import com.bbsitter.bbsitter.Clases.RoomChat;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
@@ -16,10 +17,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class ChatsAdapter extends FirestoreRecyclerAdapter<RoomChat, ChatsAdapter.ViewHolder> {
+public class ChatsAdapter extends FirestoreRecyclerAdapter<Chat, ChatsAdapter.ViewHolder> {
 
 
-    public ChatsAdapter(@NonNull FirestoreRecyclerOptions<RoomChat> options) {
+    public ChatsAdapter(@NonNull FirestoreRecyclerOptions<Chat> options) {
         super(options);
     }
 
@@ -33,18 +34,17 @@ public class ChatsAdapter extends FirestoreRecyclerAdapter<RoomChat, ChatsAdapte
     public ChatsAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
 
-        //View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
-
-        // Depende de quien sea el mensaje irá a un sitio u a otro
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat, viewGroup, false);
         return new ChatsAdapter.ViewHolder(view);
 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull ChatsAdapter.ViewHolder holder, int position, @NonNull RoomChat roomChat) {
+    protected void onBindViewHolder(@NonNull ChatsAdapter.ViewHolder holder, int position, @NonNull Chat chat) {
 
-        holder.getNombreReceptor().setText(roomChat.getReceptor());
+        holder.getNombreReceptor().setText(chat.getId());
+
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
