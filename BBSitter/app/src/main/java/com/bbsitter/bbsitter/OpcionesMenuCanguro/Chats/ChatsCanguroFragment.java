@@ -15,9 +15,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bbsitter.bbsitter.Adaptadores.ChatsAdapter;
+import com.bbsitter.bbsitter.Clases.Chat;
 import com.bbsitter.bbsitter.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+
+import es.dmoral.toasty.Toasty;
 
 public class ChatsCanguroFragment extends Fragment {
 
@@ -25,7 +30,7 @@ public class ChatsCanguroFragment extends Fragment {
     private FirebaseFirestore bbdd;
     private FirebaseAuth mAuth;
 
-    RecyclerView recyclerViewListaChats;
+    RecyclerView recyclerViewListaChatsCanguro;
     ChatsAdapter chatsAdapter;
 
 
@@ -48,18 +53,44 @@ public class ChatsCanguroFragment extends Fragment {
 
         usuario = mAuth.getCurrentUser().getUid();
 
-        recyclerViewListaChats = view.findViewById(R.id.recycler_chats);
-        recyclerViewListaChats.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewListaChatsCanguro = view.findViewById(R.id.recycler_chatsCanguros);
+        recyclerViewListaChatsCanguro.setLayoutManager(new LinearLayoutManager(getContext()));
 
+        // CONSULTA para usar en FirestoreRecyclerOptions
+        Query query = bbdd.collection("chat").whereEqualTo("receptor", usuario);
+
+        FirestoreRecyclerOptions<Chat> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Chat>()
+                .setQuery(query, Chat.class).build();
+
+        chatsAdapter = new ChatsAdapter(firestoreRecyclerOptions) {
+
+            @Override
+            protected void onBindViewHolder(@NonNull ChatsAdapter.ViewHolder holder, int position, @NonNull Chat chat) {
+
+                holder.getNombreReceptor().setText(chat.getId());
+            }
+
+        };
+
+        chatsAdapter.notifyDataSetChanged();
+        recyclerViewListaChatsCanguro.setAdapter(chatsAdapter);
 
         return view;
+
+    }
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        chatsAdapter.startListening();
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(ChatsCanguroViewModel.class);
-        // TODO: Use the ViewModel
+    public void onStop() {
+        super.onStop();
+        chatsAdapter.stopListening();
     }
 
 }

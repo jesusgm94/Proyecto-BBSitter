@@ -25,7 +25,7 @@ public class SliderCanguroAdapter extends PagerAdapter {
     LayoutInflater layoutInflater;
 
     // Lista de imagenes
-    public int[] imagenes = {
+    public int[] imagenesCanguro = {
             R.drawable.welcomepagerview,
             R.drawable.fondobbsitterchat,
             R.drawable.fondobbsittermapa
@@ -47,14 +47,16 @@ public class SliderCanguroAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
 
         layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = layoutInflater.inflate(R.layout.slide_layout, container, false);
+        View view = layoutInflater.inflate(R.layout.slide_layout_canguro, container, false);
 
         RelativeLayout layoutSlide = view.findViewById(R.id.slideLayoutCanguro);
         ImageView imageSlide = (ImageView) view.findViewById(R.id.imageSliderCanguro);
         TextView textDescripcion = (TextView) view.findViewById(R.id.tvDescripcionslideCanguro);
         ExtendedFloatingActionButton btnComenzar = (ExtendedFloatingActionButton) view.findViewById(R.id.btnComenzarCanguro);
         TextView desliza = (TextView) view.findViewById(R.id.tvDesliza);
-        imageSlide.setImageResource(imagenes[position]);
+
+
+        imageSlide.setImageResource(imagenesCanguro[position]);
         textDescripcion.setText(descripciones[position]);
 
         if (position == 2) {

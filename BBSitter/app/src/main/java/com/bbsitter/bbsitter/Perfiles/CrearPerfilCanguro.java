@@ -70,8 +70,8 @@ public class CrearPerfilCanguro extends AppCompatActivity {
     private StorageReference storageReference;
 
     private CircleImageView foto;
-    private TextInputLayout nombre, apellidos, fechaNacimiento, direccion;
-    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion;
+    private TextInputLayout nombre, apellidos, fechaNacimiento, direccion, descripcion, telefono;
+    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion, etTelefono;
     private TextView precioHora;
     private Slider sliderPrecio;
     private Button btnCrearCanguro;
@@ -117,11 +117,14 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         apellidos = findViewById(R.id.apellidos_edit_text);
         fechaNacimiento = findViewById(R.id.FechaNacimiento_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
+        descripcion = findViewById(R.id.descripcion_edit_text);
+        telefono = findViewById(R.id.telefonoCrearPerfilCanguro_edit_text);
         etNombre = findViewById(R.id.etNombre);
         etApellidos = findViewById(R.id.etApellidos);
         etDireccion = findViewById(R.id.etDireccion);
         etFechaNacimiento = findViewById(R.id.etFechaNacimiento);
         etDescripcion = findViewById(R.id.etDescripcion);
+        etTelefono = findViewById(R.id.etTelefonoCrearCanguro);
         precioHora = findViewById(R.id.textViewPrecioHora);
 
         // RADIO BUTTONS SEXO
@@ -204,12 +207,14 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
 
                  final String uid = mAuth.getCurrentUser().getUid();
+                 final String emailCanguro = mAuth.getCurrentUser().getEmail();
                  final String urlFoto = "";
                  String nombreCanguro = etNombre.getText().toString().trim();
                  String apellidosCanguro = etApellidos.getText().toString().trim();
                  String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
                  String direccion = etDireccion.getText().toString().trim();
                  String descripcion = etDescripcion.getText().toString().trim();
+                 String telefono = etTelefono.getText().toString().trim();
                  String sexo = obtenerSexo();
                  String experiencia = obtenerExperiencia();
                  double precio = precioHoraCanguro;
@@ -261,11 +266,13 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  //mapCanguro.put("Id Canguro", idCanguro);
                  mapCanguro.put("uid", uid);
                  mapCanguro.put("nombre", nombreCanguro);
+                 mapCanguro.put("email", emailCanguro);
                  mapCanguro.put("apellidos", apellidosCanguro);
                  mapCanguro.put("fechaNacimiento", fechaNacimiento);
                  mapCanguro.put("edad", edadCanguro);
                  mapCanguro.put("sexo", sexo);
                  mapCanguro.put("direccion", direccion);
+                 mapCanguro.put("telefono", telefono);
                  mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
                  mapCanguro.put("experiencia", experiencia);
                  mapCanguro.put("precioHora", precio);
@@ -292,38 +299,50 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  // METER FOTO DEL PERFIL CANGURO
 
                  final StorageReference rutaArchivo = storageReference.child("img_Canguros").child(uid +".jpg");
-                 /*Metemos la foto en Storage*/
-                 rutaArchivo.putFile(uriFoto).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                     @Override
-                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                 if (uriFoto != null)
+                 {
+                     /*Metemos la foto en Storage*/
+                     rutaArchivo.putFile(uriFoto).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                         @Override
+                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                         rutaArchivo.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
-                             @Override
-                             public void onSuccess(Uri uri) {
-                                 final Uri downloadUrl = uri;
-                                 urlFotoPerfil = downloadUrl.toString();
-                                 //urlFoto = urlFotoPerfil.toString();
+                             rutaArchivo.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                                 @Override
+                                 public void onSuccess(Uri uri) {
+                                     final Uri downloadUrl = uri;
+                                     urlFotoPerfil = downloadUrl.toString();
+                                     //urlFoto = urlFotoPerfil.toString();
 
-                                 // Creamos un mapa para actualizar el perifl del usuario*/
-                                 Map<String, Object> userUpdateImg = new HashMap<>();
-                                 userUpdateImg.put("img", urlFotoPerfil);
+                                     // Creamos un mapa para actualizar el perifl del usuario*/
+                                     Map<String, Object> userUpdateImg = new HashMap<>();
+                                     userUpdateImg.put("img", urlFotoPerfil);
 
-                                 // Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
-                                 bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
-
-
-                             }
-                         } ).addOnFailureListener( new OnFailureListener() {
-                             @Override
-                             public void onFailure(@NonNull Exception exception) {
-
-                                 Toast.makeText(CrearPerfilCanguro.this, "Ha fallado", Toast.LENGTH_SHORT).show();
-                             }
-                         } );
+                                     // Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                                     bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
 
 
-                     }
-                 } );
+                                 }
+                             } ).addOnFailureListener( new OnFailureListener() {
+                                 @Override
+                                 public void onFailure(@NonNull Exception exception) {
+
+                                     Toast.makeText(CrearPerfilCanguro.this, "Ha fallado", Toast.LENGTH_SHORT).show();
+                                 }
+                             } );
+
+
+                         }
+                     } );
+                 }
+                 else
+                 {
+                     //Creamos un mapa para actualizar la imagen del perfil
+                     Map<String, Object> userUpdateImg = new HashMap<>();
+                     userUpdateImg.put("img", "https://firebasestorage.googleapis.com/v0/b/bbsitter-61bd3.appspot.com/o/img_BBSitter%2Ffotoperfil.jpg?alt=media&token=a76cfc60-0edb-480c-953d-f0925fab2941");
+
+                     bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
+                 }
+
 
 
                  /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
@@ -376,9 +395,10 @@ public class CrearPerfilCanguro extends AppCompatActivity {
         String urlFoto = urlFotoPerfil.toString();
         String nombreCanguro = etNombre.getText().toString().trim();
         String apellidosCanguro = etApellidos.getText().toString().trim();
-        String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
-        String direccion = etDireccion.getText().toString().trim();
-        String descripcion = etDescripcion.getText().toString().trim();
+        String fechaNacimientoCanguro = etFechaNacimiento.getText().toString().trim();
+        String direccionCanguro = etDireccion.getText().toString().trim();
+        String descripcionCanguro = etDescripcion.getText().toString().trim();
+        String telefonoCanguro = etTelefono.getText().toString().trim();
         String sexo = obtenerSexo();
         String experiencia = obtenerExperiencia();
         double precio = precioHoraCanguro;
@@ -387,26 +407,48 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             nombre.setError("Debes de rellenar tu nombre");
             validar = false;
         }
-        else if (fechaNacimiento.isEmpty()){
-            nombre.setError("Debes de rellenar tu fecha de nacimiento");
+        if (apellidosCanguro.isEmpty()){
+            apellidos.setError("Debes de rellenar el campo");
             validar = false;
         }
-        else if (direccion.isEmpty()){
-            nombre.setError("Debes de rellenar con una direccion");
+        if (fechaNacimientoCanguro.isEmpty()){
+            fechaNacimiento.setError("Debes de rellenar tu fecha de nacimiento");
             validar = false;
         }
-        else if (descripcion.isEmpty()){
-            nombre.setError("Debes de rellenar el campo");
+        if (direccionCanguro.isEmpty()){
+            direccion.setError("Debes de rellenar con una direccion");
             validar = false;
         }
-        else if (apellidosCanguro.isEmpty()){
-            nombre.setError("Debes de rellenar el campo");
+        if (descripcionCanguro.isEmpty()){
+            descripcion.setError("Debes de rellenar la descripcion");
             validar = false;
         }
-        else if (experiencia.isEmpty()){
-            nombre.setError("Debes de rellenar el campo");
+        if (telefonoCanguro.isEmpty()){
+            telefono.setError("Debes de rellenar el teléfono");
             validar = false;
         }
+
+        if(!nombreCanguro.isEmpty()){
+            nombre.setError(null);
+        }
+        if (!apellidosCanguro.isEmpty()){
+            apellidos.setError(null);
+        }
+        if (!fechaNacimientoCanguro.isEmpty()){
+            fechaNacimiento.setError(null);
+        }
+        if (!direccionCanguro.isEmpty()){
+            direccion.setError(null);
+        }
+        if (!descripcionCanguro.isEmpty()){
+            descripcion.setError(null);
+        }
+        if (!telefonoCanguro.isEmpty()){
+            telefono.setError(null);
+        }
+
+
+
 
 
         return validar;

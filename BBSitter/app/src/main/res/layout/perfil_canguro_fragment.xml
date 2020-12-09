@@ -198,7 +198,7 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btnDireccionPerfilCanguro"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginHorizontal="30dp"
                     android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/colorPrimary"
@@ -394,7 +394,7 @@
 
     <!-- BUTTON EDITAR PERFIL-->
     <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-        android:id="@+id/btnChat"
+        android:id="@+id/btnTelefonoPerfilCanguro"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"
@@ -406,13 +406,36 @@
         android:layout_marginEnd="30dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="20dp"
-        android:contentDescription="chat"
+        android:contentDescription="contactar"
         android:gravity="bottom|center|end"
-        android:text="chat"
         android:textSize="12dp"
         android:textColor="@color/colorPrimaryDark"
         android:textStyle="bold"
-        app:icon="@drawable/ic_mensaje"
+        app:icon="@drawable/ic_baseline_local_phone_24"
+        app:iconTint="@color/colorPrimaryDark"
+        app:backgroundTint="@color/colorPrimary"
+        />
+
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/btnEmailPerfilCanguro"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="90dp"
+        android:contentDescription="contactar"
+        android:gravity="bottom|center|end"
+        android:textSize="12dp"
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold"
+        app:icon="@drawable/fui_ic_mail_white_24dp"
         app:iconTint="@color/colorPrimaryDark"
         app:backgroundTint="@color/colorPrimary"
         />

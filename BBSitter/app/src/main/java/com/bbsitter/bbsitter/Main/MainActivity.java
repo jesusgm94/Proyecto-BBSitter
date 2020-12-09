@@ -2,6 +2,7 @@ package com.bbsitter.bbsitter.Main;
 
 import android.Manifest;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -26,6 +27,7 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bbsitter.bbsitter.Login.Login;
 import com.bbsitter.bbsitter.OpcionesMenu.Perfil.MiPerfilFamiliaFragment;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_chats, R.id.nav_anuncios)
+                R.id.nav_home/*, R.id.nav_chats*/, R.id.nav_anuncios)
                 .setDrawerLayout(drawer)
                 .build();
 
@@ -197,6 +199,8 @@ public class MainActivity extends AppCompatActivity {
                 builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent login = new Intent(getApplicationContext(), Login.class);
+                        startActivity(login);
                         finish();
                     }
                 });

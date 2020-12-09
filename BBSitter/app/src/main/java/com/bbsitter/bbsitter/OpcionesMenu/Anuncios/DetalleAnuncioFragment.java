@@ -43,7 +43,7 @@ public class DetalleAnuncioFragment extends Fragment {
     private TextView tvDescripcionDetalleAnuncio,tvTituloDetalleAnuncio, tvNombreFamiliaDetalleAnuncio, tvDetalleAnuncioFechaPublicacion, tvVerPerfilDetalle;
     private MaterialButton btnDireccionDetalleAnuncio;
 
-    private ExtendedFloatingActionButton btnChatDetalleAnuncio;
+    private ExtendedFloatingActionButton btnTelefonoDetalleAnuncio, btnEmailDetalleAnuncio;
 
     private String idAnuncio, uid;
 
@@ -92,7 +92,8 @@ public class DetalleAnuncioFragment extends Fragment {
         btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
         tvDetalleAnuncioFechaPublicacion = view.findViewById(R.id.tvDetalleAnuncioFechaPublicacion);
         tvVerPerfilDetalle = view.findViewById(R.id.tvVerPerfilDetalle);
-        btnChatDetalleAnuncio = view.findViewById(R.id.btnChatDetalleAnuncio);
+        btnTelefonoDetalleAnuncio = view.findViewById(R.id.btnTelefonoDetalleAnuncio);
+        btnEmailDetalleAnuncio = view.findViewById(R.id.btnEmailDetalleAnuncio);
 
         //CHIP
         chipCasaDetalleAnuncio = view.findViewById(R.id.chipDetallesAnuncioLugar);
@@ -123,12 +124,14 @@ public class DetalleAnuncioFragment extends Fragment {
         });
 
         // BOTON CHAT del anuncio
-        btnChatDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
+        btnTelefonoDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                Toast.makeText(getContext(), "Aqui llamamos", Toast.LENGTH_SHORT).show();
+
                 //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
+                /*RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
                 Bundle data = new Bundle();
                 data.putString("uid", idAnuncio);
                 roomChatFamiliaFragment.setArguments(data);
@@ -136,10 +139,32 @@ public class DetalleAnuncioFragment extends Fragment {
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.nav_host_fragment_canguro, roomChatFamiliaFragment)
                         .addToBackStack(null)
-                        .commit();
+                        .commit();*/
 
             }
         });
+
+        btnEmailDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Toast.makeText(getContext(), "Aqui mandamos email", Toast.LENGTH_SHORT).show();
+
+                //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                /*RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
+                Bundle data = new Bundle();
+                data.putString("uid", idAnuncio);
+                roomChatFamiliaFragment.setArguments(data);
+
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.nav_host_fragment_canguro, roomChatFamiliaFragment)
+                        .addToBackStack(null)
+                        .commit();*/
+
+            }
+        });
+
+
 
         return view;
 

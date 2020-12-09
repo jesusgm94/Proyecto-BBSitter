@@ -102,12 +102,10 @@ public class MapsFragmentCanguros extends Fragment {
                 },1000);
             }
 
-            /*
+
             if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
                     showAlert();
             }
-
-             */
 
             try{
 

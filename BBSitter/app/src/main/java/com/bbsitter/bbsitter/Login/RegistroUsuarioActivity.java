@@ -83,9 +83,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar todos los datos", Toast.LENGTH_LONG).show();
-                    validarEmail();
-                    validarPassword();
-                    validarPassword2();
+                    validarCampos();
                 }
             }
         });
@@ -94,56 +92,43 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     }
 
 
-    private boolean validarEmail() {
+    private boolean validarCampos() {
+
+        Boolean validar = true;
 
         email = registroEmail.getEditText().getText().toString().trim(); /*Cogemos el texto del email*/
 
         if (email.isEmpty()) { /*Si el campo esta vacío...*/
             registroEmail.setError("Debes rellenar el campo"); /*lanzamos el error*/
-            return false;
-        } else {
-            registroEmail.setError(null);/*Si no esta vacío no lanzamos error*/
-            return true;
+            validar = false;
         }
-
-    }
-
-
-    private boolean validarPassword() {
-
-        password = registroPass.getEditText().getText().toString().trim();
-
         if (password.isEmpty()) {
             registroPass.setError("Debes rellenar el campo");
-            return false;
+            validar = false;
         }
-
-        else{
-            registroPass.setError(null);
-            return true;
-        }
-
-
-    }
-
-
-    private boolean validarPassword2() {
-
-        password2 = registroPass2.getEditText().getText().toString().trim();
-
         if (password2.isEmpty()) {
             registroPass2.setError("Debes rellenar el campo");
-            Toast.makeText(RegistroUsuarioActivity.this, "Debes rellenar el campo contraseña", Toast.LENGTH_LONG).show();
-            return false;
-        }
-
-        else{
-            registroPass2.setError(null);
-            return true;
+            validar = false;
         }
 
 
+        if(!email.isEmpty()){
+            registroEmail.setError(null);/*Si no esta vacío no lanzamos error*/
+        }
+
+        if(!password.isEmpty()){
+            registroPass.setError(null);/*Si no esta vacío no lanzamos error*/
+        }
+
+        if(!password2.isEmpty()){
+            registroPass2.setError(null);/*Si no esta vacío no lanzamos error*/
+        }
+
+        return validar;
     }
+
+
+
 
 
     private void registrarUsuario() {
@@ -180,8 +165,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                             progressBarRegistro.finishProgressBar();
 
                             MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(RegistroUsuarioActivity.this, R.style.MyMaterialAlertDialog);
-                            builder.setTitle("Usuario registrado");
-                            builder.setMessage("Ya estás registrado! Loguéate para seguir con la configuración de tu usuario");
+                            builder.setTitle("¡Bienvenido a BBSitter!");
+                            builder.setMessage("¡Ya estás registrado! Loguéate para seguir con la configuración de tu usuario");
                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

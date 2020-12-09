@@ -65,7 +65,7 @@ public class ChatsFragment extends Fragment {
 
 
         // CONSULTA para usar en FirestoreRecyclerOptions
-        Query query = bbdd.collection("roomChat").whereEqualTo("emisor", usuario);
+        Query query = bbdd.collection("chat").whereEqualTo("emisor", usuario);
 
         FirestoreRecyclerOptions<Chat> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<Chat>()
                 .setQuery(query, Chat.class).build();
@@ -82,8 +82,6 @@ public class ChatsFragment extends Fragment {
 
         chatsAdapter.notifyDataSetChanged();
         recyclerViewListaChats.setAdapter(chatsAdapter);
-
-        Toasty.info(getContext(), query.toString(), Toasty.LENGTH_LONG).show();
 
         return view;
     }

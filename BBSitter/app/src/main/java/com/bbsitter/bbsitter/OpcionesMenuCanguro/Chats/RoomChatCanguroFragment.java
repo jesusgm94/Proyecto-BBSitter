@@ -1,6 +1,12 @@
-package com.bbsitter.bbsitter.OpcionesMenu.Chats;
+package com.bbsitter.bbsitter.OpcionesMenuCanguro.Chats;
 
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.bbsitter.bbsitter.Adaptadores.RoomMensajeAdapter;
 import com.bbsitter.bbsitter.Clases.RoomChat;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
@@ -28,10 +28,10 @@ import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link RoomChatFamiliaFragment#newInstance} factory method to
+ * Use the {@link RoomChatCanguroFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class RoomChatFamiliaFragment extends Fragment {
+public class RoomChatCanguroFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -47,12 +47,16 @@ public class RoomChatFamiliaFragment extends Fragment {
     private String emisor = "";
     private String receptor = "";
 
-    ImageButton btnEnviar;
-    EditText etMensaje;
+    ImageButton btnEnviarCanguro;
+    EditText etMensajeCanguro;
 
     private FirebaseAuth mAuth;
-    private RecyclerView recyclerViewListaMensajes;
+    private RecyclerView recyclerViewListaMensajesCanguro;
     private RoomMensajeAdapter mAdapter;
+
+    public RoomChatCanguroFragment() {
+        // Required empty public constructor
+    }
 
     /**
      * Use this factory method to create a new instance of
@@ -60,11 +64,11 @@ public class RoomChatFamiliaFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment RoomChatFamiliaFragment.
+     * @return A new instance of fragment RoomChatCanguroFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static RoomChatFamiliaFragment newInstance(String param1, String param2) {
-        RoomChatFamiliaFragment fragment = new RoomChatFamiliaFragment();
+    public static RoomChatCanguroFragment newInstance(String param1, String param2) {
+        RoomChatCanguroFragment fragment = new RoomChatCanguroFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -75,8 +79,6 @@ public class RoomChatFamiliaFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
@@ -87,13 +89,13 @@ public class RoomChatFamiliaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_room_chat_familia, container, false);
+        View view = inflater.inflate(R.layout.fragment_room_chat_canguro, container, false);
 
         bbdd = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
-        btnEnviar = view.findViewById(R.id.btnEnviar);
-        etMensaje = view.findViewById(R.id.etMensaje);
+        btnEnviarCanguro = view.findViewById(R.id.btnEnviarCanguro);
+        etMensajeCanguro = view.findViewById(R.id.etMensajeCanguro);
 
         emisor = mAuth.getCurrentUser().getUid();
 
@@ -104,13 +106,11 @@ public class RoomChatFamiliaFragment extends Fragment {
         }
 
         // RECYCLER VIEW ****************
-        recyclerViewListaMensajes= view.findViewById(R.id.recyclerListaMensajes);
-        recyclerViewListaMensajes.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerViewListaMensajesCanguro= view.findViewById(R.id.recyclerListaMensajesCanguro);
+        recyclerViewListaMensajesCanguro.setLayoutManager(new LinearLayoutManager(getContext()));
 
 
         Query query = bbdd.collection("mensajes").orderBy("fecha", Query.Direction.ASCENDING);
-
-
 
         FirestoreRecyclerOptions<RoomChat> firestoreRecyclerOptions = new FirestoreRecyclerOptions.Builder<RoomChat>()
                 .setQuery(query, RoomChat.class).build();
@@ -122,13 +122,14 @@ public class RoomChatFamiliaFragment extends Fragment {
             public static final int TIPO_MENSAJE_IZQUIERDA = 0;
 
 
-            /*@Override
+
+            @Override
             public int getItemViewType(int position) {
                 if(getItem(position).getEmisor().equals(emisor))
                     return TIPO_MENSAJE_DERECHA;
                 else
                     return TIPO_MENSAJE_IZQUIERDA;
-            }*/
+            }
 
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RoomChat roomChat) {
@@ -139,7 +140,7 @@ public class RoomChatFamiliaFragment extends Fragment {
             @Override
             public RoomMensajeAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_derecha, viewGroup, false);
+                View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_chat_izquierda, viewGroup, false);
                 return new  ViewHolder(view);
 
             }
@@ -151,38 +152,37 @@ public class RoomChatFamiliaFragment extends Fragment {
         mAdapter.registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onItemRangeInserted(int positionStart, int itemCount) {
-                recyclerViewListaMensajes.scrollToPosition(mAdapter.getItemCount() - 1);  // El recyclerView hara Scroll hasta el último mensaje
+                recyclerViewListaMensajesCanguro.scrollToPosition(mAdapter.getItemCount() - 1);  // El recyclerView hara Scroll hasta el último mensaje
             }
         });
-        recyclerViewListaMensajes.setAdapter(mAdapter);
+        recyclerViewListaMensajesCanguro.setAdapter(mAdapter);
 
 
 
         // BOTON MENSAJE ENVIAR ***
-        btnEnviar.setOnClickListener(new View.OnClickListener() {
+        btnEnviarCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 // Si no hay nada escrito no se envia el mensaje para no llenar la base de datos de mensajes vacios
-                if (etMensaje.length() == 0)
+                if (etMensajeCanguro.length() == 0)
                     return;
 
-                String mensaje = etMensaje.getText().toString();
-                enviarMensaje(mensaje);
+                String mensaje = etMensajeCanguro.getText().toString();
+                enviarMensajeCanguro(mensaje);
 
                 Toast.makeText(getContext(), "Mensaje enviado", Toast.LENGTH_LONG).show();
-                etMensaje.setText("");
+                etMensajeCanguro.setText("");
             }
         });
 
         return view;
     }
 
-    private void enviarMensaje(String mensaje){
+    private void enviarMensajeCanguro(String mensaje){
 
 
         HashMap<String, Object> mapaMensaje = new HashMap<>();
-        HashMap<String, Object> mapaChat = new HashMap<>();
 
         // Creamos un objeto Date
         Date fechaPublicacion = new Date();
@@ -194,18 +194,14 @@ public class RoomChatFamiliaFragment extends Fragment {
         String fechaHoy = sdf.format(fechaPublicacion);
 
 
-        mapaChat.put("emisor", emisor);
-        mapaChat.put("receptor", receptor);
 
+        //mapaMensaje.put("emisor", emisor);
         mapaMensaje.put("room", "room1");
         mapaMensaje.put("mensaje", mensaje);
         mapaMensaje.put("fecha", fechaHoy);
 
-        CollectionReference chats = bbdd.collection("chat");
-
-        chats.document("room1").set(mapaChat);
-
         // Guardamos en la base de datos
+        //bbdd.collection("chat").document("room1").collection("mensajes").document().set(mapaMensaje);
         bbdd.collection("mensajes").document().set(mapaMensaje);
 
     }

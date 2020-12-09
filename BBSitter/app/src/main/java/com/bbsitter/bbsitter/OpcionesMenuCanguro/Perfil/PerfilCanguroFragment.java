@@ -1,7 +1,13 @@
 package com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,12 +18,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.bbsitter.bbsitter.Main.MainActivity;
 import com.bbsitter.bbsitter.OpcionesMenu.Chats.RoomChatFamiliaFragment;
 import com.bbsitter.bbsitter.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +34,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +52,7 @@ public class PerfilCanguroFragment extends Fragment {
 
     private PerfilCanguroViewModel mViewModel;
 
-    private TextView tvPrecioHoraPerfilCanguro,tvExperienciaPerfilCanguro,tvNombrePerfilCanguro,tvEdadCanguro,tvDescripcionPerfilCanguro;
+    private TextView tvPrecioHoraPerfilCanguro, tvExperienciaPerfilCanguro, tvNombrePerfilCanguro, tvEdadCanguro, tvDescripcionPerfilCanguro;
     private CircleImageView imagenPerfilCanguro;
 
     /*Movidas de Firebase*/
@@ -50,18 +60,19 @@ public class PerfilCanguroFragment extends Fragment {
     private FirebaseFirestore bbdd;
 
     private MaterialButton btnDireccion;
-    private String uidCanguro;
+    private String uidCanguro, emailCanguro, telefonoCanguro;
 
     private LottieAnimationView lottieFav;
     private ChipGroup chipGroupPluses, chipGroupIdiomas, chipGroupPreferencias;
 
-    private ExtendedFloatingActionButton btnChat;
+    private ExtendedFloatingActionButton btnTelefonoPerfilCanguro, btnEmailPerfilCanguro;
     ImageButton btnCompartir;
 
     private RatingBar ratingBar;
 
 
-    public PerfilCanguroFragment() {}
+    public PerfilCanguroFragment() {
+    }
 
     public static PerfilCanguroFragment newInstance() {
         return new PerfilCanguroFragment();
@@ -101,13 +112,17 @@ public class PerfilCanguroFragment extends Fragment {
 
         //Recogemos el uid de la familia de ListaCanguroFragment
         Bundle data = this.getArguments();
-        if(data != null){
+        if (data != null) {
             uidCanguro = data.getString("uid");
+            emailCanguro = data.getString("email");
+            telefonoCanguro = data.getString("telefono");
+
         }
 
         cargarDatosCanguro();
 
-        btnChat = view.findViewById(R.id.btnChat);
+        btnTelefonoPerfilCanguro = view.findViewById(R.id.btnTelefonoPerfilCanguro);
+        btnEmailPerfilCanguro = view.findViewById(R.id.btnEmailPerfilCanguro);
 
         btnCompartir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,27 +132,82 @@ public class PerfilCanguroFragment extends Fragment {
             }
         });
 
-        btnChat.setOnClickListener(new View.OnClickListener() {
+
+        // BOTON CHAT del anuncio
+        btnTelefonoPerfilCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
-                Bundle data = new Bundle();
-                data.putString("uid", uidCanguro);
-                roomChatFamiliaFragment.setArguments(data);
+                //Nota: en versiones anteriores a Android 6.0 bastaba con especificar en AndroidManifest.xml el permiso
+                // mediante: <uses-permission android:name="android.permission.CALL_PHONE"/>
+                //En las versiones posteriores hay que solicitar explíctamente al usuario si quiere conceder permiso para ello
+                //Algo similar ocurre con el acceso a la geolocalización u otros servicios
 
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment, roomChatFamiliaFragment)
-                        .addToBackStack(null)
-                        .commit();
+                MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
+                builder.setTitle("Llamar");
+                builder.setMessage("Va a llamar a este usuario. Puede interferir en su factura de teléfono. ¿Quieres llamar?");
+                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
-            }
-        });
+                    }
+                });
+                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        try {
+                            //Verificamos si tenemos los permisos necesarios para enviar SMS
+                            int permisoLlamada = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE);
+
+                            if (permisoLlamada != PackageManager.PERMISSION_GRANTED) {
+
+                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 225);
+                            } else {
+
+                                if (!TextUtils.isEmpty((telefonoCanguro))) {
+                                    String dial = "tel:" + telefonoCanguro; //Se tiene que poner literalmente esto
+                                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+                                    Toast.makeText(getContext(), "Llamando.", Toast.LENGTH_LONG).show();
+                                } else
+                                    Toast.makeText(getContext(), "Debe introducir número de teléfono.", Toast.LENGTH_LONG).show();
+
+                            }
+
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+                builder.show();
+
+
+
+
+        }
+    });
+
+        btnEmailPerfilCanguro.setOnClickListener(new View.OnClickListener()
+
+    {
+        @Override
+        public void onClick (View view){
+
+
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
+                "mailto", emailCanguro, null));
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Necesito canguro");
+
+        getContext().startActivity(Intent.createChooser(emailIntent, null));
+
+    }
+    });
 
         return view;
 
-    }
+}
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -146,8 +216,7 @@ public class PerfilCanguroFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
-    private void cargarDatosCanguro()
-    {
+    private void cargarDatosCanguro() {
 
         bbdd.collection("canguros")
                 .whereEqualTo("uid", uidCanguro)
@@ -161,7 +230,7 @@ public class PerfilCanguroFragment extends Fragment {
 
 
                                 //Recogemos los datos de la base de datos
-                                String nombreCanguro =  document.get("nombre").toString() + " " + document.get("apellidos").toString();
+                                String nombreCanguro = document.get("nombre").toString() + " " + document.get("apellidos").toString();
                                 String descripcionCanguro = document.get("descripcion").toString();
                                 String direccionCanguro = document.get("direccion").toString();
                                 String edadCanguro = " ( " + document.get("edad").toString() + " años)";
@@ -177,7 +246,7 @@ public class PerfilCanguroFragment extends Fragment {
                                 HashMap<String, Boolean> pluses = (HashMap<String, Boolean>) document.get("pluses");
                                 Set<String> listaKeysPluses = pluses.keySet();
 
-                                for(String plus : listaKeysPluses){
+                                for (String plus : listaKeysPluses) {
                                     Chip chipPlus = new Chip(getContext());
                                     chipPlus.setText(plus.toString());
                                     chipPlus.setTextColor(Color.GRAY);
@@ -191,7 +260,7 @@ public class PerfilCanguroFragment extends Fragment {
                                 HashMap<String, Boolean> idiomas = (HashMap<String, Boolean>) document.get("idiomas");
                                 Set<String> listaKeysIdiomas = idiomas.keySet();
 
-                                for(String idioma : listaKeysIdiomas){
+                                for (String idioma : listaKeysIdiomas) {
                                     Chip chipIdioma = new Chip(getContext());
                                     chipIdioma.setText(idioma.toString());
                                     chipIdioma.setTextColor(Color.GRAY);
@@ -203,9 +272,9 @@ public class PerfilCanguroFragment extends Fragment {
 
                                 // Añadir Chips Preferencia Edades
                                 HashMap<String, Boolean> prefEdades = (HashMap<String, Boolean>) document.get("preferenciaEdades");
-                                Set<String> listaKeysprefEdades= prefEdades.keySet();
+                                Set<String> listaKeysprefEdades = prefEdades.keySet();
 
-                                for(String pref : listaKeysprefEdades){
+                                for (String pref : listaKeysprefEdades) {
                                     Chip chipPrefEdades = new Chip(getContext());
                                     chipPrefEdades.setText(pref.toString());
                                     chipPrefEdades.setTextColor(Color.GRAY);
@@ -236,9 +305,9 @@ public class PerfilCanguroFragment extends Fragment {
                 });
     }
 
-    private void cargarFragment(Fragment fragment){
+    private void cargarFragment(Fragment fragment) {
         FragmentManager fm = getActivity().getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fm.beginTransaction();
+        FragmentTransaction fragmentTransaction = fm.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
         fragmentTransaction.commit();
     }

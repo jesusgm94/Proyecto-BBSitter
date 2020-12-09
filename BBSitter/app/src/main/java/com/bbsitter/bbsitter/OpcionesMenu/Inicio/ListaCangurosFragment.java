@@ -143,6 +143,8 @@ public class ListaCangurosFragment extends Fragment {
                 holder.getRatingBar().setRating(canguro.getRating());
 
                 final String uid = canguro.getUid();
+                final String email = canguro.getEmail();
+                final String telefono = canguro.getTelefono();
 
                 // Calculamos la distancia entre los dos puntos
                 Location locCanguro= new Location("locCanguro");
@@ -170,6 +172,8 @@ public class ListaCangurosFragment extends Fragment {
                         PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
                         Bundle data = new Bundle();
                         data.putString("uid", uid);
+                        data.putString("email", email);
+                        data.putString("telefono", telefono);
                         perfilCanguroFragment.setArguments(data);
 
                         getActivity().getSupportFragmentManager().beginTransaction()

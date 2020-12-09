@@ -10,10 +10,10 @@
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_buscar"
         android:title="Busca canguro " />
-    <item
+    <!--<item
         android:id="@+id/nav_chats"
         android:icon="@drawable/ic_mensaje"
-        android:title="Chats" />
+        android:title="Chats" />-->
     <item
         android:id="@+id/nav_anuncios"
         android:icon="@drawable/ic_baseline_filter_list_24"

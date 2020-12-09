@@ -37,13 +37,13 @@ public class RoomMensajeAdapter extends FirestoreRecyclerAdapter<RoomChat, RoomM
         return super.getItemCount();
     }
 
-    @Override
+    /*@Override
     public int getItemViewType(int position) {
         if(getItem(position).getEmisor().equals(emisor))
             return TIPO_MENSAJE_DERECHA;
         else
             return TIPO_MENSAJE_IZQUIERDA;
-    }
+    }*/
 
     @NonNull
     @Override

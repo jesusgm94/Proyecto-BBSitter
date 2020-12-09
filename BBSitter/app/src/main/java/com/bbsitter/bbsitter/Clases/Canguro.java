@@ -14,6 +14,8 @@ public class Canguro implements Serializable {
     private String fechaNacimiento;
     private int edad;
     private String sexo;
+    private String email;
+    private String telefono;
 
     // Direccion y fecha nacimiento
     private String direccion; // Obtenidad de autocompletar Direccion
@@ -40,7 +42,10 @@ public class Canguro implements Serializable {
 
     public Canguro(){}
 
-    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc, double precioHora, String experiencia, String descripcion, int rating, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades, Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil, String uid) {
+    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc
+            , double precioHora, String experiencia, String descripcion, int rating, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades
+            , Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil, String uid, String email, String telefono)
+    {
         this.img = img;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -59,6 +64,8 @@ public class Canguro implements Serializable {
         this.mapIdiomas = mapIdiomas;
         this.fechaCreacionPerfil = fechaCreacionPerfil;
         this.uid = uid;
+        this.email = email;
+        this.telefono = telefono;
     }
 
 
@@ -207,5 +214,21 @@ public class Canguro implements Serializable {
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

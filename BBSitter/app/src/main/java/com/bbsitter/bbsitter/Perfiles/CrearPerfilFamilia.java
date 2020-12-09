@@ -54,8 +54,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
     private StorageReference storageRef;
 
     private CircleImageView foto;
-    private TextInputLayout nombre, descripcion, direccion;
-    private TextInputEditText etNombre, etDireccion, etDescripcion;
+    private TextInputLayout nombre, descripcion, direccion, telefono;
+    private TextInputEditText etNombre, etDireccion, etDescripcion, etTelefono;
     private Button btnCrearPerfilFamilia;
 
     /*Para coger la foto de perfil*/
@@ -84,17 +84,19 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         nombre = findViewById(R.id.nombreFamilia_edit_text);
         descripcion = findViewById(R.id.descripcionFamilia_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
+        telefono = findViewById(R.id.telefono_edit_text);
         foto = findViewById(R.id.imageFamilia);
 
         etNombre = findViewById(R.id.etNombreFamilia);
         etDireccion = findViewById(R.id.etDireccionFamilia);
         etDescripcion = findViewById(R.id.etDescripcionFamilia);
+        etTelefono = findViewById(R.id.etTelefonoFamilia);
 
         btnCrearPerfilFamilia = (Button) findViewById(R.id.btnCrearPerfilFamilia);
 
         establecerAutocompletadoDireccion();
         final ProgressBarCrearPerfil progressBarCrearFamilia = new ProgressBarCrearPerfil(CrearPerfilFamilia.this);
-        final ProgressBarPerfilCreado progressBarPerfilCreado= new ProgressBarPerfilCreado(CrearPerfilFamilia.this);
+        final ProgressBarPerfilCreado progressBarPerfilCreado = new ProgressBarPerfilCreado(CrearPerfilFamilia.this);
 
         foto.setOnClickListener(new View.OnClickListener() {
 
@@ -104,17 +106,19 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             }
         });
 
-        try {
-            btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+
+        btnCrearPerfilFamilia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
 
-                    try {
+                try {
+                    if (comprobarDatos()) {
                         /*Cargamos los datos*/
                         String nombre = etNombre.getText().toString().trim();
                         String descripcion = etDescripcion.getText().toString().trim();
                         String direccion = etDireccion.getText().toString().trim();
+                        String telefono = etTelefono.getText().toString().trim();
                         final String uid = mAuth.getCurrentUser().getUid();
 
                         /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
@@ -126,6 +130,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                         mapUser.put("nombre", nombre);
                         mapUser.put("descripcion", descripcion);
                         mapUser.put("direccion", direccion);
+                        mapUser.put("telefono", telefono);
                         mapUser.put("uid", uid);
 
 
@@ -157,8 +162,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                                 .set(userUpdate, SetOptions.merge());
 
 
-                        if(uri != null)
-                        {
+                        if (uri != null) {
                             /*Metemos la foto en Storage*/
                             storageRef.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -189,9 +193,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                                 }
                             });
 
-                        }
-                        else
-                        {
+                        } else {
                             //Creamos un mapa para actualizar la imagen del perfil
                             Map<String, Object> userUpdateImg = new HashMap<>();
                             userUpdateImg.put("img", "https://firebasestorage.googleapis.com/v0/b/bbsitter-61bd3.appspot.com/o/img_BBSitter%2Ffotoperfil.jpg?alt=media&token=a76cfc60-0edb-480c-953d-f0925fab2941");
@@ -226,20 +228,18 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                                 }, 4000);
                             }
                         }, 4000);
-
-
-                    }catch (Exception e)
-                    {
-                        comprobarDatos();
+                    } else {
+                        Toast.makeText(CrearPerfilFamilia.this, "No estan todos los datos completados", Toast.LENGTH_SHORT).show();
                     }
 
 
+                } catch (Exception e) {
+                    comprobarDatos();
                 }
-            });
 
-        } catch (Exception e) {
 
-        }
+            }
+        });
     }
 
     private boolean comprobarDatos() {
@@ -249,6 +249,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         String nombreFamilia = etNombre.getText().toString().trim();
         String direccionFamilia = etDireccion.getText().toString().trim();
         String descripcionFamilia = etDescripcion.getText().toString().trim();
+        String telefonoFamilia = etTelefono.getText().toString().trim();
 
 
         if (nombreFamilia.isEmpty()) {
@@ -260,10 +261,15 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             direccion.setError("Debes rellenar el campo");
             validar = false;
         }
+        if (telefonoFamilia.isEmpty()) {
+            telefono.setError("Debes rellenar el campo");
+            validar = false;
+        }
         if (descripcionFamilia.isEmpty()) {
             descripcion.setError("Debes rellenar el campo");
             validar = false;
         }
+
 
         if (!nombreFamilia.isEmpty()) {
             nombre.setError(null);
@@ -271,9 +277,13 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         if (!direccionFamilia.isEmpty()) {
             direccion.setError(null);
         }
+        if (!telefonoFamilia.isEmpty()) {
+            telefono.setError(null);
+        }
         if (!descripcionFamilia.isEmpty()) {
             descripcion.setError(null);
         }
+
 
         return validar;
     }

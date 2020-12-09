@@ -98,8 +98,8 @@ public class EditarPerfilCanguroFragment extends Fragment {
 
 
     private CircleImageView foto;
-    private TextInputLayout nombre, apellidos, fechaNacimiento, inputDireccion;
-    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion;
+    private TextInputLayout nombre, apellidos, fechaNacimiento, direccion, telefono, descripcion;
+    private TextInputEditText etNombre, etApellidos, etDireccion, etFechaNacimiento, etDescripcion, etTelefono;
     private TextView precioHora;
     private Slider sliderPrecio;
     private Button btnModificarPerfilCanguro, btnELiminarPerfilCanguro;
@@ -149,14 +149,17 @@ public class EditarPerfilCanguroFragment extends Fragment {
         foto = view.findViewById(R.id.imageEditarCanguro);
         nombre = view.findViewById(R.id.nombreEditarCanguro_edit_text);
         apellidos = view.findViewById(R.id.apellidosEditarCanguro_edit_text);
+        telefono = view.findViewById(R.id.telefonoEditarPerfilCanguro_edit_text);
+        descripcion = view.findViewById(R.id.descripcion_edit_textEditarCanguro);
         fechaNacimiento = view.findViewById(R.id.FechaNacimientoEditarCanguro_edit_textEditar);
         etNombre = view.findViewById(R.id.etNombreEditarCanguro);
         etApellidos = view.findViewById(R.id.etApellidosEditarCanguro);
         etDireccion = view.findViewById(R.id.etDireccionEditarCanguro);
+        etTelefono = view.findViewById(R.id.etTelefonoEditarCanguro);
         etFechaNacimiento = view.findViewById(R.id.etFechaNacimientoEditarCanguro);
         etDescripcion = view.findViewById(R.id.etDescripcionEditarCanguro);
         precioHora = view.findViewById(R.id.textViewEditarCanguroPrecioHora);
-        inputDireccion = view.findViewById(R.id.direccion_edit_textEditarCanguro);
+        direccion = view.findViewById(R.id.direccion_edit_textEditarCanguro);
 
         // RADIO BUTTONS SEXO
         radioGroupSexo = view.findViewById(R.id.radioGroupSexoEditarCanguro);
@@ -300,6 +303,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
                     String direccion = etDireccion.getText().toString().trim();
                     String descripcion = etDescripcion.getText().toString().trim();
+                    String telefono = etTelefono.getText().toString().trim();
                     String sexo = obtenerSexo();
                     String experiencia = obtenerExperiencia();
                     double precio = precioHoraCanguro;
@@ -356,6 +360,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     mapCanguro.put("fechaNacimiento", fechaNacimiento);
                     mapCanguro.put("edad", edadCanguro);
                     mapCanguro.put("sexo", sexo);
+                    mapCanguro.put("telefono", telefono);
                     mapCanguro.put("direccion", direccion);
                     mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
                     mapCanguro.put("experiencia", experiencia);
@@ -383,38 +388,51 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     // METER FOTO DEL PERFIL CANGURO
                     final StorageReference rutaArchivo = storageReference.child("img_Canguros").child(uid +".jpg");
 
-                    /*Metemos la foto en Storage*/
-                    rutaArchivo.putFile(uriFoto).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    if(uriFoto != null)
+                    {
+                        /*Metemos la foto en Storage*/
+                        rutaArchivo.putFile(uriFoto).addOnSuccessListener( new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
-                            rutaArchivo.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    final Uri downloadUrl = uri;
-                                    urlFotoPerfil = downloadUrl.toString();
-                                    //urlFoto = urlFotoPerfil.toString();
+                                rutaArchivo.getDownloadUrl().addOnSuccessListener( new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        final Uri downloadUrl = uri;
+                                        urlFotoPerfil = downloadUrl.toString();
+                                        //urlFoto = urlFotoPerfil.toString();
 
-                                    // Creamos un mapa para actualizar el perifl del usuario*/
-                                    Map<String, Object> userUpdateImg = new HashMap<>();
-                                    userUpdateImg.put("img", urlFotoPerfil);
+                                        // Creamos un mapa para actualizar el perifl del usuario*/
+                                        Map<String, Object> userUpdateImg = new HashMap<>();
+                                        userUpdateImg.put("img", urlFotoPerfil);
 
-                                    // Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
-                                    bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
-
-
-                                }
-                            } ).addOnFailureListener( new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception exception) {
-
-                                    Toast.makeText(getContext(), "Ha fallado", Toast.LENGTH_SHORT).show();
-                                }
-                            } );
+                                        // Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
+                                        bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
 
 
-                        }
-                    } );
+                                    }
+                                } ).addOnFailureListener( new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception exception) {
+
+                                        Toast.makeText(getContext(), "Ha fallado", Toast.LENGTH_SHORT).show();
+                                    }
+                                } );
+
+
+                            }
+                        } );
+                    }
+                    else
+
+                    {
+                        //Creamos un mapa para actualizar la imagen del perfil
+                        Map<String, Object> userUpdateImg = new HashMap<>();
+                        userUpdateImg.put("img", "https://firebasestorage.googleapis.com/v0/b/bbsitter-61bd3.appspot.com/o/img_BBSitter%2Ffotoperfil.jpg?alt=media&token=a76cfc60-0edb-480c-953d-f0925fab2941");
+
+                        bbdd.collection("canguros").document(uid).set(userUpdateImg, SetOptions.merge());
+                    }
+
 
 
                     /*Actualizamos el perfil del usuario para que no vuelva a la pantalla de creacion de perfil*/
@@ -476,6 +494,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                                 String apellidos = document.get("apellidos").toString();
                                 String imagenCanguro = document.get("img").toString();
                                 String direccionCanguro = document.get("direccion").toString();
+                                String telefono = document.get("telefono").toString();
                                 String descripcionCanguro = document.get("descripcion").toString();
                                 String precioHoraCanguro = document.get("precioHora").toString();
                                 Float precio = Float.parseFloat(precioHoraCanguro);
@@ -494,6 +513,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                                 etDireccion.setText("");
                                 etDescripcion.setText(descripcionCanguro);
                                 sliderPrecio.setValue(precio);
+                                etTelefono.setText(telefono);
 
                             }
                         } else {
@@ -542,9 +562,10 @@ public class EditarPerfilCanguroFragment extends Fragment {
         String urlFoto = urlFotoPerfil.toString();
         String nombreCanguro = etNombre.getText().toString().trim();
         String apellidosCanguro = etApellidos.getText().toString().trim();
-        String fechaNacimiento = etFechaNacimiento.getText().toString().trim();
-        String validardireccion = etDireccion.getText().toString().trim();
-        String descripcion = etDescripcion.getText().toString().trim();
+        String fechaNacimientoCanguro = etFechaNacimiento.getText().toString().trim();
+        String direccionCanguro = etDireccion.getText().toString().trim();
+        String descripcionCanguro = etDescripcion.getText().toString().trim();
+        String telefonoCanguro = etTelefono.getText().toString().trim();
         String sexo = obtenerSexo();
         String experiencia = obtenerExperiencia();
         double precio = precioHoraCanguro;
@@ -553,34 +574,49 @@ public class EditarPerfilCanguroFragment extends Fragment {
             nombre.setError("Debes de rellenar tu nombre");
             validar = false;
         }
-        else if (fechaNacimiento.isEmpty()){
-            Toasty.error(getContext(),"Debes escribir una fecha de nacimiento", Toasty.LENGTH_LONG);
-            validar = false;
-        }
-        else if (validardireccion.isEmpty()){
-            inputDireccion.setError("Necesitamos de nuevo tu dirección");
-            validar = false;
-        }
-        else if (descripcion.isEmpty()){
-            etDescripcion.setError("Debes de rellenar el campo");
-            validar = false;
-        }
-        else if (apellidosCanguro.isEmpty()){
+        if (apellidosCanguro.isEmpty()){
             apellidos.setError("Debes de rellenar el campo");
             validar = false;
         }
-        else if (experiencia.isEmpty()){
-            Toasty.error(getContext(),"Debes marcar una experiencia", Toasty.LENGTH_LONG);
+        if (fechaNacimientoCanguro.isEmpty()){
+            fechaNacimiento.setError("Debes de rellenar tu fecha de nacimiento");
             validar = false;
         }
-        else if (sexo.isEmpty()){
-            Toasty.error(getContext(),"Debes marcar un sexo", Toasty.LENGTH_LONG);
+        if (direccionCanguro.isEmpty()){
+            direccion.setError("Debes de rellenar con una direccion");
             validar = false;
         }
-        else if (precio == 0){
-            Toasty.error(getContext(),"El precio no puede ser 0", Toasty.LENGTH_LONG);
+        if (descripcionCanguro.isEmpty()){
+            descripcion.setError("Debes de rellenar la descripcion");
             validar = false;
         }
+        if (telefonoCanguro.isEmpty()){
+            telefono.setError("Debes de rellenar el teléfono");
+            validar = false;
+        }
+
+        if(!nombreCanguro.isEmpty()){
+            nombre.setError(null);
+        }
+        if (!apellidosCanguro.isEmpty()){
+            apellidos.setError(null);
+        }
+        if (!fechaNacimientoCanguro.isEmpty()){
+            fechaNacimiento.setError(null);
+        }
+        if (!direccionCanguro.isEmpty()){
+            direccion.setError(null);
+        }
+        if (!descripcionCanguro.isEmpty()){
+            descripcion.setError(null);
+        }
+        if (!telefonoCanguro.isEmpty()){
+            telefono.setError(null);
+        }
+
+
+
+
 
         return validar;
     }

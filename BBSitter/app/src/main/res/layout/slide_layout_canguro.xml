@@ -21,11 +21,12 @@
 
         app:srcCompat="@drawable/welcomepagerview" />
 
+
     <TextView
         android:id="@+id/tvDescripcionslideCanguro"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageSlider"
+        android:layout_below="@+id/imageSliderCanguro"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentEnd="true"
