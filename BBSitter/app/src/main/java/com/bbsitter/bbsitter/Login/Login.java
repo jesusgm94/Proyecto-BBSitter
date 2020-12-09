@@ -261,8 +261,10 @@ public class Login extends AppCompatActivity {
 
                         } else {
                             //Si no existe ese usuario en la base de datos no inicia sesion
-                            Toast.makeText(Login.this, "El usuario no existe.",
+                            Toast.makeText(Login.this, "El usuario no existe o credenciales erróneas",
                                     Toast.LENGTH_SHORT).show();
+
+
                         }
 
                     }

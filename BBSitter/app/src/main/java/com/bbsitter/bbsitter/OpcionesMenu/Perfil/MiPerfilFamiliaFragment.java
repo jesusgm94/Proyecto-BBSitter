@@ -2,6 +2,7 @@ package com.bbsitter.bbsitter.OpcionesMenu.Perfil;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bbsitter.bbsitter.Adaptadores.MisHijosAdapter;
 import com.bbsitter.bbsitter.Clases.Hijos;
+import com.bbsitter.bbsitter.ProgressBarCargando;
 import com.bbsitter.bbsitter.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -95,6 +97,18 @@ public class MiPerfilFamiliaFragment extends Fragment {
         /*Firebase Auth y BBDD*/
         mAuth = FirebaseAuth.getInstance();
         bbdd = FirebaseFirestore.getInstance();
+
+        final ProgressBarCargando progressBarCargando = new ProgressBarCargando(getActivity());
+        progressBarCargando.StarProgressBar();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                progressBarCargando.finishProgressBar();
+
+
+            }
+        }, 1000);
 
         View view = inflater.inflate(R.layout.fragment_mi_perfil_familia, container, false);
 

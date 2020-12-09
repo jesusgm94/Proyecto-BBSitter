@@ -100,17 +100,18 @@ public class MapsFragmentCanguros extends Fragment {
                         Manifest.permission.ACCESS_COARSE_LOCATION
 
                 },1000);
+
             }
 
 
-            if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-                    showAlert();
-            }
 
             try{
 
                 locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
 
+                if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+                    showAlert();
+                }
                 // Obtener nuestra ubicacion
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 Toast.makeText(getContext(), loc.getLatitude() + ", " + loc.getLongitude(), Toast.LENGTH_SHORT).show();
@@ -174,7 +175,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
                                     String uidCanguro = document.getString("uid");
-                                    //int edad = Integer.parseInt(document.getString("edad"));
+                                    int edad = document.getLong("edad").intValue();
+                                    Double precioCan = document.getDouble("precioHora");
                                     //String rating = String.valueOf(document.getDouble("rating"));
 
                                     // Icono MARCADOR, construir BitMap
@@ -193,7 +195,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     Canguro canguro = new Canguro();
                                     canguro.setNombre(nombreCanguro);
                                     canguro.setImg(urlFotoCanguro);
-                                    //canguro.setEdad(edad);
+                                    canguro.setPrecioHora(precioCan);
+                                    canguro.setEdad(edad);
                                    // canguro.setRating(Integer.parseInt(rating));
                                     canguro.setUid(uidCanguro);
 
@@ -220,7 +223,7 @@ public class MapsFragmentCanguros extends Fragment {
 
                     uidCAnguro = canguro.getUid();
                     nombreCanguro.setText(canguro.getNombre());
-                    //edadCanguro.setText(canguro.getEdad() + " años");
+                    edadCanguro.setText(canguro.getEdad() + " años");
                     precioCanguro.setText(canguro.getPrecioHora() + " €");
                     //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
 
@@ -246,7 +249,6 @@ public class MapsFragmentCanguros extends Fragment {
                         }
                     });
 
-                    Toasty.info(getContext(), "Id Canguro: " + canguro.getUid(), Toast.LENGTH_SHORT).show();
                     return false;
                 }
             });

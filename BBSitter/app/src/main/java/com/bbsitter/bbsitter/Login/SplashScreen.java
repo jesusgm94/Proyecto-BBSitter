@@ -1,6 +1,7 @@
 package com.bbsitter.bbsitter.Login;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.MediaController;
@@ -22,6 +23,7 @@ public class SplashScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         /*Ocultamos Actionbar*/
         //getSupportActionBar().hide();
