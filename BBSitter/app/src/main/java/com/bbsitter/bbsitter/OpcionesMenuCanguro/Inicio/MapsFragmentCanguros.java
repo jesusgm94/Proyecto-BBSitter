@@ -221,7 +221,11 @@ public class MapsFragmentCanguros extends Fragment {
 
                     Canguro canguro = (Canguro) marker.getTag();
 
-                    uidCAnguro = canguro.getUid();
+                    if(canguro.getUid() != null)
+                    {
+                        uidCAnguro = canguro.getUid();
+                    }
+
                     nombreCanguro.setText(canguro.getNombre());
                     edadCanguro.setText(canguro.getEdad() + " años");
                     precioCanguro.setText(canguro.getPrecioHora() + " €");
