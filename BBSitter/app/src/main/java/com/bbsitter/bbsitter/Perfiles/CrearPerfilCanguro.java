@@ -83,7 +83,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
     private int edadCanguro;
 
-    private double precioHoraCanguro;
+    private double precioHoraCanguro = 5.0;
     private RadioGroup radioGroupSexo;
     private RadioButton rbMasculino, rbFemenino, rbMenos6Meses, rb6a12meses, rb1a2años, rb2a6años, rbMas6años ;
 

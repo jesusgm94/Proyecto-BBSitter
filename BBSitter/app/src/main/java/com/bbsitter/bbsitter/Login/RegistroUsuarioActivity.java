@@ -76,8 +76,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                     }
                     else
                     {
-                        registroPass.setError("");
-                        registroPass2.setError("");
+                        registroPass.setError("Las contraseñas no coinciden");
+                        registroPass2.setError("Las contraseñas no coinciden");
                         Toast.makeText(RegistroUsuarioActivity.this, "Las contraseñas no coinciden", Toast.LENGTH_SHORT).show();
                     }
 
@@ -183,7 +183,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
                 }
                 else{
-                    Toast.makeText(RegistroUsuarioActivity.this, "Este usuario no se pudo registrar", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegistroUsuarioActivity.this, "Email o contraseña no válido", Toast.LENGTH_SHORT).show();
                 }
             }
         });
