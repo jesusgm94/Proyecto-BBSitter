@@ -193,6 +193,7 @@ public class ListaCangurosFragment extends Fragment {
 
         recyclerViewListaCanguros.setAdapter(mAdapter);
 
+
         return view;
     }
 

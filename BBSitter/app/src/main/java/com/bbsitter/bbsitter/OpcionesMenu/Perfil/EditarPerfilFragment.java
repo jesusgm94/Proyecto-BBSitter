@@ -308,8 +308,14 @@ public class EditarPerfilFragment extends Fragment {
                                                             userUpdateImg.put("direccion", direccion);
 
 
-                                                            bbdd.collection("anuncios").document(idAnuncio)
-                                                                    .set(userUpdateImg, SetOptions.merge());
+                                                            try {
+                                                                bbdd.collection("anuncios").document(idAnuncio)
+                                                                        .set(userUpdateImg, SetOptions.merge());
+                                                            }
+                                                            catch (IllegalArgumentException e)
+                                                            {
+
+                                                            }
 
 
                                                         } else {

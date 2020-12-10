@@ -119,7 +119,6 @@ public class PerfilCanguroFragment extends Fragment {
 
         }
 
-        Toast.makeText(getContext(), uidCanguro + " " + emailCanguro + " " + telefonoCanguro, Toast.LENGTH_SHORT).show();
 
         cargarDatosCanguro();
 

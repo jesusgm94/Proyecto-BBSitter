@@ -218,6 +218,17 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  String sexo = obtenerSexo();
                  String experiencia = obtenerExperiencia();
                  double precio = precioHoraCanguro;
+                 // Creamos un objeto Date
+                 Date fechaPublicacion = new Date();
+                // Especificamos un formato
+                 String DATE_FORMAT = "dd MMM HH:mm";
+                 // Create object of SimpleDateFormat and pass the desired date format.
+                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                 String fechaHoy = sdf.format(fechaPublicacion);
+
+                 String fechaCreacion = fechaHoy;
+
+
 
                  // Creamos un objeto Date
                  Date fechaPublicacion = new Date();
