@@ -53,9 +53,6 @@ public class ListaCangurosFragment extends Fragment {
     private RecyclerView recyclerViewListaCanguros;
     private CanguroAdapter mAdapter;
 
-    String dist = "0";
-    Random distancia = new Random();
-
 
     public ListaCangurosFragment() {
         // Required empty public constructor
@@ -130,6 +127,8 @@ public class ListaCangurosFragment extends Fragment {
 
         //mAdapter = new CanguroAdapter(firestoreRecyclerOptions);
         mAdapter = new CanguroAdapter(firestoreRecyclerOptions) {
+
+
             @Override
             protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull Canguro canguro) {
 
@@ -154,8 +153,8 @@ public class ListaCangurosFragment extends Fragment {
 
 
                 Location miLocalizacion = new Location("miLocalizacion");
-                miLocalizacion.setLatitude(40.423423);
-                miLocalizacion.setLongitude(-3.0123);
+                miLocalizacion.setLatitude(40.490764);
+                miLocalizacion.setLongitude(-3.342020);
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
                 double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
@@ -191,8 +190,8 @@ public class ListaCangurosFragment extends Fragment {
         };
 
         mAdapter.notifyDataSetChanged();
-        recyclerViewListaCanguros.setAdapter(mAdapter);
 
+        recyclerViewListaCanguros.setAdapter(mAdapter);
 
         return view;
     }

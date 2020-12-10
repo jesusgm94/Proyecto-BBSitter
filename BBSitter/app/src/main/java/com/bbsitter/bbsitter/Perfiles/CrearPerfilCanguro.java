@@ -219,6 +219,16 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  String experiencia = obtenerExperiencia();
                  double precio = precioHoraCanguro;
 
+                 // Creamos un objeto Date
+                 Date fechaPublicacion = new Date();
+                 // Especificamos un formato
+                 String DATE_FORMAT = "dd MMM HH:mm";
+                 // Create object of SimpleDateFormat and pass the desired date format.
+                 SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT);
+                 String fechaHoy = sdf.format(fechaPublicacion);
+
+                 String fechaCreacion = fechaHoy;
+
 
                  // LOCALIZACION
                  // Obtener coordenadas de direccion
@@ -283,6 +293,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  mapCanguro.put("pluses", mapPluses);  // Mapa Pluses Canguro
                  mapCanguro.put("idiomas", mapIdiomas);  // Mapa Idiomas Canguro
                  mapCanguro.put("rating", rating);
+                 mapCanguro.put("fechaCreacionPerfil", fechaCreacion);
 
                  /*Introducimos el canguro nuevo dentro de la BBDD*/
                  bbdd.collection("canguros")

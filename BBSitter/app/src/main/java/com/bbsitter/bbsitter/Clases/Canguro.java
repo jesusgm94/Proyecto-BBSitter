@@ -17,6 +17,7 @@ public class Canguro implements Serializable {
     private String email;
     private String telefono;
 
+
     // Direccion y fecha nacimiento
     private String direccion; // Obtenidad de autocompletar Direccion
     private double longitud;
@@ -35,7 +36,7 @@ public class Canguro implements Serializable {
 
     private String uid;
     // Fecha creacion
-    String fechaCreacionPerfil;
+    private String fechaCreacionPerfil;
 
 
     // Constructores
