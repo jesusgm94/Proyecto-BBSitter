@@ -9,7 +9,7 @@
         android:id="@+id/nav_home"
         android:name="com.bbsitter.bbsitter.OpcionesMenu.Inicio.InicioFragment"
         android:label="Busca canguro"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home"/>
 
     <!--<fragment
         android:id="@+id/nav_chats"
@@ -35,6 +35,17 @@
         android:name="com.bbsitter.bbsitter.OpcionesMenuCanguro.Perfil.PerfilCanguroFragment"
         android:label="perfil_canguro_fragment"
         tools:layout="@layout/perfil_canguro_fragment" />
+
+    <fragment
+        android:id="@+id/soporteFragment"
+        android:name="com.bbsitter.bbsitter.SoporteFragment"
+        android:label="Soporte"
+        tools:layout="@layout/soporte_fragment" />
+    <fragment
+        android:id="@+id/acercaNosotrosFragment"
+        android:name="com.bbsitter.bbsitter.AcercaNosotrosFragment"
+        android:label="Acerca de nostros"
+        tools:layout="@layout/acerca_nosotros_fragment" />
 
 
 </navigation>

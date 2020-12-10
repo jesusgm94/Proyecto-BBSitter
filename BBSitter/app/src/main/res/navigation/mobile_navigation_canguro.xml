@@ -27,5 +27,15 @@
         android:label="fragment_room_chat_familia"
         tools:layout="@layout/fragment_room_chat_familia" />
 
+    <fragment
+        android:id="@+id/soporteFragment"
+        android:name="com.bbsitter.bbsitter.SoporteFragment"
+        android:label="Soporte"
+        tools:layout="@layout/soporte_fragment" />
+    <fragment
+        android:id="@+id/acercaNosotrosFragment"
+        android:name="com.bbsitter.bbsitter.AcercaNosotrosFragment"
+        android:label="Acerca de nosotros"
+        tools:layout="@layout/acerca_nosotros_fragment" />
 
 </navigation>
