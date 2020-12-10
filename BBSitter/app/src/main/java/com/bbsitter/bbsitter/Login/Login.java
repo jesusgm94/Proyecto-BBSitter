@@ -2,11 +2,13 @@ package com.bbsitter.bbsitter.Login;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,11 +43,11 @@ import es.dmoral.toasty.Toasty;
 public class Login extends AppCompatActivity {
 
 
-
     private String email = "";
     private String password = "";
     private String tipo;
 
+    private LinearLayout layout;
 
     private TextInputLayout editTextEmail, editTextPassword;
 
@@ -55,6 +57,7 @@ public class Login extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore bbdd;
+    private FirebaseUser user;
 
     private static final String TAG = "Login";
     private GoogleSignInClient mGoogleSignInClient;
@@ -66,6 +69,8 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        layout = (LinearLayout) findViewById(R.id.activity_login);
 
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
@@ -89,7 +94,9 @@ public class Login extends AppCompatActivity {
                 email = editTextEmail.getEditText().getText().toString().trim();
                 password = editTextPassword.getEditText().getText().toString().trim();
 
+
                 if (!email.isEmpty() && !password.isEmpty()) {
+
 
                     logearUsuario();
 
@@ -176,10 +183,10 @@ public class Login extends AppCompatActivity {
         }
 
 
-        if(!email.isEmpty()){
+        if (!email.isEmpty()) {
             editTextEmail.setError(null);
         }
-        if(!password.isEmpty()){
+        if (!password.isEmpty()) {
             editTextEmail.setError(null);
         }
 
@@ -199,65 +206,73 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) { //Si la tarea es satisfactoria
 
                             String uid = mAuth.getCurrentUser().getUid();
+                            user = mAuth.getCurrentUser();
 
-                            bbdd.collection("usuarios")
-                                    .whereEqualTo("uid", uid)
-                                    .get()
-                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                            if (task.isSuccessful()) {
+                            if(user.isEmailVerified())
+                            {
+                                bbdd.collection("usuarios")
+                                        .whereEqualTo("uid", uid)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
 
-                                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                                    Boolean perfil = ((Boolean) document.get("perfil"));
-                                                    tipo = document.get("tipo").toString();
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        Boolean perfil = ((Boolean) document.get("perfil"));
+                                                        tipo = document.get("tipo").toString();
 
-                                                    if (perfil == true) {
+                                                        if (perfil == true) {
 
-                                                        // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
-                                                        progressBarInicioSesion.StarProgressBar();
-                                                        Handler handler = new Handler();
-                                                        handler.postDelayed(new Runnable() {
-                                                            @Override
-                                                            public void run() {
-                                                                progressBarInicioSesion.finishProgressBar();
+                                                            // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
+                                                            progressBarInicioSesion.StarProgressBar();
+                                                            Handler handler = new Handler();
+                                                            handler.postDelayed(new Runnable() {
+                                                                @Override
+                                                                public void run() {
+                                                                    progressBarInicioSesion.finishProgressBar();
 
-                                                                if(tipo.equals("familia"))
-                                                                {
-                                                                    //Aqui abrimos la actividad main
-                                                                    Intent main = new Intent(getApplicationContext(), MainActivity.class);
-                                                                    startActivity(main);
+                                                                    if (tipo.equals("familia")) {
+                                                                        //Aqui abrimos la actividad main
+
+                                                                        Intent main = new Intent(getApplicationContext(), MainActivity.class);
+                                                                        startActivity(main);
+
+
+                                                                    } else if (tipo.equals("canguro")) {
+                                                                        Intent maincanguro = new Intent(getApplicationContext(), MainActivityCanguro.class);
+                                                                        startActivity(maincanguro);
+                                                                    }
+
+
                                                                 }
-                                                                else if (tipo.equals("canguro"))
-                                                                {
-                                                                    Intent maincanguro = new Intent(getApplicationContext(), MainActivityCanguro.class);
-                                                                    startActivity(maincanguro);
-                                                                }
+                                                            }, 3000);
 
 
+                                                        } else {
 
-                                                            }
-                                                        }, 3000);
-
-
-
-                                                    } else {
-
-                                                        Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
-                                                        startActivity(crearPerfil);
-                                                        finish();
+                                                            Intent crearPerfil = new Intent(getApplicationContext(), ElegirquePerfilCrear.class);
+                                                            startActivity(crearPerfil);
+                                                            finish();
 
 
+                                                        }
 
                                                     }
+                                                } else {
 
+                                                    Toasty.error(Login.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                                                 }
-                                            } else {
-
-                                                Toasty.error(Login.this, "Error" + getApplicationContext(), Toast.LENGTH_SHORT).show();
                                             }
-                                        }
-                                    });
+                                        });
+
+                            }else {
+                                //Toast.makeText(Login.this, "Email no verificado", Toast.LENGTH_SHORT).show();
+
+                                Snackbar.make(layout, "Email no verificado. Por favor, verifica su correo.", Snackbar.LENGTH_LONG)
+                                        .setAction("Dont worry", null).show();
+                            }
+
 
                         } else {
                             //Si no existe ese usuario en la base de datos no inicia sesion
@@ -281,8 +296,7 @@ public class Login extends AppCompatActivity {
     /*Se ejecuta cuando termina la actividad iniciada (Ventana de Google Sing In)*/
     /*FALTA IMPLEMENTAR*/
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data)
-    {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == RC_SIGN_IN) {
@@ -356,9 +370,7 @@ public class Login extends AppCompatActivity {
     }*/
 
 
-
-    private void updateUI(FirebaseUser fUser)
-    {
+    private void updateUI(FirebaseUser fUser) {
 
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);

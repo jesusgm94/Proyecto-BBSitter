@@ -19,6 +19,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -35,6 +36,8 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
     private String email = "";
     private String password = "";
     private String password2 = "";
+
+    private FirebaseUser user;
 
 
     private final ProgressBarRegistro progressBarRegistro = new ProgressBarRegistro(RegistroUsuarioActivity.this);
@@ -156,6 +159,9 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
                             .document(uid)
                             .set(mapUser);
 
+                    user = mAuth.getCurrentUser();
+                    user.sendEmailVerification();
+
                     // Creamos PROGRESS BAR para que el usuario sepa que su perfil se está creando)
                     progressBarRegistro.StarProgressBar();
                     Handler handler = new Handler();
@@ -166,7 +172,7 @@ public class RegistroUsuarioActivity extends AppCompatActivity {
 
                             MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(RegistroUsuarioActivity.this, R.style.MyMaterialAlertDialog);
                             builder.setTitle("¡Bienvenido a BBSitter!");
-                            builder.setMessage("¡Ya estás registrado! Loguéate para seguir con la configuración de tu usuario");
+                            builder.setMessage("¡Ya estás registrado! Hemos enviado un email para verificar tu cuenta. Verifica tu email y loguéate para seguir con la configuración de tu usuario");
                             builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

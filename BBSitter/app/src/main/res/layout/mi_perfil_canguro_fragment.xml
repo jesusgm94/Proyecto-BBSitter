@@ -23,8 +23,7 @@
             <!-- CABECERA PRECIO, IMAGEN Y EXPERIENCIA -->
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:paddingBottom="30dp"
+                android:layout_height="265dp"
                 android:background="@drawable/fondocabecerafamilia"
                 android:gravity="center"
                 android:orientation="vertical">
@@ -147,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
                             android:paddingTop="7dp"
-                            android:text=" ( 30 años )"
+                            android:text=" (  años )"
                             android:textAlignment="center"
                             android:textColor="@android:color/white"
                             android:textSize="13dp"/>
@@ -173,10 +172,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_marginHorizontal="30dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="20dp"
                     android:backgroundTint="@color/colorPrimary"
-                    android:paddingVertical="20dp"
-                    android:text="Direccion"
+                    android:padding="5dp"
+                    android:text=""
                     android:textAllCaps="true"
                     android:textColor="@color/colorPrimaryDark"
                     android:textSize="10dp"

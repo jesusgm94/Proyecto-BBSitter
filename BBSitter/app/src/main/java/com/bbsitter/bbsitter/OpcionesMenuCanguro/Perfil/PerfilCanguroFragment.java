@@ -190,6 +190,7 @@ public class PerfilCanguroFragment extends Fragment {
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", emailCanguro, null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Necesito canguro");
 
+
                 getContext().startActivity(Intent.createChooser(emailIntent, null));
 
             }

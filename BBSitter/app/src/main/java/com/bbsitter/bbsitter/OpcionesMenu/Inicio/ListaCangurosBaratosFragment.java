@@ -1,5 +1,6 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Inicio;
 
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,8 +36,6 @@ public class ListaCangurosBaratosFragment extends Fragment {
     private RecyclerView recyclerViewListaCanguros;
     private CanguroAdapter mAdapter;
 
-    String dist = "0";
-    Random distancia = new Random();
 
 
     public ListaCangurosBaratosFragment() {
@@ -85,10 +84,29 @@ public class ListaCangurosBaratosFragment extends Fragment {
                 holder.getPrecioHora().setText(canguro.getPrecioHora() + " €");
 
                 holder.getRatingBar().setRating(canguro.getRating());
-                // Calcular la distancia
-                holder.getDistancia().setText(dist + " kms");
+
 
                 final String uid = canguro.getUid();
+                final String email = canguro.getEmail();
+                final String telefono = canguro.getTelefono();
+
+                // Calculamos la distancia entre los dos puntos
+                Location locCanguro= new Location("locCanguro");
+                locCanguro.setLatitude(canguro.getLatitud());
+                locCanguro.setLongitude(canguro.getLongitud());
+
+
+                Location miLocalizacion = new Location("miLocalizacion");
+                miLocalizacion.setLatitude(40.490764);
+                miLocalizacion.setLongitude(-3.342020);
+
+                // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
+                double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
+
+                // Pasamos los metros obtenidos a Kms
+                double kms = distanciaCalculada / 1000;
+                //Con 2 decimales
+                holder.getDistancia().setText(String.format("%.1f", kms) + " kms");
 
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo
@@ -100,9 +118,12 @@ public class ListaCangurosBaratosFragment extends Fragment {
                         PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
                         Bundle data = new Bundle();
                         data.putString("uid", uid);
+                        data.putString("email", email);
+                        data.putString("telefono", telefono);
                         perfilCanguroFragment.setArguments(data);
 
                         getActivity().getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fui_slide_out_left)
                                 .replace(R.id.nav_host_fragment, perfilCanguroFragment)
                                 .addToBackStack(null)
                                 .commit();

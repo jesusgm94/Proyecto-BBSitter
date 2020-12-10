@@ -68,8 +68,8 @@ public class EditarPerfilFragment extends Fragment {
 
 
     private CircleImageView imageEditarPerfilFamilia;
-    private TextInputLayout nombre, descripcion, direccion, telefono;
-    private TextInputEditText etNombre, etDireccion, etDescripcion, etTelefono;
+    private TextInputLayout nombre, descripcion, direccion;
+    private TextInputEditText etNombre, etDireccion, etDescripcion;
     private Button btnModificarPerfilFamilia, btnEliminarPerfilFamilia;
 
     /*Para coger la foto de perfil*/
@@ -97,13 +97,11 @@ public class EditarPerfilFragment extends Fragment {
         nombre = view.findViewById(R.id.nombreEditarFamilia_edit_text);
         descripcion = view.findViewById(R.id.descripcionEditarFamilia_edit_text);
         direccion = view.findViewById(R.id.direccionEditarFamilia_edit_text);
-        telefono = view.findViewById(R.id.telefonoEditarFamilia_edit_text);
         imageEditarPerfilFamilia = view.findViewById(R.id.imageEditarPerfilFamilia);
 
         etNombre = view.findViewById(R.id.etNombreEditarPerfilFamilia);
         etDireccion = view.findViewById(R.id.etDireccionEditarPerfilFamilia);
         etDescripcion = view.findViewById(R.id.etDescripcionEditarPerfilFamilia);
-        etTelefono = view.findViewById(R.id.etTelefonoEditarFamilia);
 
 
         final ProgressBarCargando progressBarCargando = new ProgressBarCargando(getActivity());
@@ -216,8 +214,8 @@ public class EditarPerfilFragment extends Fragment {
                     String nombre = etNombre.getText().toString().trim();
                     String descripcion = etDescripcion.getText().toString().trim();
                     final String direccion = etDireccion.getText().toString().trim();
-                    String telefono = etTelefono.getText().toString().trim();
                     final String uid = mAuth.getCurrentUser().getUid();
+                    final String email = mAuth.getCurrentUser().getEmail();
 
                     /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
                     storageRef = storageRef.child("img_familias").child(uid);
@@ -228,7 +226,7 @@ public class EditarPerfilFragment extends Fragment {
                     mapUser.put("nombre", nombre);
                     mapUser.put("descripcion", descripcion);
                     mapUser.put("direccion", direccion);
-                    mapUser.put("telefono", telefono);
+                    mapUser.put("email", email);
                     mapUser.put("uid", uid);
 
 
@@ -400,7 +398,6 @@ public class EditarPerfilFragment extends Fragment {
                                     String imagenFamilia = document.get("img").toString();
                                     String direccionFamilia = document.get("direccion").toString();
                                     String descripcionFamilia = document.get("descripcion").toString();
-                                    String telefonoFamilia = document.get("telefono").toString();
 
                                     //Agrega una nueva imagen desde una url usando Picasso.
                                     Picasso.get().load(imagenFamilia).into(imageEditarPerfilFamilia);
@@ -409,7 +406,6 @@ public class EditarPerfilFragment extends Fragment {
                                     etNombre.setText(nombreFamilia);
                                     etDireccion.setText(direccionFamilia);
                                     etDescripcion.setText(descripcionFamilia);
-                                    etTelefono.setText(telefonoFamilia);
                                 } catch (Exception e) {
 
                                 }

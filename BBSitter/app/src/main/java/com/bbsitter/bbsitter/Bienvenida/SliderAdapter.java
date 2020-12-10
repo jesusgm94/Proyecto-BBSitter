@@ -69,7 +69,9 @@ public class SliderAdapter extends PagerAdapter {
                 public void onClick(View view) {
                     //Aqui abrimos la actividad Bienvenida
                     @SuppressLint("RestrictedApi") Intent main = new Intent(getApplicationContext(), MainActivity.class);
+
                     context.startActivity(main);
+
                 }
             });
 

@@ -114,7 +114,6 @@ public class MapsFragmentCanguros extends Fragment {
                 }
                 // Obtener nuestra ubicacion
                 Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                Toast.makeText(getContext(), loc.getLatitude() + ", " + loc.getLongitude(), Toast.LENGTH_SHORT).show();
                 LatLng MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
 
 
@@ -221,46 +220,55 @@ public class MapsFragmentCanguros extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 
-                    cardviewCanguro.setVisibility(View.VISIBLE);
+                    try {
+                        cardviewCanguro.setVisibility(View.VISIBLE);
 
-                    Canguro canguro = (Canguro) marker.getTag();
+                        Canguro canguro = (Canguro) marker.getTag();
 
-                    if(canguro.getUid() != null)
+                        if(canguro.getUid() != null)
+                        {
+                            uidCAnguro = canguro.getUid();
+                            emailCanguro = canguro.getEmail();
+                            telefonoCanguro = canguro.getTelefono();
+                        }
+
+                        nombreCanguro.setText(canguro.getNombre());
+                        edadCanguro.setText(canguro.getEdad() + " años");
+                        precioCanguro.setText(canguro.getPrecioHora() + " €");
+
+                        //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
+
+                        // Poner FOTO
+                        String img = canguro.getImg();
+                        Picasso.get().load(img).into(imagenCanguro);
+
+                        btnVerPerfil.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                                PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
+                                Bundle data = new Bundle();
+                                data.putString("uid", uidCAnguro);
+                                data.putString("email", emailCanguro);
+                                data.putString("telefono", telefonoCanguro);
+                                perfilCanguroFragment.setArguments(data);
+
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fui_slide_out_left)
+                                        .replace(R.id.nav_host_fragment, perfilCanguroFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+
+                            }
+                        });
+
+                    }
+                    catch (Exception e)
                     {
-                        uidCAnguro = canguro.getUid();
-                        emailCanguro = canguro.getEmail();
-                        telefonoCanguro = canguro.getTelefono();
+                        cardviewCanguro.setVisibility(View.INVISIBLE);
                     }
 
-                    nombreCanguro.setText(canguro.getNombre());
-                    edadCanguro.setText(canguro.getEdad() + " años");
-                    precioCanguro.setText(canguro.getPrecioHora() + " €");
-
-                    //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
-
-                    // Poner FOTO
-                    String img = canguro.getImg();
-                    Picasso.get().load(img).into(imagenCanguro);
-
-                    btnVerPerfil.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                            PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
-                            Bundle data = new Bundle();
-                            data.putString("uid", uidCAnguro);
-                            data.putString("email", emailCanguro);
-                            data.putString("telefono", telefonoCanguro);
-                            perfilCanguroFragment.setArguments(data);
-
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.nav_host_fragment, perfilCanguroFragment)
-                                    .addToBackStack(null)
-                                    .commit();
-
-                        }
-                    });
 
                     return false;
                 }
