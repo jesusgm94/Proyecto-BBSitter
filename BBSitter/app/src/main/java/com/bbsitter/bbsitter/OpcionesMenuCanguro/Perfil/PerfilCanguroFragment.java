@@ -119,6 +119,8 @@ public class PerfilCanguroFragment extends Fragment {
 
         }
 
+        Toast.makeText(getContext(), uidCanguro + " " + emailCanguro + " " + telefonoCanguro, Toast.LENGTH_SHORT).show();
+
         cargarDatosCanguro();
 
         btnTelefonoPerfilCanguro = view.findViewById(R.id.btnTelefonoPerfilCanguro);
@@ -143,71 +145,60 @@ public class PerfilCanguroFragment extends Fragment {
                 //En las versiones posteriores hay que solicitar explíctamente al usuario si quiere conceder permiso para ello
                 //Algo similar ocurre con el acceso a la geolocalización u otros servicios
 
-                MaterialAlertDialogBuilder builder =new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
-                builder.setTitle("Llamar");
-                builder.setMessage("Va a llamar a este usuario. Puede interferir en su factura de teléfono. ¿Quieres llamar?");
-                builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                //Verificamos si tenemos los permisos necesarios para enviar SMS
+                int permisoLlamada = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE);
 
-                    }
-                });
-                builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                if (permisoLlamada != PackageManager.PERMISSION_GRANTED) {
 
-                        try {
-                            //Verificamos si tenemos los permisos necesarios para enviar SMS
-                            int permisoLlamada = ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CALL_PHONE);
+                    ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 225);
+                } else {
+                    MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext(), R.style.MyMaterialAlertDialog);
+                    builder.setTitle("Llamar");
+                    builder.setMessage("Va a llamar a este usuario. Puede interferir en su factura de teléfono. ¿Quieres llamar?");
+                    builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                            if (permisoLlamada != PackageManager.PERMISSION_GRANTED) {
-
-                                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, 225);
-                            } else {
-
-                                if (!TextUtils.isEmpty((telefonoCanguro))) {
-                                    String dial = "tel:" + telefonoCanguro; //Se tiene que poner literalmente esto
-                                    startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
-                                    Toast.makeText(getContext(), "Llamando.", Toast.LENGTH_LONG).show();
-                                } else
-                                    Toast.makeText(getContext(), "Debe introducir número de teléfono.", Toast.LENGTH_LONG).show();
-
-                            }
-
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
-                });
-                builder.show();
+                    });
+                    builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
 
+                            if (!TextUtils.isEmpty((telefonoCanguro))) {
+                                String dial = "tel:" + telefonoCanguro; //Se tiene que poner literalmente esto
+                                startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
+                                Toast.makeText(getContext(), "Llamando.", Toast.LENGTH_LONG).show();
+                            } else
+                                Toast.makeText(getContext(), "Debe introducir número de teléfono.", Toast.LENGTH_LONG).show();
 
 
-        }
-    });
+                        }
+                    });
+                    builder.show();
 
-        btnEmailPerfilCanguro.setOnClickListener(new View.OnClickListener()
+                }
 
-    {
-        @Override
-        public void onClick (View view){
+            }
+        });
+
+        btnEmailPerfilCanguro.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
 
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts(
-                "mailto", emailCanguro, null));
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Necesito canguro");
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", emailCanguro, null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Necesito canguro");
 
-        getContext().startActivity(Intent.createChooser(emailIntent, null));
+                getContext().startActivity(Intent.createChooser(emailIntent, null));
 
-    }
-    });
+            }
+        });
 
         return view;
 
-}
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

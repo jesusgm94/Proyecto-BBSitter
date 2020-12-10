@@ -53,6 +53,7 @@ public class CrearAnuncioFragment extends Fragment {
     private String nombre = "";
     private String direccion = "";
     private String img = "";
+    private String email = "";
 
     private ListView listViewPluses, listViewIdiomas;
     private ArrayAdapter<String> adapterPluses, adapterIdiomas;
@@ -179,6 +180,7 @@ public class CrearAnuncioFragment extends Fragment {
                                     nombre = "Familia " + document.get("nombre").toString();
                                     img = document.get("img").toString();
                                     direccion = document.get("direccion").toString();
+                                    email = document.get("email").toString();
 
                                 }
 
@@ -229,6 +231,7 @@ public class CrearAnuncioFragment extends Fragment {
                                 mapAnuncio.put("pluses", mapPluses);
                                 mapAnuncio.put("idiomas", mapIdiomas);
                                 mapAnuncio.put("uid", uid);
+                                mapAnuncio.put("email", email);
                                 mapAnuncio.put("idAnuncio", "");
 
 

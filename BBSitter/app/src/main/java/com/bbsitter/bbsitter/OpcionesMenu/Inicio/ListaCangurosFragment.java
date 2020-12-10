@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -148,19 +149,21 @@ public class ListaCangurosFragment extends Fragment {
 
                 // Calculamos la distancia entre los dos puntos
                 Location locCanguro= new Location("locCanguro");
-                locCanguro.setLatitude(canguro.getLatitudLoc());
-                locCanguro.setLongitude(canguro.getLongitudLoc());
+                locCanguro.setLatitude(canguro.getLatitud());
+                locCanguro.setLongitude(canguro.getLongitud());
+
 
                 Location miLocalizacion = new Location("miLocalizacion");
-                miLocalizacion.setLatitude(40);
-                miLocalizacion.setLongitude(-3);
+                miLocalizacion.setLatitude(40.423423);
+                miLocalizacion.setLongitude(-3.0123);
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
                 double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
 
                 // Pasamos los metros obtenidos a Kms
                 double kms = distanciaCalculada / 1000;
-                holder.getDistancia().setText(kms + " kms");
+                //Con 2 decimales
+                holder.getDistancia().setText(String.format("%.1f", kms) + " kms");
                 
 
                 // Obtenemos el cardview de itemCanguro que hemos instanciado en el onBindViewHolder de AdapterCangruo

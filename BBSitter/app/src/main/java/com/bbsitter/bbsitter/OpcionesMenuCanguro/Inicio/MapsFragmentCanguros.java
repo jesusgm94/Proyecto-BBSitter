@@ -70,7 +70,7 @@ public class MapsFragmentCanguros extends Fragment {
     RatingBar ratingBarCanguro;
     Button btnVerPerfil;
 
-    String uidCAnguro;
+    String uidCAnguro, emailCanguro, telefonoCanguro;
 
     // Toca poner los marcadores de los canguros que salgan en la lista
 
@@ -175,6 +175,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
                                     String uidCanguro = document.getString("uid");
+                                    String email = document.getString("email");
+                                    String telefono = document.getString("telefono");
                                     int edad = document.getLong("edad").intValue();
                                     Double precioCan = document.getDouble("precioHora");
                                     //String rating = String.valueOf(document.getDouble("rating"));
@@ -197,6 +199,8 @@ public class MapsFragmentCanguros extends Fragment {
                                     canguro.setImg(urlFotoCanguro);
                                     canguro.setPrecioHora(precioCan);
                                     canguro.setEdad(edad);
+                                    canguro.setEmail(email);
+                                    canguro.setTelefono(telefono);
                                    // canguro.setRating(Integer.parseInt(rating));
                                     canguro.setUid(uidCanguro);
 
@@ -224,11 +228,14 @@ public class MapsFragmentCanguros extends Fragment {
                     if(canguro.getUid() != null)
                     {
                         uidCAnguro = canguro.getUid();
+                        emailCanguro = canguro.getEmail();
+                        telefonoCanguro = canguro.getTelefono();
                     }
 
                     nombreCanguro.setText(canguro.getNombre());
                     edadCanguro.setText(canguro.getEdad() + " años");
                     precioCanguro.setText(canguro.getPrecioHora() + " €");
+
                     //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
 
                     // Poner FOTO
@@ -243,6 +250,8 @@ public class MapsFragmentCanguros extends Fragment {
                             PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
                             Bundle data = new Bundle();
                             data.putString("uid", uidCAnguro);
+                            data.putString("email", emailCanguro);
+                            data.putString("telefono", telefonoCanguro);
                             perfilCanguroFragment.setArguments(data);
 
                             getActivity().getSupportFragmentManager().beginTransaction()

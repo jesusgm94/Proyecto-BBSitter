@@ -1,6 +1,8 @@
 package com.bbsitter.bbsitter.OpcionesMenu.Anuncios;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -45,7 +47,7 @@ public class DetalleAnuncioFragment extends Fragment {
 
     private ExtendedFloatingActionButton btnTelefonoDetalleAnuncio, btnEmailDetalleAnuncio;
 
-    private String idAnuncio, uid;
+    private String idAnuncio, uid, emailFamiliaAnuncio;
 
     private Chip chipCasaDetalleAnuncio, chipFrecuenciaDetalleAnuncio;
 
@@ -92,7 +94,6 @@ public class DetalleAnuncioFragment extends Fragment {
         btnDireccionDetalleAnuncio = view.findViewById(R.id.btnDireccionDetalleAnuncio);
         tvDetalleAnuncioFechaPublicacion = view.findViewById(R.id.tvDetalleAnuncioFechaPublicacion);
         tvVerPerfilDetalle = view.findViewById(R.id.tvVerPerfilDetalle);
-        btnTelefonoDetalleAnuncio = view.findViewById(R.id.btnTelefonoDetalleAnuncio);
         btnEmailDetalleAnuncio = view.findViewById(R.id.btnEmailDetalleAnuncio);
 
         //CHIP
@@ -123,43 +124,16 @@ public class DetalleAnuncioFragment extends Fragment {
             }
         });
 
-        // BOTON CHAT del anuncio
-        btnTelefonoDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-                Toast.makeText(getContext(), "Aqui llamamos", Toast.LENGTH_SHORT).show();
-
-                //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                /*RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
-                Bundle data = new Bundle();
-                data.putString("uid", idAnuncio);
-                roomChatFamiliaFragment.setArguments(data);
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment_canguro, roomChatFamiliaFragment)
-                        .addToBackStack(null)
-                        .commit();*/
-
-            }
-        });
 
         btnEmailDetalleAnuncio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getContext(), "Aqui mandamos email", Toast.LENGTH_SHORT).show();
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", emailFamiliaAnuncio, null));
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "¿Necesitas ayuda? Estoy aquí para ayudarte!");
 
-                //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                /*RoomChatFamiliaFragment roomChatFamiliaFragment = new RoomChatFamiliaFragment();
-                Bundle data = new Bundle();
-                data.putString("uid", idAnuncio);
-                roomChatFamiliaFragment.setArguments(data);
-
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.nav_host_fragment_canguro, roomChatFamiliaFragment)
-                        .addToBackStack(null)
-                        .commit();*/
+                getContext().startActivity(Intent.createChooser(emailIntent, null));
 
             }
         });
@@ -201,6 +175,7 @@ public class DetalleAnuncioFragment extends Fragment {
                                 String imagenFamiliaAnuncio = document.get("img").toString();
                                 String nombreFamiliaAnuncio = document.get("nombre").toString();
                                 String fechaPublicacion = document.get("fechaPublicacion").toString();
+                                emailFamiliaAnuncio = document.get("email").toString();
                                 uid = document.get("uid").toString();
 
 
@@ -241,9 +216,8 @@ public class DetalleAnuncioFragment extends Fragment {
                                 chipCasaDetalleAnuncio.setTextColor(Color.BLACK);
                                 chipFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
                                 chipFrecuenciaDetalleAnuncio.setTextColor(Color.BLACK);
-                                //tvCasaDetalleAnuncio.setText(casaAnuncio);
-                                //tvFrecuenciaDetalleAnuncio.setText(frecuenciaAnuncio);
                                 btnDireccionDetalleAnuncio.setText(direccionAnuncio);
+
 
 
 

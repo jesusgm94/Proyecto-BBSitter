@@ -19,8 +19,8 @@ public class Canguro implements Serializable {
 
     // Direccion y fecha nacimiento
     private String direccion; // Obtenidad de autocompletar Direccion
-    private double longitudLoc;
-    private double latitudLoc;
+    private double longitud;
+    private double latitud;
 
     // Demás atributos
     private double precioHora;    //Obtenida de slider precio/Hora
@@ -42,7 +42,7 @@ public class Canguro implements Serializable {
 
     public Canguro(){}
 
-    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitudLoc, double latitudLoc
+    public Canguro(String img, String nombre, String apellidos, String fechaNacimiento, int edad, String sexo, String direccion, double longitud, double latitud
             , double precioHora, String experiencia, String descripcion, int rating, Map<String, Boolean> mapPluses, Map<String, Boolean> mapPrefenciaEdades
             , Map<String, Boolean> mapIdiomas, String fechaCreacionPerfil, String uid, String email, String telefono)
     {
@@ -53,8 +53,8 @@ public class Canguro implements Serializable {
         this.edad = edad;
         this.sexo = sexo;
         this.direccion = direccion;
-        this.longitudLoc = longitudLoc;
-        this.latitudLoc = latitudLoc;
+        this.longitud = longitud;
+        this.latitud = latitud;
         this.precioHora = precioHora;
         this.experiencia = experiencia;
         this.descripcion = descripcion;
@@ -128,20 +128,20 @@ public class Canguro implements Serializable {
         this.direccion = direccion;
     }
 
-    public double getLongitudLoc() {
-        return longitudLoc;
+    public double getLongitud() {
+        return longitud;
     }
 
-    public void setLongitudLoc(double longitudLoc) {
-        this.longitudLoc = longitudLoc;
+    public void setLongitud(double longitud) {
+        this.longitud = longitud;
     }
 
-    public double getLatitudLoc() {
-        return latitudLoc;
+    public double getLatitud() {
+        return latitud;
     }
 
-    public void setLatitudLoc(double latitudLoc) {
-        this.latitudLoc = latitudLoc;
+    public void setLatitud(double latitud) {
+        this.latitud = latitud;
     }
 
     public double getPrecioHora() {
