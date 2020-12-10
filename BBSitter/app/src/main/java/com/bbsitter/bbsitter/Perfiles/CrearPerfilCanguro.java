@@ -226,9 +226,9 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  double latitudLoc = latLng.latitude;
 
                  // Crear MAPA COORDENADAS para meterlo en la localizacion del Canguro
-                 Map<String, Double> mapLoc = new HashMap<>();
+                 /*Map<String, Double> mapLoc = new HashMap<>();
                  mapLoc.put("Latitud", latitudLoc);
-                 mapLoc.put("Longitud", longitudLoc);
+                 mapLoc.put("Longitud", longitudLoc);*/
 
 
                  // ListView CHECKBOX PREFERENCIAS
@@ -273,7 +273,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  mapCanguro.put("sexo", sexo);
                  mapCanguro.put("direccion", direccion);
                  mapCanguro.put("telefono", telefono);
-                 mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
+                 //mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
                  mapCanguro.put("experiencia", experiencia);
                  mapCanguro.put("precioHora", precio);
                  mapCanguro.put("descripcion", descripcion);
@@ -447,10 +447,6 @@ public class CrearPerfilCanguro extends AppCompatActivity {
             telefono.setError(null);
         }
 
-
-
-
-
         return validar;
     }
 
@@ -601,6 +597,7 @@ public class CrearPerfilCanguro extends AppCompatActivity {
 
                         // CALCULAMOS LA EDAD
                         edadCanguro = añoActual - añoNacimiento;
+
 
                         // FORMATEAMOS LA FECHA PARA COLOCAR EN EL EDIT TEXT
                         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());

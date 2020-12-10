@@ -70,7 +70,7 @@ public class MapsFragmentCanguros extends Fragment {
     RatingBar ratingBarCanguro;
     Button btnVerPerfil;
 
-    String uidCAnguro;
+    String uidCAnguro, emailCanguro, telefonoCanguro;
 
     // Toca poner los marcadores de los canguros que salgan en la lista
 
@@ -175,9 +175,11 @@ public class MapsFragmentCanguros extends Fragment {
                                     Double Latitud = document.getDouble("latitud");
                                     Double Longitud = document.getDouble("longitud");
                                     String uidCanguro = document.getString("uid");
+                                    String email = document.getString("email");
+                                    String telefono = document.getString("telefono");
                                     int edad = document.getLong("edad").intValue();
                                     Double precioCan = document.getDouble("precioHora");
-                                    int rating = document.getLong("rating").intValue();
+                                    //String rating = String.valueOf(document.getDouble("rating"));
 
                                     // Icono MARCADOR, construir BitMap
                                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadorbbsitter);
@@ -186,10 +188,10 @@ public class MapsFragmentCanguros extends Fragment {
 
                                     // Colocar MARCADOR
                                     LatLng ubicacionCanguro = new LatLng(Latitud, Longitud);
-                                    Marker marcadorCanguro = miGoogleMap.addMarker(new MarkerOptions()
+                                    Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
                                                                             .position(ubicacionCanguro)
                                                                             .title(nombreCanguro));
-                                    marcadorCanguro.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                                    marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
                                     // Crear canguro
                                     Canguro canguro = new Canguro();
@@ -197,12 +199,14 @@ public class MapsFragmentCanguros extends Fragment {
                                     canguro.setImg(urlFotoCanguro);
                                     canguro.setPrecioHora(precioCan);
                                     canguro.setEdad(edad);
-                                    canguro.setRating(rating);
+                                    canguro.setEmail(email);
+                                    canguro.setTelefono(telefono);
+                                   // canguro.setRating(Integer.parseInt(rating));
                                     canguro.setUid(uidCanguro);
 
 
                                     // Metemos dentro del TAG del marcador un OBJETO canguro para mostrar sus datos cuando hagan click en el marcador
-                                    marcadorCanguro.setTag(canguro);
+                                    marcador.setTag(canguro);
 
                                 }
 
@@ -217,48 +221,49 @@ public class MapsFragmentCanguros extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 
+                    cardviewCanguro.setVisibility(View.VISIBLE);
 
-                    try {
-                        cardviewCanguro.setVisibility(View.VISIBLE);
+                    Canguro canguro = (Canguro) marker.getTag();
 
-                        Canguro canguro = (Canguro) marker.getTag();
-
+                    if(canguro.getUid() != null)
+                    {
                         uidCAnguro = canguro.getUid();
-                        nombreCanguro.setText(canguro.getNombre());
-                        edadCanguro.setText(canguro.getEdad() + " años");
-                        precioCanguro.setText(canguro.getPrecioHora() + " €");
-                        ratingBarCanguro.setRating(canguro.getRating());
-
-                        // Poner FOTO
-                        String img = canguro.getImg();
-                        Picasso.get().load(img).into(imagenCanguro);
-
-                        btnVerPerfil.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-
-                                //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                                PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
-                                Bundle data = new Bundle();
-                                data.putString("uid", uidCAnguro);
-                                perfilCanguroFragment.setArguments(data);
-
-                                getActivity().getSupportFragmentManager().beginTransaction()
-                                        .replace(R.id.nav_host_fragment, perfilCanguroFragment)
-                                        .addToBackStack(null)
-                                        .commit();
-
-                            }
-                        });
-
-
+                        emailCanguro = canguro.getEmail();
+                        telefonoCanguro = canguro.getTelefono();
                     }
-                    catch (Exception e){
 
-                    }
+                    nombreCanguro.setText(canguro.getNombre());
+                    edadCanguro.setText(canguro.getEdad() + " años");
+                    precioCanguro.setText(canguro.getPrecioHora() + " €");
+
+                    //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
+
+                    // Poner FOTO
+                    String img = canguro.getImg();
+                    Picasso.get().load(img).into(imagenCanguro);
+
+                    btnVerPerfil.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+
+                            //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                            PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
+                            Bundle data = new Bundle();
+                            data.putString("uid", uidCAnguro);
+                            data.putString("email", emailCanguro);
+                            data.putString("telefono", telefonoCanguro);
+                            perfilCanguroFragment.setArguments(data);
+
+                            getActivity().getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.nav_host_fragment, perfilCanguroFragment)
+                                    .addToBackStack(null)
+                                    .commit();
+
+                        }
+                    });
+
                     return false;
                 }
-
             });
 
         }
@@ -280,7 +285,6 @@ public class MapsFragmentCanguros extends Fragment {
         precioCanguro = view.findViewById(R.id.itemPrecioHoraCanguro);
         btnVerPerfil = view.findViewById(R.id.btnVerPerfil);
         imagenCanguro = view.findViewById(R.id.itemImagenCanguroMap);
-        ratingBarCanguro = view.findViewById(R.id.itemRatingBarCanguroMaps);
 
 
 
