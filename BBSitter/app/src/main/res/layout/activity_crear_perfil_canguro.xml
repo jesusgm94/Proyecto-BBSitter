@@ -272,14 +272,16 @@
                     app:errorIconDrawable="@android:drawable/stat_notify_error"
                     app:errorIconTint="@android:color/holo_red_dark"
                     app:startIconDrawable="@drawable/ic_baseline_location_on_36"
-                    app:startIconTint="@color/colorPrimaryDark">
+                    app:startIconTint="@color/colorPrimaryDark"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/etDireccion"
                         android:layout_width="300dp"
                         android:layout_height="wrap_content"
-                        android:inputType="text"
+                        android:inputType="number"
                         android:maxLines="1"
+                        android:maxLength="9"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
