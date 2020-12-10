@@ -28,8 +28,22 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/miPerfilCanguroFragment"
-            android:icon="@drawable/home"
+            android:icon="@drawable/ic_miperfil"
             android:title="Mi perfil" />
+
+    </group>
+
+    <group
+        android:id="@+id/group_Otros"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/soporteFragment"
+            android:icon="@drawable/ic_soporte"
+            android:title="Soporte" />
+        <item
+            android:id="@+id/acercaNosotrosFragment"
+            android:icon="@drawable/ic_acercanosotros"
+            android:title="Acerca de nosotros" />
 
     </group>
 
