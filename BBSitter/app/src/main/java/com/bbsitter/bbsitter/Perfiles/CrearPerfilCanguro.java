@@ -229,6 +229,9 @@ public class CrearPerfilCanguro extends AppCompatActivity {
                  String fechaCreacion = fechaHoy;
 
 
+
+
+
                  // LOCALIZACION
                  // Obtener coordenadas de direccion
                  double longitudLoc = latLng.longitude;

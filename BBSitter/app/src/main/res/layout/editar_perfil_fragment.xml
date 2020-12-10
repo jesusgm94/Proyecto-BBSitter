@@ -166,58 +166,6 @@
             </LinearLayout>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginTop="15dp"
-                android:text="¿Cuál es tu teléfono móvil?"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="16dp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="30dp"
-                android:layout_marginVertical="10dp"
-                android:background="@drawable/marcoblancobutton"
-                android:elevation="2dp"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:paddingVertical="10dp">
-
-                <!-- Direccion EditText de Material Design -->
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/telefonoEditarFamilia_edit_text"
-                    android:layout_width="300dp"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="4dp"
-                    android:background="@android:color/transparent"
-                    android:hint="Introduce tu teléfono móvil"
-                    android:textColorHint="@android:color/darker_gray"
-                    app:boxBackgroundMode="outline"
-                    app:boxStrokeColor="@android:color/darker_gray"
-                    app:errorIconDrawable="@android:drawable/stat_notify_error"
-                    app:errorIconTint="@android:color/holo_red_dark">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/etTelefonoEditarFamilia"
-                        android:layout_width="300dp"
-                        android:layout_height="wrap_content"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textColorHint="@android:color/darker_gray" />
-
-                </com.google.android.material.textfield.TextInputLayout>
-
-
-            </LinearLayout>
-
-
             <!-- Layout Descripccion -->
 
             <TextView

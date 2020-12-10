@@ -54,8 +54,8 @@ public class CrearPerfilFamilia extends AppCompatActivity {
     private StorageReference storageRef;
 
     private CircleImageView foto;
-    private TextInputLayout nombre, descripcion, direccion, telefono;
-    private TextInputEditText etNombre, etDireccion, etDescripcion, etTelefono;
+    private TextInputLayout nombre, descripcion, direccion;
+    private TextInputEditText etNombre, etDireccion, etDescripcion;
     private Button btnCrearPerfilFamilia;
 
     /*Para coger la foto de perfil*/
@@ -84,13 +84,11 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         nombre = findViewById(R.id.nombreFamilia_edit_text);
         descripcion = findViewById(R.id.descripcionFamilia_edit_text);
         direccion = findViewById(R.id.direccion_edit_text);
-        telefono = findViewById(R.id.telefono_edit_text);
         foto = findViewById(R.id.imageFamilia);
 
         etNombre = findViewById(R.id.etNombreFamilia);
         etDireccion = findViewById(R.id.etDireccionFamilia);
         etDescripcion = findViewById(R.id.etDescripcionFamilia);
-        etTelefono = findViewById(R.id.etTelefonoFamilia);
 
         btnCrearPerfilFamilia = (Button) findViewById(R.id.btnCrearPerfilFamilia);
 
@@ -118,7 +116,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                         String nombre = etNombre.getText().toString().trim();
                         String descripcion = etDescripcion.getText().toString().trim();
                         String direccion = etDireccion.getText().toString().trim();
-                        String telefono = etTelefono.getText().toString().trim();
                         final String uid = mAuth.getCurrentUser().getUid();
                         String email = mAuth.getCurrentUser().getEmail();
                         /* LOCALIZACION*/
@@ -135,7 +132,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                         mapUser.put("nombre", nombre);
                         mapUser.put("descripcion", descripcion);
                         mapUser.put("direccion", direccion);
-                        mapUser.put("telefono", telefono);
                         mapUser.put("email", email);
                         mapUser.put("latitud", latitud);
                         mapUser.put("longitud", longitud);
@@ -244,7 +240,6 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         String nombreFamilia = etNombre.getText().toString().trim();
         String direccionFamilia = etDireccion.getText().toString().trim();
         String descripcionFamilia = etDescripcion.getText().toString().trim();
-        String telefonoFamilia = etTelefono.getText().toString().trim();
 
 
         if (nombreFamilia.isEmpty()) {
@@ -256,10 +251,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
             direccion.setError("Debes rellenar el campo");
             validar = false;
         }
-        if (telefonoFamilia.isEmpty()) {
-            telefono.setError("Debes rellenar el campo");
-            validar = false;
-        }
+
         if (descripcionFamilia.isEmpty()) {
             descripcion.setError("Debes rellenar el campo");
             validar = false;
@@ -272,9 +264,7 @@ public class CrearPerfilFamilia extends AppCompatActivity {
         if (!direccionFamilia.isEmpty()) {
             direccion.setError(null);
         }
-        if (!telefonoFamilia.isEmpty()) {
-            telefono.setError(null);
-        }
+
         if (!descripcionFamilia.isEmpty()) {
             descripcion.setError(null);
         }
