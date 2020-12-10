@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="@drawable/cabeceranavheaderfamilia"
+    android:layout_height="180dp"
+    android:background="@drawable/fondonav"
     android:gravity="bottom"
     android:orientation="horizontal"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -18,19 +18,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/imagenUsuarioMenu"
-            android:layout_width="70dp"
+            android:layout_width="50dp"
             android:layout_height="100dp"
             android:layout_marginRight="15dp"
             android:contentDescription="@string/nav_header_desc"
             android:paddingTop="@dimen/nav_header_vertical_spacing"
             app:civ_border_color="@android:color/white"
             app:civ_border_width="2dp"
-            android:src="@drawable/fotoperfil" />
+            android:src="@drawable/fotoperfil"
+            android:elevation="2dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -42,7 +43,7 @@
                 android:id="@+id/tvNombreUsuarioMenu"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="5dp"
                 android:text="@string/nav_header_title"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

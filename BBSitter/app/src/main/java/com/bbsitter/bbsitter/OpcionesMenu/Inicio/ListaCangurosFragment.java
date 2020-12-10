@@ -179,6 +179,7 @@ public class ListaCangurosFragment extends Fragment {
                         perfilCanguroFragment.setArguments(data);
 
                         getActivity().getSupportFragmentManager().beginTransaction()
+                                .setCustomAnimations(R.anim.fui_slide_in_right, R.anim.fui_slide_out_left)
                                 .replace(R.id.nav_host_fragment, perfilCanguroFragment)
                                 .addToBackStack(null)
                                 .commit();

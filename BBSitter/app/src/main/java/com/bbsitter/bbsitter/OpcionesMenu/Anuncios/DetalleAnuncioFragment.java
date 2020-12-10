@@ -132,7 +132,6 @@ public class DetalleAnuncioFragment extends Fragment {
 
                 Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", emailFamiliaAnuncio, null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "¿Necesitas ayuda? Estoy aquí para ayudarte!");
-
                 getContext().startActivity(Intent.createChooser(emailIntent, null));
 
             }
