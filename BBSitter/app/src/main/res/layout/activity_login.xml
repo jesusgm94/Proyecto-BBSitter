@@ -15,19 +15,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="¡Bienvenido!"
+        android:layout_marginBottom="210dp"
     android:textSize="40sp"
     android:textStyle="bold"
     android:textColor="@color/colorAccent2" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:text="a BBSitter"
-        android:textSize="25dp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        />
+  
 
 
     // EditText de Material Design

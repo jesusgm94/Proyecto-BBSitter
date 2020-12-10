@@ -95,26 +95,6 @@ public class ListaCangurosFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_canguros, container, false);
 
-        // OBETENMOS LA UBICACION PARA CALCULAR LA DISTANCIA DE LOS CANGUROS *************
-
-        /*
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{
-
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-
-            },1000);
-        }
-
-        final Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        MIUBICACION = new LatLng(loc.getLatitude(), loc.getLongitude());
-        */
-
-
-
         // RECYCLER VIEW ****************
 
         recyclerViewListaCanguros = view.findViewById(R.id.recycler_ListaCanguros);
@@ -147,7 +127,7 @@ public class ListaCangurosFragment extends Fragment {
                 final String telefono = canguro.getTelefono();
 
                 // Calculamos la distancia entre los dos puntos
-                Location locCanguro= new Location("locCanguro");
+                Location locCanguro = new Location("locCanguro");
                 locCanguro.setLatitude(canguro.getLatitudLoc());
                 locCanguro.setLongitude(canguro.getLongitudLoc());
 
@@ -156,7 +136,7 @@ public class ListaCangurosFragment extends Fragment {
                 miLocalizacion.setLongitude(-3);
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
-                double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
+                double distanciaCalculada = miLocalizacion.distanceTo(locCanguro);
 
                 // Pasamos los metros obtenidos a Kms
                 double kms = distanciaCalculada / 1000;

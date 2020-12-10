@@ -93,6 +93,7 @@ public class InicioFragment extends Fragment {
         FragmentManager fm = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction=fm.beginTransaction();
         fragmentTransaction.replace(R.id.nav_host_fragment, fragment);
+        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 

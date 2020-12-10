@@ -177,7 +177,7 @@ public class MapsFragmentCanguros extends Fragment {
                                     String uidCanguro = document.getString("uid");
                                     int edad = document.getLong("edad").intValue();
                                     Double precioCan = document.getDouble("precioHora");
-                                    //String rating = String.valueOf(document.getDouble("rating"));
+                                    int rating = document.getLong("rating").intValue();
 
                                     // Icono MARCADOR, construir BitMap
                                     BitmapDrawable bitmapdraw = (BitmapDrawable) getResources().getDrawable(R.drawable.marcadorbbsitter);
@@ -186,10 +186,10 @@ public class MapsFragmentCanguros extends Fragment {
 
                                     // Colocar MARCADOR
                                     LatLng ubicacionCanguro = new LatLng(Latitud, Longitud);
-                                    Marker marcador = miGoogleMap.addMarker(new MarkerOptions()
+                                    Marker marcadorCanguro = miGoogleMap.addMarker(new MarkerOptions()
                                                                             .position(ubicacionCanguro)
                                                                             .title(nombreCanguro));
-                                    marcador.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
+                                    marcadorCanguro.setIcon(BitmapDescriptorFactory.fromBitmap(smallMarker));
 
                                     // Crear canguro
                                     Canguro canguro = new Canguro();
@@ -197,12 +197,12 @@ public class MapsFragmentCanguros extends Fragment {
                                     canguro.setImg(urlFotoCanguro);
                                     canguro.setPrecioHora(precioCan);
                                     canguro.setEdad(edad);
-                                   // canguro.setRating(Integer.parseInt(rating));
+                                    canguro.setRating(rating);
                                     canguro.setUid(uidCanguro);
 
 
                                     // Metemos dentro del TAG del marcador un OBJETO canguro para mostrar sus datos cuando hagan click en el marcador
-                                    marcador.setTag(canguro);
+                                    marcadorCanguro.setTag(canguro);
 
                                 }
 
@@ -217,44 +217,48 @@ public class MapsFragmentCanguros extends Fragment {
                 @Override
                 public boolean onMarkerClick(Marker marker) {
 
-                    cardviewCanguro.setVisibility(View.VISIBLE);
 
-                    Canguro canguro = (Canguro) marker.getTag();
+                    try {
+                        cardviewCanguro.setVisibility(View.VISIBLE);
 
-                    if(canguro.getUid() != null)
-                    {
+                        Canguro canguro = (Canguro) marker.getTag();
+
                         uidCAnguro = canguro.getUid();
+                        nombreCanguro.setText(canguro.getNombre());
+                        edadCanguro.setText(canguro.getEdad() + " años");
+                        precioCanguro.setText(canguro.getPrecioHora() + " €");
+                        ratingBarCanguro.setRating(canguro.getRating());
+
+                        // Poner FOTO
+                        String img = canguro.getImg();
+                        Picasso.get().load(img).into(imagenCanguro);
+
+                        btnVerPerfil.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+
+                                //Llevamos el uid con un Bundle a PerfilCanguroFragment
+                                PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
+                                Bundle data = new Bundle();
+                                data.putString("uid", uidCAnguro);
+                                perfilCanguroFragment.setArguments(data);
+
+                                getActivity().getSupportFragmentManager().beginTransaction()
+                                        .replace(R.id.nav_host_fragment, perfilCanguroFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+
+                            }
+                        });
+
+
                     }
+                    catch (Exception e){
 
-                    nombreCanguro.setText(canguro.getNombre());
-                    edadCanguro.setText(canguro.getEdad() + " años");
-                    precioCanguro.setText(canguro.getPrecioHora() + " €");
-                    //ratingBarCanguro.setRating(Float.parseFloat(String.valueOf(canguro.getRating())));
-
-                    // Poner FOTO
-                    String img = canguro.getImg();
-                    Picasso.get().load(img).into(imagenCanguro);
-
-                    btnVerPerfil.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-
-                            //Llevamos el uid con un Bundle a PerfilCanguroFragment
-                            PerfilCanguroFragment perfilCanguroFragment = new PerfilCanguroFragment();
-                            Bundle data = new Bundle();
-                            data.putString("uid", uidCAnguro);
-                            perfilCanguroFragment.setArguments(data);
-
-                            getActivity().getSupportFragmentManager().beginTransaction()
-                                    .replace(R.id.nav_host_fragment, perfilCanguroFragment)
-                                    .addToBackStack(null)
-                                    .commit();
-
-                        }
-                    });
-
+                    }
                     return false;
                 }
+
             });
 
         }
@@ -276,6 +280,7 @@ public class MapsFragmentCanguros extends Fragment {
         precioCanguro = view.findViewById(R.id.itemPrecioHoraCanguro);
         btnVerPerfil = view.findViewById(R.id.btnVerPerfil);
         imagenCanguro = view.findViewById(R.id.itemImagenCanguroMap);
+        ratingBarCanguro = view.findViewById(R.id.itemRatingBarCanguroMaps);
 
 
 
