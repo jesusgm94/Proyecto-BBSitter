@@ -35,7 +35,7 @@ public class Canguro implements Serializable {
 
     private String uid;
     // Fecha creacion
-    String fechaCreacionPerfil;
+    private String fechaCreacionPerfil;
 
 
     // Constructores

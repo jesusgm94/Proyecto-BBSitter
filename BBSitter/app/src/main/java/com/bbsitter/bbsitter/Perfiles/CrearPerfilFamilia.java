@@ -120,6 +120,11 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                         String direccion = etDireccion.getText().toString().trim();
                         String telefono = etTelefono.getText().toString().trim();
                         final String uid = mAuth.getCurrentUser().getUid();
+                        String email = mAuth.getCurrentUser().getEmail();
+                        /* LOCALIZACION*/
+                        // Obtener coordenadas de direccion
+                        double longitud = latLng.longitude;
+                        double latitud = latLng.latitude;
 
                         /*Creamos una carpeta con el nombre img_familias para poder meter las fotos*/
                         storageRef = storageRef.child("img_familias").child(uid);
@@ -131,21 +136,11 @@ public class CrearPerfilFamilia extends AppCompatActivity {
                         mapUser.put("descripcion", descripcion);
                         mapUser.put("direccion", direccion);
                         mapUser.put("telefono", telefono);
+                        mapUser.put("email", email);
+                        mapUser.put("latitud", latitud);
+                        mapUser.put("longitud", longitud);
                         mapUser.put("uid", uid);
 
-
-                        /* LOCALIZACION*/
-                        // Obtener coordenadas de direccion
-                        double longitudLoc = latLng.longitude;
-                        double latitudLoc = latLng.latitude;
-
-                        // Crear MAPA COORDENADAS para meterlo en la localizacion
-                        Map<String, Double> mapLoc = new HashMap<>();
-                        mapLoc.put("Latitud", latitudLoc);
-                        mapLoc.put("Longitud", longitudLoc);
-
-                        /*metemos el mapa de la latitud y longitud en el mapa de usuario*/
-                        mapUser.put("localizacion", mapLoc);
 
                         /*Creamos la coleccion Familias en la bbdd*/
                         bbdd.collection("familias")

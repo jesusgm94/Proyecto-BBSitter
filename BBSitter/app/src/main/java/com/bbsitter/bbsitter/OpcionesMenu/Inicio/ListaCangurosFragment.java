@@ -154,8 +154,8 @@ public class ListaCangurosFragment extends Fragment {
 
 
                 Location miLocalizacion = new Location("miLocalizacion");
-                miLocalizacion.setLatitude(40.423423);
-                miLocalizacion.setLongitude(-3.0123);
+                miLocalizacion.setLatitude(40.480797);
+                miLocalizacion.setLongitude(-3.341996);
 
                 // Obtenemos la distancia entre los dos puntos. Nos devuelve metros
                 double distanciaCalculada = locCanguro.distanceTo(miLocalizacion);
