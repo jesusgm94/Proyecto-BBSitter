@@ -137,7 +137,7 @@ public class PerfilCanguroFragment extends Fragment {
         // BOTON CHAT del anuncio
         btnTelefonoPerfilCanguro.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
 
                 //Nota: en versiones anteriores a Android 6.0 bastaba con especificar en AndroidManifest.xml el permiso
                 // mediante: <uses-permission android:name="android.permission.CALL_PHONE"/>
@@ -169,8 +169,10 @@ public class PerfilCanguroFragment extends Fragment {
                                 String dial = "tel:" + telefonoCanguro; //Se tiene que poner literalmente esto
                                 startActivity(new Intent(Intent.ACTION_CALL, Uri.parse(dial)));
                                 Toast.makeText(getContext(), "Llamando.", Toast.LENGTH_LONG).show();
-                            } else
-                                Toast.makeText(getContext(), "Debe introducir número de teléfono.", Toast.LENGTH_LONG).show();
+                            } else {
+                                Snackbar.make(view, "El usuario no tiene telefono. Contacte por email.", Snackbar.LENGTH_LONG)
+                                        .setAction("Dont worry", null).show();
+                            }
 
 
                         }

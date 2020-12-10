@@ -42,7 +42,7 @@ public class SoporteFragment extends Fragment {
         enviarEmailSoporte.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "soporte@bbsitter.com", null));
+                Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.fromParts("mailto", "soportebbsitter@gmail.com", null));
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "¿Necesitas ayuda? Estoy aquí para ayudarte!");
                 getContext().startActivity(Intent.createChooser(emailIntent, null));
             }

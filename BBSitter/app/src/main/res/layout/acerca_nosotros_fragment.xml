@@ -64,6 +64,7 @@
         />
 
     <ImageView
+        android:id="@+id/ivGit"
         android:layout_gravity="center"
         android:layout_width="200dp"
         android:layout_height="60dp"

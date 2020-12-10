@@ -565,7 +565,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
         String fechaNacimientoCanguro = etFechaNacimiento.getText().toString().trim();
         String direccionCanguro = etDireccion.getText().toString().trim();
         String descripcionCanguro = etDescripcion.getText().toString().trim();
-        String telefonoCanguro = etTelefono.getText().toString().trim();
+        //String telefonoCanguro = etTelefono.getText().toString().trim();
         String sexo = obtenerSexo();
         String experiencia = obtenerExperiencia();
         double precio = precioHoraCanguro;
@@ -590,10 +590,10 @@ public class EditarPerfilCanguroFragment extends Fragment {
             descripcion.setError("Debes de rellenar la descripcion");
             validar = false;
         }
-        if (telefonoCanguro.isEmpty()){
+        /*if (telefonoCanguro.isEmpty()){
             telefono.setError("Debes de rellenar el teléfono");
             validar = false;
-        }
+        }*/
 
         if(!nombreCanguro.isEmpty()){
             nombre.setError(null);
@@ -610,12 +610,9 @@ public class EditarPerfilCanguroFragment extends Fragment {
         if (!descripcionCanguro.isEmpty()){
             descripcion.setError(null);
         }
-        if (!telefonoCanguro.isEmpty()){
+        /*if (!telefonoCanguro.isEmpty()){
             telefono.setError(null);
-        }
-
-
-
+        }*/
 
 
         return validar;
