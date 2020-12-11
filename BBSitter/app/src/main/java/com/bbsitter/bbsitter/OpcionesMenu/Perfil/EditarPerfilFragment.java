@@ -359,7 +359,7 @@ public class EditarPerfilFragment extends Fragment {
                                     .commit();
 
                         }
-                    }, 2000);
+                    }, 8000);
 
                 } catch (Exception e) {
                     comprobarDatos();

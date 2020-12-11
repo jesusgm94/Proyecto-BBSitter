@@ -94,7 +94,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
     private FirebaseFirestore bbdd;
     private StorageReference storageReference;
 
-    private String uid;
+    private String uid, fechaCreacionPerfil;
 
 
     private CircleImageView foto;
@@ -291,6 +291,8 @@ public class EditarPerfilCanguroFragment extends Fragment {
                 // Si todos los campos estan rellenados correctamente, validación a true
                 if(validacionCampos()) {
 
+
+
                     //String fechaCreacionPerfil = ;
                     Random randomRating = new Random();
                     int rating  = randomRating.nextInt(6)+1;
@@ -306,8 +308,24 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     String telefono = etTelefono.getText().toString().trim();
                     String sexo = obtenerSexo();
                     String experiencia = obtenerExperiencia();
+                    String email = mAuth.getCurrentUser().getEmail();
+                    String fecha = fechaCreacionPerfil;
                     double precio = precioHoraCanguro;
 
+                    //calcular edad
+                    final Calendar calendar = Calendar.getInstance();
+                    // OBTENEMOS EL AÑO DE NACIMIENTO (Recogido del EditText de fecha de nacimiento) y el año Actual, obtenido de Calendar
+
+
+                    String[] parts = fechaNacimiento.split("/");
+                    String annio = parts[2]; // 123
+
+
+                    int añoNacimiento = Integer.parseInt(annio);
+                    int añoActual = calendar.get(Calendar.YEAR);
+
+                    // CALCULAMOS LA EDAD
+                    edadCanguro = añoActual - añoNacimiento;
 
                     // LOCALIZACION
                     // Obtener coordenadas de direccion
@@ -360,6 +378,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     mapCanguro.put("fechaNacimiento", fechaNacimiento);
                     mapCanguro.put("edad", edadCanguro);
                     mapCanguro.put("sexo", sexo);
+                    mapCanguro.put("fechaCreacionPerfil", fecha);
                     mapCanguro.put("telefono", telefono);
                     mapCanguro.put("direccion", direccion);
                     mapCanguro.put("localizacion", mapLoc);  // Mapa localizacion Canguro
@@ -372,6 +391,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                     mapCanguro.put("pluses", mapPluses);  // Mapa Pluses Canguro
                     mapCanguro.put("idiomas", mapIdiomas);  // Mapa Idiomas Canguro
                     mapCanguro.put("rating", rating);
+                    mapCanguro.put("email", email);
 
                     /*Introducimos el canguro nuevo dentro de la BBDD*/
                     bbdd.collection("canguros")
@@ -455,7 +475,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                                     .commit();
 
                         }
-                    }, 2000);
+                    }, 8000);
 
                 }else{
                     Toasty.error(getContext(),"Hay campos a revisar", Toast.LENGTH_LONG).show();
@@ -498,6 +518,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                                 String descripcionCanguro = document.get("descripcion").toString();
                                 String precioHoraCanguro = document.get("precioHora").toString();
                                 Float precio = Float.parseFloat(precioHoraCanguro);
+                                fechaCreacionPerfil = document.get("fechaCreacionPerfil").toString();
 
                                 String fechaNaciminiento = document.get("fechaNacimiento").toString();
                                 String experienciaCanguro = document.get("experiencia").toString();
@@ -514,6 +535,7 @@ public class EditarPerfilCanguroFragment extends Fragment {
                                 etDescripcion.setText(descripcionCanguro);
                                 sliderPrecio.setValue(precio);
                                 etTelefono.setText(telefono);
+                                etDireccion.setText(direccionCanguro);
 
                             }
                         } else {

@@ -227,7 +227,8 @@
                             android:layout_height="match_parent"
                             android:text="Masculino"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="14dp" />
+                            android:textSize="14dp"
+                            android:checked="true"/>
                     </RadioGroup>
                 </LinearLayout>
             </LinearLayout>
@@ -450,7 +451,8 @@
                             android:layout_height="match_parent"
                             android:text="Menos de 6 meses"
                             android:textColor="@android:color/darker_gray"
-                            android:textSize="14dp" />
+                            android:textSize="14dp"
+                            android:checked="true"/>
 
                         <RadioButton
                             android:id="@+id/radio_button_6a12mesesEditarCanguro"

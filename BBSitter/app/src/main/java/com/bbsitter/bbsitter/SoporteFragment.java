@@ -23,7 +23,6 @@ public class SoporteFragment extends Fragment {
     Button enviarEmailSoporte;
 
     private FirebaseAuth mAuth;
-    private String emailCanguro;
 
     public static SoporteFragment newInstance() {
         return new SoporteFragment();
@@ -37,7 +36,6 @@ public class SoporteFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
 
         enviarEmailSoporte = view.findViewById(R.id.btnEnviarEmailSoporte);
-        emailCanguro = mAuth.getCurrentUser().getEmail();
 
         enviarEmailSoporte.setOnClickListener(new View.OnClickListener() {
             @Override
