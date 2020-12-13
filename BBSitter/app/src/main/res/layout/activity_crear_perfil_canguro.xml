@@ -281,7 +281,6 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLines="1"
-                        android:maxLength="9"
                         android:textColor="@color/colorPrimaryDark"
                         android:textColorHint="@android:color/darker_gray" />
                 </com.google.android.material.textfield.TextInputLayout>
