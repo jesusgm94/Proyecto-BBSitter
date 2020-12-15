@@ -182,7 +182,7 @@ public class EditarPerfilFragment extends Fragment {
 
 
                                     //ELIMINAMOS USUARIO
-                                    bbdd.collection("usuario")
+                                    bbdd.collection("usuarios")
                                             .document(uid)
                                             .delete();
 
